@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition xmlns="https://www.webcodepro.com/schemas/cpu-definition/2.0" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="https://www.webcodepro.com/schemas/cpu-definition/2.0 ../src/META-INF/cpu-definition-2.0.xsd">
+
+	<name>Test-1 CPU</name>
+	<overview>
+		This CPU is used by the LineAssemblerServiceTest class.
+	</overview>
+
+	<address-space bit-size="16" />
+
+	<registers>
+		<register id="R1" bit-size="16" groups="Rn" value="0x1">
+			<name>R1</name>
+		</register>
+	</registers>
+
+	<address-modes>
+		<address-mode id="absolute-into-A">
+			<format>A,[addr]</format>
+			<regex>A,\[(.+)\]</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr>>8</byte>
+				<byte>addr</byte>
+			</code>
+		</address-mode>
+		<address-mode id="fake-register">
+			<format>Rn,value</format>
+			<regex>([rR].+),(.+)</regex>
+			<code>
+				<byte>opcode | Rn</byte>
+				<byte>value>>8</byte>
+				<byte>value</byte>
+			</code>
+		</address-mode>
+		<address-mode id="absolute-address">
+			<format>addr</format>
+			<regex>(.+)</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr>>8</byte>
+				<byte>addr</byte>
+			</code>
+		</address-mode>
+		<address-mode id="none">
+			<code>
+				<byte>opcode</byte>
+			</code>
+		</address-mode>
+	</address-modes>
+
+	<operations>
+		<operation>
+			<mnemonic>HLT</mnemonic>
+			<addressing-mode ref="none" opcode="0xff"/>
+		</operation>
+		<operation>
+			<mnemonic>JMP</mnemonic>
+			<addressing-mode ref="absolute-address" opcode="0x30"/>
+		</operation>
+		<operation>
+			<mnemonic>JZ</mnemonic>
+			<addressing-mode ref="absolute-address" opcode="0x31"/>
+		</operation>
+		<operation>
+			<mnemonic>LOD</mnemonic>
+			<addressing-mode ref="absolute-into-A" opcode="0x10"/>
+		</operation>
+		<operation>
+			<mnemonic>LDR</mnemonic>
+			<addressing-mode ref="fake-register" opcode="0x80"/>
+		</operation>
+	</operations>
+	
+</definition>

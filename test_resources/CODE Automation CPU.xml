@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition xmlns="https://www.webcodepro.com/schemas/cpu-definition/2.0" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="https://www.webcodepro.com/schemas/cpu-definition/2.0 ../src/META-INF/cpu-definition-2.0.xsd">
+
+	<name>CODE Automation CPU</name>
+	<overview>
+		Taken from CODE, written by Charles Petzold.
+		The CPU in chapter 17, "Automation".
+	</overview>
+
+	<address-space bit-size="16" />
+
+	<registers>
+		<register id="A" bit-size="8">
+			<name>Accumulator</name>
+		</register>
+	</registers>
+
+	<address-modes>
+		<address-mode id="absolute-into-A">
+			<format>A,[addr]</format>
+			<regex>A,\[([:expr:]+)\]</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr>>8</byte>
+				<byte>addr</byte>
+			</code>
+		</address-mode>
+		<address-mode id="absolute-from-A">
+			<format>[addr],A</format>
+			<regex>\[([:expr:]+)\],A</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr>>8</byte>
+				<byte>addr</byte>
+			</code>
+		</address-mode>
+		<address-mode id="absolute-address">
+			<format>addr</format>
+			<regex>([:expr:]+)</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr>>8</byte>
+				<byte>addr</byte>
+			</code>
+		</address-mode>
+		<address-mode id="none">
+			<code>
+				<byte>opcode</byte>
+			</code>
+		</address-mode>
+	</address-modes>
+
+	<operations>
+		<operation>
+			<mnemonic>LOD</mnemonic>
+			<description>Load accumulator</description>
+			<addressing-mode ref="absolute-into-A" opcode="0x10"/>
+		</operation>
+		<operation>
+			<mnemonic>STO</mnemonic>
+			<description>Store accumulator</description>
+			<addressing-mode ref="absolute-from-A" opcode="0x11"/>
+		</operation>
+		<operation>
+			<mnemonic>ADD</mnemonic>
+			<description>Add to accumulator</description>
+			<addressing-mode ref="absolute-into-A" opcode="0x20"/>
+		</operation>
+		<operation>
+			<mnemonic>SUB</mnemonic>
+			<description>Subtract from accumulator</description>
+			<addressing-mode ref="absolute-into-A" opcode="0x21"/>
+		</operation>
+		<operation>
+			<mnemonic>ADC</mnemonic>
+			<description>Add with carry</description>
+			<addressing-mode ref="absolute-into-A" opcode="0x22"/>
+		</operation>
+		<operation>
+			<mnemonic>SBB</mnemonic>
+			<description>Subtract with borrow</description>
+			<addressing-mode ref="absolute-into-A" opcode="0x23"/>
+		</operation>
+		<operation>
+			<mnemonic>JMP</mnemonic>
+			<description>Jump</description>
+			<addressing-mode ref="absolute-address" opcode="0x30"/>
+		</operation>
+		<operation>
+			<mnemonic>JZ</mnemonic>
+			<description>Jump if zero</description>
+			<addressing-mode ref="absolute-address" opcode="0x31"/>
+		</operation>
+		<operation>
+			<mnemonic>JC</mnemonic>
+			<description>Jump if carry</description>
+			<addressing-mode ref="absolute-address" opcode="0x32"/>
+		</operation>
+		<operation>
+			<mnemonic>JNZ</mnemonic>
+			<description>Jump if not zero</description>
+			<addressing-mode ref="absolute-address" opcode="0x33"/>
+		</operation>
+		<operation>
+			<mnemonic>JNC</mnemonic>
+			<description>Jump if not carry</description>
+			<addressing-mode ref="absolute-address" opcode="0x34"/>
+		</operation>
+		<operation>
+			<mnemonic>HLT</mnemonic>
+			<description>Halt</description>
+			<addressing-mode ref="none" opcode="0xff"/>
+		</operation>
+	</operations>
+	
+</definition>

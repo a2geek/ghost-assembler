@@ -1,0 +1,36 @@
+; Provides a very basic test of the inherited 65C02 instructions
+		.cpu <WDC65C02>
+
+		ora (0x01)
+		and (0x02)
+		eor (0x03)
+		adc (0x04)
+		sta (0x05)
+		lda (0x06)
+		cmp (0x07)
+		sbc (0x08)
+		
+		jmp (0x090a,x)
+		
+		bit #0x0b
+		bit 0x0c,x
+		bit 0x0d0e,x
+		
+		tsb 0x0f
+		tsb 0x1011
+		
+		trb 0x12
+		trb 0x1314
+		stz 0x15
+		stz 0x1617
+		stz 0x18,x
+		stz 0x191a,x
+		
+		bra 0x80
+		
+		inc
+		dec
+		phy
+		ply
+		phx
+		plx

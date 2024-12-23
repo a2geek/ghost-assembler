@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" targetNamespace="https://www.webcodepro.com/schemas/cpu-definition/2.0" xmlns:tns="https://www.webcodepro.com/schemas/cpu-definition/2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="definition" type="tns:DefinitionType"/>
+
+  <xs:complexType name="AddressModeType" abstract="true">
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="AddressModeDefinitionType">
+    <xs:complexContent>
+      <xs:extension base="tns:AddressModeType">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string" minOccurs="0"/>
+          <xs:element name="description" type="xs:string" minOccurs="0"/>
+          <xs:element name="mnemonic-format" type="xs:string" minOccurs="0"/>
+          <xs:element name="format" type="xs:string" minOccurs="0"/>
+          <xs:element name="regex" type="xs:string" minOccurs="0"/>
+          <xs:element name="constraint" type="xs:string" minOccurs="0"/>
+          <xs:element name="code">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="byte" type="tns:ByteCodeType" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ByteCodeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="mnemonic-match" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="AddressModeReferenceType">
+    <xs:complexContent>
+      <xs:extension base="tns:AddressModeType">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AddressSpaceType">
+    <xs:sequence>
+      <xs:element name="memory-location" type="tns:MemoryLocationType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="bit-size" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="MemoryLocationType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="address" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DefinitionType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="overview" type="tns:OverviewType" minOccurs="0"/>
+      <xs:element name="output-format" type="tns:OutputFormatType" minOccurs="0"/>
+      <xs:element name="address-space" type="tns:AddressSpaceType"/>
+      <xs:element name="registers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="register" type="tns:RegisterType" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="address-modes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="address-mode" type="tns:AddressModeDefinitionType"/>
+              <xs:element name="address-mode-reference" type="tns:AddressModeReferenceType"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="operations">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="operation" type="tns:OperationType" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="inherit-from" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="OverviewType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="href" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="OutputFormatType">
+    <xs:sequence>
+      <xs:element name="header" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="byte" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RegisterType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+    <xs:attribute name="bit-size" type="xs:short" use="required"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="groups" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="OperationType">
+    <xs:sequence>
+      <xs:element name="mnemonic" type="xs:string"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="addressing-mode" type="tns:OperationAddressingType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OperationAddressingType">
+    <xs:sequence/>
+    <xs:attribute name="ref" type="xs:IDREF" use="required"/>
+    <xs:attribute name="opcode" type="xs:string" use="required"/>
+  </xs:complexType>
+</xs:schema>
+

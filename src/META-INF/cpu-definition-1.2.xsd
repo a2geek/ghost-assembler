@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="https://www.webcodepro.com/schemas" 
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			xmlns="https://www.webcodepro.com/schemas" 
+			elementFormDefault="qualified">
+			
+    <xsd:element name="definition" type="DefinitionType"></xsd:element>
+    
+    <xsd:complexType name="DefinitionType">
+        <xsd:annotation>
+        	<xsd:documentation>The basic structure for the CPU file.  Each sub-element is optional because an inherited document may or may not contribute to any of these elements, though it is very likely operations can remain a required element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="name" type="xsd:string"/>
+    		<xsd:element name="overview" type="OverviewType" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="memory-locations" type="MemoryLocationsType" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="registers" type="RegistersType" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="address-modes" type="AddressModesType" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="operations" type="OperationsType" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="inherit-from" type="xsd:anyURI"></xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:complexType name="OverviewType">
+    	<xsd:simpleContent>
+    		<xsd:extension base="xsd:string">
+    			<xsd:attribute name="href" type="xsd:anyURI"></xsd:attribute>
+    		</xsd:extension>
+    	</xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="MemoryLocationsType">
+        <xsd:annotation>
+        	<xsd:documentation>Defines any memory locations that are hard-wired into the CPU in question.</xsd:documentation></xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="address-space" type="AddressSpaceType"></xsd:element>
+    		<xsd:element name="memory-location" type="MemoryLocationType" maxOccurs="unbounded" minOccurs="0">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddressSpaceType">
+    	<xsd:attribute name="bit-size" type="xsd:int"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="MemoryLocationType">
+    	<xsd:sequence>
+    		<xsd:element name="name" type="xsd:string"></xsd:element>
+    		<xsd:element name="address" type="xsd:string"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="RegistersType">
+        <xsd:annotation>
+        	<xsd:documentation>Defines registers associated with this CPU.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="register" type="RegisterType" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="RegisterType">
+    	<xsd:sequence>
+    		<xsd:element name="name" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="description" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="id" type="xsd:ID" use="required"></xsd:attribute>
+    	<xsd:attribute name="bit-size" type="xsd:int"></xsd:attribute>
+    	<xsd:attribute name="value" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="groups" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddressModesType">
+        <xsd:annotation>
+        	<xsd:documentation>Defines the CPU addressing modes. Note that address-mode-reference is a reference to an inherited addressing mode.  This allows the XML document itself to be validatedwithout duplicating any data.  It must, of course, exist in the inherited document.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="address-mode" type="AddressModeType" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="address-mode-reference" type="AddressModeReference" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                	<xsd:documentation>Note that address-mode-reference is a reference to an inherited addressing mode.  This allows the XML document itself to be validated without duplicating any data.  It must, of course, exist in the inherited document.</xsd:documentation>
+                </xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddressModeType">
+    	<xsd:sequence>
+    		<xsd:element name="title" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="description" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="format" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="regex" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="constraint" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="code" type="CodeType" maxOccurs="1"
+    			minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="description" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="id" type="xsd:ID" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddressModeReference">
+        <xsd:annotation>
+        	<xsd:documentation></xsd:documentation></xsd:annotation>
+        <xsd:attribute name="id" type="xsd:ID" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="OperationsType">
+        <xsd:annotation>
+        	<xsd:documentation>Defines the operations available on this CPU.</xsd:documentation></xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="operation" type="OperationType" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OperationType">
+    	<xsd:sequence>
+    		<xsd:element name="mnemonic" type="xsd:string" maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="description" type="xsd:string" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="addressing-mode" type="AddressingModeType" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddressingModeType">
+    	<xsd:attribute name="nameRef" type="xsd:IDREF" use="required"></xsd:attribute>
+    	<xsd:attribute name="opcode" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+    
+
+    <xsd:complexType name="CodeType">
+    	<xsd:sequence>
+    		<xsd:element name="byte" type="xsd:string" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

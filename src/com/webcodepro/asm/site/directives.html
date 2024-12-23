@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:t="https://www.webcodepro.com/schemas/xml-template-engine/1.0"
+      xsi:schemaLocation="https://www.webcodepro.com/schemas/xml-template-engine/1.0 xml-template-engine-1.0.xsd">
+
+<head>
+	<title>Directives</title>
+	<link href="theme.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div>
+
+<h1>Directives</h1>
+
+<div>
+<h2>Table of Contents</h2>
+<a href="#about">About</a><br/>
+<t:repeat var="directive" expr="${directives}">
+<a href="#${directive.name}">${directive.mnemonic} &mdash; ${directive.name}</a><br/>
+</t:repeat>
+<a href="#adding">Adding your own directives</a><br/>
+</div>
+
+<div>
+<a id="about" />
+<h2>About Directives</h2>
+<p>
+Directives are pseudo opcodes used to control the state of the assembler and the code generated.  They may change
+the target location for the assembler or switch to a new CPU definition.  They are executed at assembly time, not
+at run time.  In the Assembler project, they are dynamically discovered and extensible, see the 
+<a href="#adding">development</a> section for details.
+</p>
+</div>
+
+<t:repeat var="directive" expr="${directives}">
+<div>
+<a id="${directive.name}" />
+<h2>${directive.mnemonic} &mdash; ${directive.name}</h2>
+${directive.text}
+</div>
+</t:repeat>
+
+<div>
+<a id="adding" />
+<h2>Adding directives</h2>
+<p>
+All directives in the Assembler project are dynamically added via the Java 6 <code>ServiceLoader</code> interface.
+This means that, if needed, custom directives can be added into the Assembler.  The usefulness of this will be 
+determined by what methods are exposed via the <code>Directive</code> interface. 
+</p>
+<p>
+Generally speaking, to add a new <code>Directive</code>, create a class that implements the <code>Directive</code>
+interface.  In the Java <code>META-INF</code> folder, create a <code>services</code> folder.  In that, create
+a directive file named <code>com.webcodepro.asm.service.Directive</code> (full name of interface).  In that file
+start listing the full name of the class itself.  Create a JAR file, add it to the class path, and it will be
+discovered by the <code>ServiceLoader</code> interface.
+</p>  
+<p>
+Note that each <code>Directive</code> has a method to build a <code>DirectiveDocumentation</code> object.
+It is in this manner that the directive documentation is dynamically generated.
+</p>
+<p>
+More details about the <code>ServiceLoader</code> interface can be found in the
+<a href="http://download.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html">Java documentation</a>.
+</p>
+</div>
+
+<div class="small">
+	Copyright &copy; 2004-2011 WebCodePro.com
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<p>
+The <code>.org</code> directive indicates which memory locations the assembler should begin with when assembling code. 
+There can be multiple <code>.org</code> directives in the source file.
+</p>
+<p>
+Example:
+</p>
+<pre>
+   .org 0x300
+</pre>
+<p>
+Note that this may interact with the <code>.cpu</code> directive if that particular CPU has some form of signature bytes
+that are required at the beginning of the file. 
+</p>

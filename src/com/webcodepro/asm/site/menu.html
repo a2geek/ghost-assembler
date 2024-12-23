@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:t="https://www.webcodepro.com/schemas/xml-template-engine/1.0"
+      xsi:schemaLocation="https://www.webcodepro.com/schemas/xml-template-engine/1.0 xml-template-engine-1.0.xsd">
+
+<head>
+	<title>Menu</title>
+	<link href="theme.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div>
+<h5>About Assembler</h5>
+<ul>
+<li><a href="overview.html" target="content">Overview</a></li>
+<li><a href="usage.html" target="content">Usage</a></li>
+<li><a href="directives.html" target="content">Directives</a></li>
+</ul>
+</div>
+
+<div>
+<h5>CPU Definitions</h5>
+<ul>
+<li t:var="cpu" t:repeat="${cpus}"><a href="${cpu}.html" target="content">${cpu}</a></li>
+</ul>
+</div>
+
+<div class="small">
+	Copyright &copy; 2004-2011 WebCodePro.com
+</div>
+
+</body>
+</html>
