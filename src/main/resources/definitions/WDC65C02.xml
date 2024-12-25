@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Definition for the WDC 65C02.
+ -->
+<definition xmlns="https://www.webcodepro.com/schemas/cpu-definition/2.0" 
+		    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		    xsi:schemaLocation="https://www.webcodepro.com/schemas/cpu-definition/2.0 ../../../../../../META-INF/cpu-definition-2.0.xsd"
+			inherit-from="MOS6502">
+	
+	<name>WDC65C02</name>
+	<overview href="http://en.wikipedia.org/wiki/65C02">
+	The WDC 65C02 8-bit CPU is an upgraded CMOS version of the popular MOS Technology 6502 
+	microprocessor, the redesign being made by Bill Mensch of the Western Design Center (WDC). 
+	The 65C02 was second-sourced by NCR, GTE, Rockwell, Synertek and Sanyo.
+	</overview>
+	
+	<address-space bit-size="16" />
+	
+	<address-modes>
+		<address-mode id="zero-page-indirect">
+			<title>Zero Page Indirect</title>
+			<description>
+				With Zero Page Indirect addressing mode, the second byte of the
+				instruction is a zero page indirect address that points to the low byte of
+				a two byte effective address.
+			</description>
+			<format>(zp)</format>
+			<regex>\(([:expr:]+)\)</regex>
+			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
+			<code>
+				<byte>opcode</byte>
+				<byte>zp</byte>
+			</code>
+		</address-mode>
+		<address-mode id="absolute-indexed-indirect-x">
+			<title>Absolute Indexed Indirect</title>
+			<description>
+				With the Absolute Indexed Indirect addressing mode, the X Index Register
+				is added to the second and third byes of the instruction to form an
+				address to a pointer. This address mode is only used with the JMP
+				instruction and the program Counter is loaded with the first and second
+				bytes at this pointer.
+			</description>
+			<format>(addr,X)</format>
+			<regex>\(([:expr:]+),x\)</regex>
+			<code>
+				<byte>opcode</byte>
+				<byte>addr</byte>
+				<byte>addr>>8</byte>
+			</code>
+		</address-mode>
+		<!-- Defined in "MOS6502". -->
+		<address-mode-reference id="accumulator" />
+		<address-mode-reference id="absolute" />
+		<address-mode-reference id="absolute-indexed-x" />
+		<address-mode-reference id="immediate" />
+		<address-mode-reference id="implied" />
+		<address-mode-reference id="relative" />
+		<address-mode-reference id="zero-page" />
+		<address-mode-reference id="zero-page-indexed-x" />
+	</address-modes>
+
+	<operations>
+		<operation>
+			<mnemonic>ADC</mnemonic>
+			<description>Add with carry</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0x72" />
+		</operation>
+
+		<operation>
+			<mnemonic>AND</mnemonic>
+			<description>Bit-wise and accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0x32" />
+		</operation>
+
+		<operation>
+			<mnemonic>BIT</mnemonic>
+			<description>Bit test</description>
+			<addressing-mode ref="immediate" opcode="0x89" />
+			<addressing-mode ref="zero-page-indexed-x" opcode="0x34" />
+			<addressing-mode ref="absolute-indexed-x" opcode="0x3c" />
+		</operation>
+
+		<operation>
+			<mnemonic>BRA</mnemonic>
+			<description>Branch always</description>
+			<addressing-mode ref="relative" opcode="0x80" />
+		</operation>
+
+		<operation>
+			<mnemonic>CMP</mnemonic>
+			<description>Compare accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0xd2" />
+		</operation>
+
+		<operation>
+			<mnemonic>DEC</mnemonic>
+			<description>Decrement accumulator</description>
+			<addressing-mode ref="accumulator" opcode="0x3a" />
+		</operation>
+
+		<operation>
+			<mnemonic>EOR</mnemonic>
+			<description>Bit-wise exclusive-or accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0x52" />
+		</operation>
+
+		<operation>
+			<mnemonic>INC</mnemonic>
+			<description>Increment accumulator</description>
+			<addressing-mode ref="accumulator" opcode="0x1a" />
+		</operation>
+
+		<operation>
+			<mnemonic>JMP</mnemonic>
+			<description>Jump to address</description>
+			<addressing-mode ref="absolute-indexed-indirect-x" opcode="0x7c" />
+		</operation>
+
+		<operation>
+			<mnemonic>LDA</mnemonic>
+			<description>Load accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0xb2" />
+		</operation>
+
+		<operation>
+			<mnemonic>ORA</mnemonic>
+			<description>Bit-wise or accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0x12" />
+		</operation>
+
+		<operation>
+			<mnemonic>PHX</mnemonic>
+			<description>Push X register on to stack</description>
+			<addressing-mode ref="implied" opcode="0xda" />
+		</operation>
+
+		<operation>
+			<mnemonic>PHY</mnemonic>
+			<description>Push Y register on to stack</description>
+			<addressing-mode ref="implied" opcode="0x5a" />
+		</operation>
+
+		<operation>
+			<mnemonic>PLX</mnemonic>
+			<description>Pull X register off of stack</description>
+			<addressing-mode ref="implied" opcode="0xfa" />
+		</operation>
+
+		<operation>
+			<mnemonic>PLY</mnemonic>
+			<description>Pull Y register off of stack</description>
+			<addressing-mode ref="implied" opcode="0x7a" />
+		</operation>
+
+		<operation>
+			<mnemonic>SBC</mnemonic>
+			<description>Subtract with carry</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0xf2" />
+		</operation>
+
+		<operation>
+			<mnemonic>STA</mnemonic>
+			<description>Store accumulator</description>
+			<addressing-mode ref="zero-page-indirect" opcode="0x92" />
+		</operation>
+
+		<operation>
+			<mnemonic>STZ</mnemonic>
+			<description>Store zero</description>
+			<addressing-mode ref="zero-page" opcode="0x64" />
+			<addressing-mode ref="absolute" opcode="0x9c" />
+			<addressing-mode ref="zero-page-indexed-x" opcode="0x74" />
+			<addressing-mode ref="absolute-indexed-x" opcode="0x9e" />
+		</operation>
+
+		<operation>
+			<mnemonic>TRB</mnemonic>
+			<description>Test and reset bit</description>
+			<addressing-mode ref="zero-page" opcode="0x14" />
+			<addressing-mode ref="absolute" opcode="0x1c" />
+		</operation>
+
+		<operation>
+			<mnemonic>TSB</mnemonic>
+			<description>Test and set bit</description>
+			<addressing-mode ref="zero-page" opcode="0x04" />
+			<addressing-mode ref="absolute" opcode="0x0c" />
+		</operation>
+	</operations>
+</definition>
