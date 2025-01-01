@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
+    implementation("com.sun.xml.bind:jaxb-impl:4.0.5")
     implementation("org.jcommander:jcommander:1.85")
 
     testImplementation(libs.junit.jupiter)

@@ -37,8 +37,8 @@ import com.webcodepro.asm.io.IOUtils;
  * @author Rob
  */
 public class DefinitionService {
-	private static final String SCHEMA_LOC = "/META-INF/cpu-definition-2.0.xsd";
-	private static final String DEFINITION_LOC = "/definitions";
+	private static final String SCHEMA_LOC = "/schemas/cpu-definition-2.0.xsd";
+	private static final String DEFINITION_LOC = "definitions";
 	private static List<String> cpus;
 
 	/**
