@@ -1,17 +1,13 @@
 package com.webcodepro.asm.service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
+import com.webcodepro.asm.definition.CpuDefinition;
+import com.webcodepro.asm.io.AssemblerByteArrayOutputStream;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.webcodepro.asm.definition.CpuDefinition;
-import com.webcodepro.asm.io.AssemblerByteArrayOutputStream;
 
 /**
  * Tracks current state of the assembly process.

@@ -1,8 +1,8 @@
 package com.webcodepro.asm.service;
 
-import java.io.IOException;
-
 import com.webcodepro.asm.assembler.LineParts;
+
+import java.io.IOException;
 
 /**
  * Common interface for all Assembler directives.

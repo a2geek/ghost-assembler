@@ -1,11 +1,10 @@
 package com.webcodepro.asm.definition;
 
-import java.util.List;
-
+import com.webcodepro.asm.service.AssemblerException;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 
-import com.webcodepro.asm.service.AssemblerException;
+import java.util.List;
 
 /**
  * An individual operation.

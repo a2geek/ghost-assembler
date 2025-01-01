@@ -1,15 +1,15 @@
 package com.webcodepro.asm.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-
 import com.webcodepro.asm.assembler.LineParts;
 import com.webcodepro.asm.definition.AddressModeDefinition;
 import com.webcodepro.asm.definition.ByteCode;
 import com.webcodepro.asm.definition.CpuDefinition.OperationMatch;
 import com.webcodepro.asm.definition.Register;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
 
 /**
  * Provides services around assembling of an individual line of code.

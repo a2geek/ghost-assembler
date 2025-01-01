@@ -1,13 +1,9 @@
 package com.webcodepro.asm.service.directive;
 
-import java.io.IOException;
-
 import com.webcodepro.asm.assembler.LineParts;
-import com.webcodepro.asm.service.AssemblerException;
-import com.webcodepro.asm.service.AssemblerState;
-import com.webcodepro.asm.service.Directive;
-import com.webcodepro.asm.service.DirectiveDocumentation;
-import com.webcodepro.asm.service.ExpressionService;
+import com.webcodepro.asm.service.*;
+
+import java.io.IOException;
 
 /**
  * Handle ORG directives.

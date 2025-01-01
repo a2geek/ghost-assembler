@@ -1,10 +1,6 @@
 package com.webcodepro.asm.io;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /** Common IO utility methods. */
 public abstract class IOUtils {

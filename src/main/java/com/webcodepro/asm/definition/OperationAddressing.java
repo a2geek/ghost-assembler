@@ -1,10 +1,9 @@
 package com.webcodepro.asm.definition;
 
+import com.webcodepro.asm.service.AssemblerException;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlType;
-
-import com.webcodepro.asm.service.AssemblerException;
 
 /**
  * Operation addressing represents one of potentially many addressing

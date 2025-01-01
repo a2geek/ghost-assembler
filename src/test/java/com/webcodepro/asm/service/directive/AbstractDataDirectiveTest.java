@@ -1,11 +1,11 @@
 package com.webcodepro.asm.service.directive;
 
-import java.io.IOException;
-
 import com.webcodepro.asm.service.AssemblerException;
 import com.webcodepro.asm.service.AssemblerState;
 import com.webcodepro.junit.AsmAssert;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 /**
  * Test the common data generation routine.

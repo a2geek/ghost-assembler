@@ -1,9 +1,9 @@
 package com.webcodepro.asm.service;
 
-import java.io.IOException;
-
 import com.webcodepro.junit.AsmAssert;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 /**
  * Test the 6502 definition.

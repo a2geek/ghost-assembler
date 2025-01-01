@@ -1,7 +1,5 @@
 package com.webcodepro.asm.service;
 
-import java.io.IOException;
-
 import com.webcodepro.asm.assembler.LineParts;
 import com.webcodepro.asm.definition.CpuDefinition;
 import com.webcodepro.asm.service.DefinitionService.ValidationType;
@@ -9,6 +7,8 @@ import com.webcodepro.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 /**
  * Exercise the LineAssemblerService.

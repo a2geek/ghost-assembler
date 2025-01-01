@@ -1,20 +1,19 @@
 package com.webcodepro.asm.definition;
 
+import com.webcodepro.asm.service.AssemblerException;
+import com.webcodepro.asm.service.AssemblerState;
+import com.webcodepro.asm.service.ExpressionService;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlTransient;
-import jakarta.xml.bind.annotation.XmlType;
-
-import com.webcodepro.asm.service.AssemblerException;
-import com.webcodepro.asm.service.AssemblerState;
-import com.webcodepro.asm.service.ExpressionService;
 
 /**
  * Container for information regarding the CPU addressing mode.

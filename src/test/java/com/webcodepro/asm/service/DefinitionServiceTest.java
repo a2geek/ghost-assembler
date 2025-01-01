@@ -1,20 +1,15 @@
 package com.webcodepro.asm.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.webcodepro.asm.definition.AddressModeDefinition;
-import com.webcodepro.asm.definition.AddressModeDefinitionTest;
-import com.webcodepro.asm.definition.CpuDefinition;
+import com.webcodepro.asm.definition.*;
 import com.webcodepro.asm.definition.CpuDefinition.OperationMatch;
-import com.webcodepro.asm.definition.Operation;
-import com.webcodepro.asm.definition.OperationHelper;
-import com.webcodepro.asm.definition.Register;
 import com.webcodepro.asm.service.DefinitionService.ValidationType;
 import com.webcodepro.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provide a very basic test to confirm that the basics of the DefinitionService

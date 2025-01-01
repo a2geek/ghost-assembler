@@ -1,14 +1,5 @@
 package com.webcodepro.asm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.webcodepro.asm.service.AssemblerException;
@@ -16,6 +7,11 @@ import com.webcodepro.asm.service.AssemblerService;
 import com.webcodepro.asm.service.DefinitionService;
 import com.webcodepro.asm.service.Directive;
 import com.webcodepro.asm.site.GenerateCpuDocumentation;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Command-line interface for the Assembler.

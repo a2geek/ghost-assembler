@@ -1,11 +1,11 @@
 package com.webcodepro.asm.site;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Lookup required resources locally.  The W3C now blocks applications from dynamically 

@@ -1,12 +1,12 @@
 package com.webcodepro.asm.site;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.webcodepro.asm.definition.AddressModeDefinition;
 import com.webcodepro.asm.definition.CpuDefinition;
 import com.webcodepro.asm.definition.Operation;
 import com.webcodepro.asm.definition.OperationAddressing;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the CPU grid for documentation without impacting any operational components of the Assembler.

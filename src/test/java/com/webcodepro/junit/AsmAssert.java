@@ -1,13 +1,13 @@
 package com.webcodepro.junit;
 
+import com.webcodepro.asm.service.AssemblerException;
+import com.webcodepro.asm.service.AssemblerService;
+import org.junit.jupiter.api.Assertions;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import com.webcodepro.asm.service.AssemblerException;
-import com.webcodepro.asm.service.AssemblerService;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * Provides additional JUnit TestCase assert methods.

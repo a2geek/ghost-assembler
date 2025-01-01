@@ -1,9 +1,9 @@
 package com.webcodepro.asm.service;
 
+import com.webcodepro.asm.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.webcodepro.asm.io.IOUtils;
 
 /**
  * The DirectiveDocumentation contains all pertinent information regarding

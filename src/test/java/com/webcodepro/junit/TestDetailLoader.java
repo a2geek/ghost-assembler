@@ -1,11 +1,11 @@
 package com.webcodepro.junit;
 
+import com.webcodepro.asm.io.IOUtils;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
-import com.webcodepro.asm.io.IOUtils;
 
 /**
  * This class loads test cases that are stored with the expected results.  The file is separated by a vertical 

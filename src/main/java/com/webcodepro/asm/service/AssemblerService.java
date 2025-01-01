@@ -1,16 +1,11 @@
 package com.webcodepro.asm.service;
 
+import com.webcodepro.asm.assembler.LineParts;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
-
-import com.webcodepro.asm.assembler.LineParts;
+import java.util.*;
 
 /**
  * Provide services surrounding assembly of an entire program file.

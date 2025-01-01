@@ -1,15 +1,14 @@
 package com.webcodepro.asm.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.webcodepro.asm.definition.CpuDefinition;
 import com.webcodepro.asm.service.DefinitionService.ValidationType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test all defined CPU definitions against the schema

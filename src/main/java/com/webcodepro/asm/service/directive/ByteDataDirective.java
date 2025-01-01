@@ -1,9 +1,9 @@
 package com.webcodepro.asm.service.directive;
 
-import java.io.IOException;
-
 import com.webcodepro.asm.service.Directive;
 import com.webcodepro.asm.service.DirectiveDocumentation;
+
+import java.io.IOException;
 
 /**
  * Handle the .byte data directives.

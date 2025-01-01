@@ -1,32 +1,17 @@
 package com.webcodepro.asm.site;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 import com.beust.jcommander.JCommander;
 import com.webcodepro.asm.Main;
 import com.webcodepro.asm.definition.CpuDefinition;
 import com.webcodepro.asm.io.IOUtils;
-import com.webcodepro.asm.service.AssemblerException;
-import com.webcodepro.asm.service.AssemblerService;
-import com.webcodepro.asm.service.DefinitionService;
+import com.webcodepro.asm.service.*;
 import com.webcodepro.asm.service.DefinitionService.ValidationType;
-import com.webcodepro.asm.service.Directive;
-import com.webcodepro.asm.service.DirectiveDocumentation;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 //import com.webcodepro.xmltemplateengine.OutputDocument;
 //import com.webcodepro.xmltemplateengine.OutputException;
 //import com.webcodepro.xmltemplateengine.OutputHandler2;

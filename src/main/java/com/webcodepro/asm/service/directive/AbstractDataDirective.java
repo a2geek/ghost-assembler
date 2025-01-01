@@ -1,11 +1,7 @@
 package com.webcodepro.asm.service.directive;
 
 import com.webcodepro.asm.assembler.LineParts;
-import com.webcodepro.asm.service.AssemblerException;
-import com.webcodepro.asm.service.AssemblerService;
-import com.webcodepro.asm.service.AssemblerState;
-import com.webcodepro.asm.service.Directive;
-import com.webcodepro.asm.service.ExpressionService;
+import com.webcodepro.asm.service.*;
 
 /**
  * Handle various data directives.
