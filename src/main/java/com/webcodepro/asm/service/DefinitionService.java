@@ -9,7 +9,9 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +38,7 @@ import com.webcodepro.asm.io.IOUtils;
  */
 public class DefinitionService {
 	private static final String SCHEMA_LOC = "/META-INF/cpu-definition-2.0.xsd";
-	private static final String DEFINITION_LOC = "com/webcodepro/asm/definitions";
+	private static final String DEFINITION_LOC = "/definitions";
 	private static List<String> cpus;
 
 	/**
@@ -83,17 +85,11 @@ public class DefinitionService {
 				def.inherit(parent);
 			}
 			return def;
-		} catch (JAXBException e) {
-			e.printStackTrace();
-			throw new IOException(e);
-		} catch (SAXException e) {
-			e.printStackTrace();
-			throw new IOException(e);
-		} catch (AssemblerException e) {
+		} catch (JAXBException | AssemblerException | SAXException e) {
 			e.printStackTrace();
 			throw new IOException(e);
 		}
-	}
+    }
 	
 	/**
 	 * Do some simple validation on the structure and definition of the CPU.
@@ -102,9 +98,8 @@ public class DefinitionService {
 		if (issues == null) issues = new ArrayList<String>();
 		// Check RE against the FORMAT given:
 		for (AddressMode addressMode : cpu.getAddressModes()) {
-			if (addressMode instanceof AddressModeDefinition) {
-				AddressModeDefinition defn = (AddressModeDefinition)addressMode;
-				Pattern pattern = defn.getRegexPattern();
+			if (addressMode instanceof AddressModeDefinition defn) {
+                Pattern pattern = defn.getRegexPattern();
 				if (pattern == null) {
 					issues.add(String.format("RE pattern (%s) did not compile for '%s'.", 
 							defn.getRegex(), defn.getId()));
@@ -121,7 +116,7 @@ public class DefinitionService {
 		}
 		// Confirm every Operation has a mnemonic and at least one addressing-mode;
 		for (Operation operation : cpu.getOperations()) {
-			if (operation.getMnemonic() == null || operation.getMnemonic().length() == 0) {
+			if (operation.getMnemonic() == null || operation.getMnemonic().isEmpty()) {
 				issues.add("Mnemonic is required by all Operations!");
 			}
 			if (operation.getAddressingModes().isEmpty()) {
@@ -129,7 +124,7 @@ public class DefinitionService {
 						operation.getMnemonic()));
 			}
 		}
-		return issues.size() == 0;
+		return issues.isEmpty();
 	}
 	/**
 	 * Detect built-in CPU definitions.
@@ -147,22 +142,9 @@ public class DefinitionService {
 	}
 	
 	private static void loadFromFileSystem() throws AssemblerException {
-		URL url = ClassLoader.getSystemResource(DEFINITION_LOC);
-		if (url != null) {
-			File file;
-			try {
-				file = new File(url.toURI());
-			} catch (URISyntaxException e) {
-				throw new AssemblerException("Unable to list CPU definitions from file system", e);
-			}
-			String[] files = file.list(new FilenameFilter() {
-					@Override
-					public boolean accept(File dir, String name) {
-						return name.endsWith(".xml"); 
-					}
-				});
-			setCpus(files);
-		}
+		// TODO make this dynamic - needs to work from IDE as well as the Boot JAR
+		final String[] files = { "MOS6502.xml", "RCVM2.xml", "SWEET16.xml", "WDC65C02.xml" };
+		setCpus(files);
 	}
 	private static void loadFromJarFile() throws AssemblerException {
 		InputStream is = DefinitionService.class.getResourceAsStream(buildFilename("cpu.txt"));
@@ -180,7 +162,7 @@ public class DefinitionService {
 			IOUtils.closeQuietly(is);
 			IOUtils.closeQuietly(os);
 		}
-		String s = new String(os.toByteArray());
+		String s = os.toString();
 		setCpus(s.split(";"));
 		
 	}
@@ -193,7 +175,7 @@ public class DefinitionService {
 	}
 	
 	private static String buildFilename(String filename) {
-		return String.format("/%s/%s", DEFINITION_LOC,filename);
+		return String.format("/%s/%s", DEFINITION_LOC, filename);
 	}
 	
 	public enum ValidationType {
