@@ -3,7 +3,6 @@ package com.webcodepro.asm.service;
 import com.webcodepro.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -173,7 +172,6 @@ public class AssemblerServiceTest {
 	 * Test local label functionality.
 	 */
 	@Test
-	@Disabled
 	public void testLocalLabels() throws IOException, AssemblerException {
 		byte[] expected = {
 				(byte)0xa9, 0x00,			// LDA #0x00
@@ -226,7 +224,6 @@ public class AssemblerServiceTest {
 	 * Test handling of .define, .ifdef, .ifndef, and .endif.
 	 */
 	@Test
-	@Disabled
 	public void testIfDef() throws IOException, AssemblerException {
 		byte[] expected = { 1, 4 };
 		AsmAssert.assemble("Test-Assemble-ifdef.asm", expected);

@@ -7,7 +7,10 @@ com.webcodepro.asm.service.directive.DefineDirective
 com.webcodepro.asm.service.directive.ElifDirective
 com.webcodepro.asm.service.directive.ElseDirective
 com.webcodepro.asm.service.directive.EndIfDirective
+com.webcodepro.asm.service.directive.IfDefDirective
 com.webcodepro.asm.service.directive.IfDirective
+com.webcodepro.asm.service.directive.IfNdefDirective
 com.webcodepro.asm.service.directive.OrgDirective
+com.webcodepro.asm.service.directive.ResetDirective
 com.webcodepro.asm.service.directive.StringDataDirective
 com.webcodepro.asm.service.directive.StringhDataDirective
