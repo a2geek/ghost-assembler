@@ -19,19 +19,13 @@ import java.util.List;
  * @author Rob
  */
 public class Main {
-	private static String version;
 	private static Options options = new Options();
-
-	/** Set the command-line version information. */
-	private static void initializeVersion() {
-		Package pkg = Main.class.getPackage();
-		version = pkg.getImplementationVersion();
-		if (version == null) version = "unknown";
-	}
 
 	/** Get Assembler version number. */
 	public static String getVersion() {
-		initializeVersion();
+		Package pkg = Main.class.getPackage();
+		var version = pkg.getImplementationVersion();
+		if (version == null) version = "unknown";
 		return version;
 	}
 	
@@ -53,7 +47,7 @@ public class Main {
 			System.exit(0);
 		}
 		if (options.showVersion) {
-			System.out.printf("Assembler version %s\n", version);
+			System.out.printf("Assembler version %s\n", getVersion());
 		}
 		if (options.showCPUs) {
 			showCPUs();
