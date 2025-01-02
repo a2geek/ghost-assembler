@@ -2,6 +2,7 @@ package com.webcodepro.asm.definition;
 
 import com.webcodepro.asm.service.AssemblerException;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 
 import java.util.List;
@@ -136,6 +137,7 @@ public class Operation {
 	 * Contains information regarding the type of Mnemonic match that was found
 	 * as well as supplementary information.
 	 */
+	@XmlTransient
 	public class MnemonicMatch {
 		private MnemonicMatchType mnemonicMatchType;
 		private OperationAddressing operationAddressing;

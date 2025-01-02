@@ -159,7 +159,8 @@ public class CpuDefinition {
 		return String.format("CpuDefinition '%s' (parent: %s): %s, %s, %s, %s",
 				name, inheritFrom, addressSpace, registers, addressModes, operations);
 	}
-	
+
+	@XmlTransient
 	public class OperationMatch {
 		private Operation operation;
 		private OperationAddressing operationAddressing;
