@@ -5,7 +5,6 @@ import a2geek.asm.definition.CpuDefinition;
 import a2geek.asm.io.IOUtils;
 import a2geek.asm.service.*;
 import a2geek.asm.service.DefinitionService.ValidationType;
-import com.beust.jcommander.JCommander;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,7 +24,7 @@ public class GenerateCpuDocumentation {
 	private static String directory;
 	
 	/** Generate documentation site. */
-	public static void generate(String[] cpus, String directory, JCommander cmd) throws AssemblerException {
+	public static void generate(String[] cpus, String directory) throws AssemblerException {
 		try {
 			GenerateCpuDocumentation.directory = directory;
 			copy("theme.css");
@@ -33,8 +32,7 @@ public class GenerateCpuDocumentation {
 			Map<String,Object> vars = new HashMap<String,Object>();
 			vars.put("version", Main.getVersion());
 			vars.put("cpus", cpus);
-			vars.put("parameters", cmd.getParameters());
-			
+
 			List<DirectiveDocumentation> directives = new ArrayList<DirectiveDocumentation>();
 			for (Directive directive : AssemblerService.getDirectives()) {
 				directives.add(directive.getDocumentation());

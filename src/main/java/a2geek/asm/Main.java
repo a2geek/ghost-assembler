@@ -5,8 +5,8 @@ import a2geek.asm.service.AssemblerService;
 import a2geek.asm.service.DefinitionService;
 import a2geek.asm.service.Directive;
 import a2geek.asm.site.GenerateCpuDocumentation;
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
+import picocli.CommandLine;
+import picocli.CommandLine.ParameterException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,15 +21,6 @@ import java.util.List;
 public class Main {
 	private static String version;
 	private static Options options = new Options();
-	private static JCommander cmd;
-	
-	/**
-	 * Initialize application.
-	 */
-	private static void initialize() {
-		initializeVersion();
-		initializeJCommander();
-	}
 
 	/** Set the command-line version information. */
 	private static void initializeVersion() {
@@ -37,13 +28,7 @@ public class Main {
 		version = pkg.getImplementationVersion();
 		if (version == null) version = "unknown";
 	}
-	
-	/** Setup JCommander. */
-	private static void initializeJCommander() {
-		cmd = new JCommander(options);
-		cmd.setProgramName("Assembler");
-	}
-	
+
 	/** Get Assembler version number. */
 	public static String getVersion() {
 		initializeVersion();
@@ -54,16 +39,17 @@ public class Main {
 	 * A basic command-line parser for the Assembler. 
 	 */
 	public static void main(String[] args) {
-		initialize();
+		var options = new Options();
+		var cmd = new CommandLine(options);
 		try {
-			cmd.parse(args);
+			cmd.parseArgs(args);
 		} catch (ParameterException ex) {
 			System.out.println(ex.getMessage());
-			cmd.usage();
+			cmd.usage(System.err);
 			System.exit(1);
 		}
 		if (options.showHelp) {
-			cmd.usage();
+			cmd.usage(System.out);
 			System.exit(0);
 		}
 		if (options.showVersion) {
@@ -80,7 +66,7 @@ public class Main {
 		}
 		if (options.files == null || options.files.isEmpty()) {
 			System.out.printf("Please include a file name to assemble!\n");
-			cmd.usage();
+			cmd.usage(System.err);
 			System.exit(2);
 		}
 		for (String file : options.files) {
@@ -121,7 +107,7 @@ public class Main {
 				cpus = new ArrayList<String>();
 				cpus.add(options.documentCPUs);
 			}
-			GenerateCpuDocumentation.generate(cpus.toArray(new String[0]), options.directory, cmd);
+			GenerateCpuDocumentation.generate(cpus.toArray(new String[0]), options.directory);
 			System.exit(0);
 		} catch (AssemblerException e) {
 			System.err.printf("Unable to generate CPU documentation.\n");

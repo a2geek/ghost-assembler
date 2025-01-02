@@ -39,9 +39,9 @@
       <version>4.0.5</version>
     </dependency>
     <dependency>
-      <groupId>org.jcommander</groupId>
-      <artifactId>jcommander</artifactId>
-      <version>1.85</version>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>4.7.6</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
