@@ -19,7 +19,7 @@ public abstract class IOUtils {
 	public static String readAsString(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		copy(inputStream, outputStream);
-		return new String(outputStream.toByteArray());
+		return outputStream.toString();
 	}
 	
 	/** Copy an InputStream to an OutputStream.  Closes both InputStream and OutputStream. */

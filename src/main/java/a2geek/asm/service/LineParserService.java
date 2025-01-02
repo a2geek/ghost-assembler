@@ -47,7 +47,7 @@ public class LineParserService {
 				}
 			}
 		}
-		if (buf.length() > 0) {
+		if (!buf.isEmpty()) {
 			savePart(state, buf, parts);
 		}
 		
@@ -69,7 +69,7 @@ public class LineParserService {
 	 * state as appropriate.
 	 */
 	protected static void savePart(State state, StringBuffer buf, LineParts parts) {
-		if (buf.length() == 0) return;
+		if (buf.isEmpty()) return;
 		String part = buf.toString().trim();
 		buf.setLength(0);
 		switch (state) {

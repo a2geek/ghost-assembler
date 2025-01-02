@@ -48,7 +48,7 @@ public abstract class TestDetailLoader {
 			for (char ch : line.toCharArray()) {
 				if (!split) {
 					if (ch == '|') {
-						if (sb.length() > 0) throw new RuntimeException("Expecting 'sb' to be empty");
+						if (!sb.isEmpty()) throw new RuntimeException("Expecting 'sb' to be empty");
 						split = true;
 						continue;
 					}

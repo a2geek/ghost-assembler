@@ -32,7 +32,7 @@ public class DefinitionServiceTest {
 	public void testRegisters() throws IOException {
 		CpuDefinition cpu = getCodeAutomationCpu();
 		Assertions.assertEquals(1, cpu.getRegisters().size());
-		Register register = (Register)cpu.getRegisters().get(0);
+		Register register = (Register)cpu.getRegisters().getFirst();
 		Assertions.assertEquals("A", register.getId());
 		Assertions.assertEquals(8, register.getBitSize());
 		Assertions.assertEquals("Accumulator", register.getName());
@@ -41,7 +41,7 @@ public class DefinitionServiceTest {
 	public void testAddressModes() throws IOException {
 		CpuDefinition cpu = getCodeAutomationCpu();
 		Assertions.assertEquals(4, cpu.getAddressModes().size());
-		AddressModeDefinition mode = (AddressModeDefinition)cpu.getAddressModes().get(0);
+		AddressModeDefinition mode = (AddressModeDefinition)cpu.getAddressModes().getFirst();
 		Assertions.assertEquals("absolute-into-A", mode.getId());
 		Assertions.assertEquals("A,[addr]", mode.getFormat());
 		Assertions.assertEquals("A,\\[(" + AddressModeDefinition.MATCH_REGEX + "+)\\]", 
@@ -73,7 +73,7 @@ public class DefinitionServiceTest {
 		Assertions.assertEquals("", mode.getFormat());
 		Assertions.assertNull(mode.getRegex());
 		Assertions.assertEquals(1, mode.getByteCode().size());
-		Assertions.assertEquals("opcode", mode.getByteCode().get(0).getExpression());
+		Assertions.assertEquals("opcode", mode.getByteCode().getFirst().getExpression());
 	}
 	@Test
 	public void testOperations() throws IOException {
@@ -97,7 +97,7 @@ public class DefinitionServiceTest {
 		Operation op = (Operation)cpu.getOperations().get(position);
 		Assertions.assertEquals(mnemonic, op.getMnemonic());
 		Assertions.assertEquals(1, op.getAddressingModes().size());
-		String opcodeCheck = (String)op.getAddressingModes().get(0).getOpcode();
+		String opcodeCheck = (String)op.getAddressingModes().getFirst().getOpcode();
 		Assertions.assertEquals(opcode, opcodeCheck);
 	}
 	@Test

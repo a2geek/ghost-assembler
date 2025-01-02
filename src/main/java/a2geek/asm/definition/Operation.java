@@ -101,9 +101,8 @@ public class Operation {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Operation)) return false;
-		Operation op = (Operation)obj;
-		return this.mnemonic.equals(op.mnemonic);
+		if (!(obj instanceof Operation op)) return false;
+        return this.mnemonic.equals(op.mnemonic);
 	}
 	
 	/** For unit tests */
@@ -138,7 +137,7 @@ public class Operation {
 	 * as well as supplementary information.
 	 */
 	@XmlTransient
-	public class MnemonicMatch {
+	public static class MnemonicMatch {
 		private MnemonicMatchType mnemonicMatchType;
 		private OperationAddressing operationAddressing;
 		private String mnemonicMatchString;

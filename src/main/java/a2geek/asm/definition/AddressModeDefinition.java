@@ -153,9 +153,8 @@ public class AddressModeDefinition extends AddressMode {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof AddressModeDefinition)) return false;
-		AddressModeDefinition am = (AddressModeDefinition)obj;
-		return getId().equals(am.getId());
+		if (!(obj instanceof AddressModeDefinition am)) return false;
+        return getId().equals(am.getId());
 	}
 	
 	/**
@@ -180,7 +179,7 @@ public class AddressModeDefinition extends AddressMode {
 			int pos = 0;
 			for (int g=1; g<=matcher.groupCount(); g++) {
 				if (matcher.start(g) > 1) {
-					nonPatternText.append(text.substring(pos, matcher.start(g)));
+					nonPatternText.append(text, pos, matcher.start(g));
 				}
 				pos = matcher.end(g);
 			}

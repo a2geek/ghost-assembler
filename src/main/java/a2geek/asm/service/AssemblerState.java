@@ -17,7 +17,7 @@ import java.util.Map;
  * @author Rob
  */
 public class AssemblerState {
-	private static ThreadLocal<AssemblerState> current = new ThreadLocal<AssemblerState>();;
+	private static final ThreadLocal<AssemblerState> current = new ThreadLocal<AssemblerState>();;
 	/**
 	 * Get the current AssemblerState.
 	 */

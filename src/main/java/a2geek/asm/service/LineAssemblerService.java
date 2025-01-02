@@ -68,8 +68,7 @@ public class LineAssemblerService {
 		OperationMatch match = AssemblerState.get().getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		if (match == null) {
 			AssemblerException.toss("Unknown operator in line '%s'!", parts.toString());
-		}
-		if (match.getOperationAddressing() == null) {
+		} else if (match.getOperationAddressing() == null) {
 			AssemblerException.toss("Unknown address mode for %s in line '%s'!", match.getOperation().getMnemonic(), parts.toString());
 		}
 		return match.getOperationAddressing().getAddressMode().getByteCodeSize();

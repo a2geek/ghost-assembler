@@ -89,7 +89,7 @@ public class ExpressionServiceTest {
 	public void testEvaluateValue() throws AssemblerException {
 		testValue(5, "5");				// decimal (base 10)
 		testValue(100, "0x64");			// hexidecimal (base 16)
-		testValue(127, "0b01111111");	// binary (base 2)
+		testValue(127, "0b01111111");		// binary (base 2)
 		testValue(511, "0777");			// octal (base 8)
 	}
 	/**

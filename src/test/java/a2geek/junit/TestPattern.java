@@ -65,7 +65,7 @@ public class TestPattern {
 		int pos = 0;
 		for (int g=1; g<=matcher.groupCount(); g++) {
 			if (matcher.start(g) > 1) {
-				nonPatternText.append(text.substring(pos, matcher.start(g)));
+				nonPatternText.append(text, pos, matcher.start(g));
 			}
 			pos = matcher.end(g);
 		}

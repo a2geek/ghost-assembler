@@ -19,7 +19,7 @@ import java.util.List;
  * @author Rob
  */
 public class Main {
-	private static Options options = new Options();
+	private static final Options options = new Options();
 
 	/** Get Assembler version number. */
 	public static String getVersion() {
@@ -59,7 +59,7 @@ public class Main {
 			documentCPUs();
 		}
 		if (options.files == null || options.files.isEmpty()) {
-			System.out.printf("Please include a file name to assemble!\n");
+			System.out.println("Please include a file name to assemble!");
 			cmd.usage(System.err);
 			System.exit(2);
 		}
@@ -70,21 +70,21 @@ public class Main {
 
 	/** Display directive list. */
 	private static void showDirectives() {
-		System.out.printf("Directives currently available:\n");
+		System.out.println("Directives currently available:");
 		for (Directive d : AssemblerService.getDirectives()) {
 			System.out.printf("\t%s\n", d.getOpcodeMnemonic());
 		}
-		System.out.printf("** END **\n");
+		System.out.println("** END **");
 		System.exit(0);
 	}
 	
 	private static void showCPUs() {
 		try {
-			System.out.printf("List of defined CPUs:\n");
+			System.out.println("List of defined CPUs:");
 			for (String f : DefinitionService.getCpus()) {
 				System.out.printf("\t%s\n", f);
 			}
-			System.out.printf("** END **\n");
+			System.out.println("** END **");
 			System.exit(0);
 		} catch (AssemblerException e) {
 			System.out.printf("Unable to load CPU listing.  Error: %s\n", e.getMessage());
@@ -104,7 +104,7 @@ public class Main {
 			GenerateCpuDocumentation.generate(cpus.toArray(new String[0]), options.directory);
 			System.exit(0);
 		} catch (AssemblerException e) {
-			System.err.printf("Unable to generate CPU documentation.\n");
+			System.err.println("Unable to generate CPU documentation.");
 			e.printStackTrace(System.err);
 			System.exit(5);
 		}
@@ -148,7 +148,7 @@ public class Main {
 	 */
 	private static void writeTextFile(String filename, String text) {
 		try {
-			PrintWriter pw = new PrintWriter(new File(filename));
+			PrintWriter pw = new PrintWriter(filename);
 			pw.println(text);
 			pw.close();
 		} catch (FileNotFoundException ex) {

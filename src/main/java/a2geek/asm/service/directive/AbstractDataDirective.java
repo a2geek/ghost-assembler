@@ -31,9 +31,8 @@ public abstract class AbstractDataDirective implements Directive {
 		AssemblerState state = AssemblerState.get();
 		for (String subExpression : AssemblerService.parseCommas(expression)) {
 			Object result = ExpressionService.evaluate(subExpression, state.getVariables());
-			if (result instanceof String) {
-				String value = (String)result;
-				if (length) {
+			if (result instanceof String value) {
+                if (length) {
 					state.getOutput().write(value.length());
 					state.incrementPC();
 				}

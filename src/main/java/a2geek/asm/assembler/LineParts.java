@@ -44,7 +44,7 @@ public class LineParts {
 	}
 	
 	public String toString() {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (label != null) {
 			buf.append(label);
 			buf.append(' ');

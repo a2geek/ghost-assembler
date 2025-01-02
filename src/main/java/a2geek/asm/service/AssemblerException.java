@@ -2,6 +2,7 @@ package a2geek.asm.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.io.Serial;
 
 /**
  * Assembler exception.
@@ -9,7 +10,8 @@ import java.io.PrintWriter;
  * @author Rob
  */
 public class AssemblerException extends Exception {
-	private static final long serialVersionUID = 1070715884398627168L;
+	@Serial
+    private static final long serialVersionUID = 1070715884398627168L;
 
 	/**
      * Constructs a new exception with <code>null</code> as its detail message.
@@ -65,11 +67,11 @@ public class AssemblerException extends Exception {
     /**
      * Helper method to throw a formatted message in the AssemblerException.
      */
-	public static AssemblerException toss(String format, Object ... args) throws AssemblerException {
+	public static void toss(String format, Object ... args) throws AssemblerException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		PrintWriter pw = new PrintWriter(out);
 		pw.printf(format, args);
 		pw.close();
-		throw new AssemblerException(new String(out.toByteArray()));
+		throw new AssemblerException(out.toString());
 	}
 }

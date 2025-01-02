@@ -229,7 +229,7 @@ public class AssemblerServiceTest {
 		AsmAssert.assemble("Test-Assemble-ifdef.asm", expected);
 	}
 	/**
-	 * Test lable duplicate error handling.
+	 * Test label duplicate error handling.
 	 */
 	@Test
 	public void testLabelDuplicates() throws IOException, AssemblerException {

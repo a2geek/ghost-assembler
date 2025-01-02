@@ -90,7 +90,7 @@ public class ExpressionService {
 	public static Object evaluate(String expression, Map<String,Long> variables) throws AssemblerException {
 		State state = State.START;
 		State priorState = State.START;
-		StringBuffer value = new StringBuffer();
+		StringBuilder value = new StringBuilder();
 		Stack<Operator> opStack = new Stack<Operator>();
 		Stack<Object> valStack = new Stack<Object>();
 		char inQuotes = 0;
@@ -164,7 +164,7 @@ public class ExpressionService {
 				priorState = State.OPERAND;
 			}
 		}
-		if (value.length() > 0) {
+		if (!value.isEmpty()) {
 			valStack.push(evaluateValue(value.toString(), variables));
 		}
 		while (!opStack.isEmpty()) {
@@ -181,37 +181,39 @@ public class ExpressionService {
 	 * Identify single character operator.
 	 */
 	protected static Operator getOperator(char ch) {
-		switch (ch) {
-			case '+': return Operator.ADD;
-			case '-': return Operator.SUBTRACT;
-			case '<': return Operator.LESS_THAN;
-			case '>': return Operator.GREATER_THAN;
-			case '*': return Operator.MULTIPLY;
-			case '/': return Operator.DIVIDE;
-			case '%': return Operator.MODULO;
-			case '(': return Operator.LEFT_PAREN;
-			case ')': return Operator.RIGHT_PAREN;
-			case '|': return Operator.BITWISE_OR;
-			case '&': return Operator.BITWISE_AND;
-			case '^': return Operator.BITWISE_XOR;
-			case '=': return Operator.EQUALS;
-		}
-		return null;
-	}
+        return switch (ch) {
+            case '+' -> Operator.ADD;
+            case '-' -> Operator.SUBTRACT;
+            case '<' -> Operator.LESS_THAN;
+            case '>' -> Operator.GREATER_THAN;
+            case '*' -> Operator.MULTIPLY;
+            case '/' -> Operator.DIVIDE;
+            case '%' -> Operator.MODULO;
+            case '(' -> Operator.LEFT_PAREN;
+            case ')' -> Operator.RIGHT_PAREN;
+            case '|' -> Operator.BITWISE_OR;
+            case '&' -> Operator.BITWISE_AND;
+            case '^' -> Operator.BITWISE_XOR;
+            case '=' -> Operator.EQUALS;
+            default -> null;
+        };
+    }
 	
 	/**
 	 * Identify double character operator.
 	 */
 	protected static Operator getOperator(char ch1, char ch2) {
 		String op = new String(new char[] { ch1, ch2 });
-		if ("<<".equals(op)) return Operator.SHIFT_LEFT;
-		if (">>".equals(op)) return Operator.SHIFT_RIGHT;
-		if ("<=".equals(op)) return Operator.LESS_EQUALS;
-		if (">=".equals(op)) return Operator.GREATER_EQUALS;
-		if ("!=".equals(op)) return Operator.NOT_EQUALS;
-		if ("||".equals(op)) return Operator.OR;
-		if ("&&".equals(op)) return Operator.AND;
-		return null;
+		return switch (op) {
+			case "<<" -> Operator.SHIFT_LEFT;
+			case ">>" -> Operator.SHIFT_RIGHT;
+			case "<=" -> Operator.LESS_EQUALS;
+			case ">=" -> Operator.GREATER_EQUALS;
+			case "!=" -> Operator.NOT_EQUALS;
+			case "||" -> Operator.OR;
+			case "&&" -> Operator.AND;
+			default -> null;
+		};
 	}
 	
 	/**
@@ -247,62 +249,27 @@ public class ExpressionService {
 				throw new AssemblerException("Value stack empty when evaluating binary Number operation.");
 			}
 			long value1 = (Long)valStack.pop();
-			switch (op) {
-				case ADD:
-					result = value1 + value2;
-					break;
-				case SUBTRACT:
-					result = value1 - value2;
-					break;
-				case MULTIPLY:
-					result = value1 * value2;
-					break;
-				case DIVIDE:
-					result = value1 / value2;
-					break;
-				case MODULO:
-					result = value1 % value2;
-					break;
-				case BITWISE_OR:
-					result = value1 | value2;
-					break;
-				case BITWISE_AND:
-					result = value1 & value2;
-					break;
-				case BITWISE_XOR:
-					result = value1 ^ value2;
-					break;
-				case SHIFT_LEFT:
-					result = value1 << value2;
-					break;
-				case SHIFT_RIGHT:
-					result = value1 >> value2;
-					break;
-				case EQUALS:
-					result = value1 == value2 ? 1 : 0; 
-					break;
-				case GREATER_EQUALS:
-					result = value1 >= value2 ? 1 : 0; 
-					break;
-				case GREATER_THAN:
-					result = value1 > value2 ? 1 : 0; 
-					break;
-				case LESS_EQUALS:
-					result = value1 <= value2 ? 1 : 0; 
-					break;
-				case LESS_THAN:
-					result = value1 < value2 ? 1 : 0; 
-					break;
-				case NOT_EQUALS:
-					result = value1 != value2 ? 1 : 0;
-					break;
-				case OR:
-					result = (value1 != 0) || (value2 != 0) ? 1 : 0;
-					break;
-				case AND:
-					result = (value1 != 0) && (value2 != 0) ? 1 : 0;
-					break;
-			}
+            result = switch (op) {
+                case ADD -> value1 + value2;
+                case SUBTRACT -> value1 - value2;
+                case MULTIPLY -> value1 * value2;
+                case DIVIDE -> value1 / value2;
+                case MODULO -> value1 % value2;
+                case BITWISE_OR -> value1 | value2;
+                case BITWISE_AND -> value1 & value2;
+                case BITWISE_XOR -> value1 ^ value2;
+                case SHIFT_LEFT -> value1 << value2;
+                case SHIFT_RIGHT -> value1 >> value2;
+                case EQUALS -> value1 == value2 ? 1 : 0;
+                case GREATER_EQUALS -> value1 >= value2 ? 1 : 0;
+                case GREATER_THAN -> value1 > value2 ? 1 : 0;
+                case LESS_EQUALS -> value1 <= value2 ? 1 : 0;
+                case LESS_THAN -> value1 < value2 ? 1 : 0;
+                case NOT_EQUALS -> value1 != value2 ? 1 : 0;
+                case OR -> (value1 != 0) || (value2 != 0) ? 1 : 0;
+                case AND -> (value1 != 0) && (value2 != 0) ? 1 : 0;
+                default -> result;
+            };
 		}
 		valStack.push(result);
 	}
@@ -401,7 +368,7 @@ public class ExpressionService {
 			return Double.valueOf(value).longValue();
 		} else if (value.matches(PATTERN_VARIABLE)) {
 			if (variables.containsKey(value)) {
-				return (Long)variables.get(value);
+				return variables.get(value);
 			}
 			if (AssemblerState.get().isIdentifyLabels()) {
 				return AssemblerState.get().getPC();
@@ -409,7 +376,7 @@ public class ExpressionService {
 			throw new AssemblerException("Variable '" 
 					+ value + "' not found");
 		} else if (value.matches(PATTERN_CHARACTER)) {
-			return Long.valueOf(value.charAt(1));	// '.' -> we return the "."
+			return (long) value.charAt(1);	// '.' -> we return the "."
 		} else if (value.matches(PATTERN_STRING)) {
 			return value.substring(1, value.length()-1);
 		}

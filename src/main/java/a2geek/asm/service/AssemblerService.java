@@ -12,7 +12,7 @@ import java.util.*;
  * @author Rob
  */
 public class AssemblerService {
-	private static Map<String,Directive> directives = new HashMap<String,Directive>();
+	private static final Map<String,Directive> directives = new HashMap<String,Directive>();
 	
 	static {
 		ServiceLoader<Directive> directiveLoader = ServiceLoader.load(Directive.class);
@@ -146,7 +146,7 @@ public class AssemblerService {
 	 */
 	public static String[] parseCommas(String string) {
 		List<String> list = new ArrayList<String>();
-		StringBuffer work = new StringBuffer();
+		StringBuilder work = new StringBuilder();
 		char inQuote = 0;
 		for (int i=0; i<string.length(); i++) {
 			char ch = string.charAt(i);
@@ -163,7 +163,7 @@ public class AssemblerService {
 				work.append(ch);
 			}
 		}
-		if (work.length() > 0) list.add(work.toString());
+		if (!work.isEmpty()) list.add(work.toString());
 		String[] answer = new String[list.size()];
 		return list.toArray(answer);
 	}

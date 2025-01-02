@@ -17,7 +17,7 @@ public class ByteCode {
 	 * If there is no mnemonic match specified, assume it is a match.
 	 */
 	public boolean isMnemonicMatch(String matchCode) {
-		return mnemonicMatch == null ? true : mnemonicMatch.equalsIgnoreCase(matchCode);
+		return mnemonicMatch == null || mnemonicMatch.equalsIgnoreCase(matchCode);
 	}
 
 	public String getMnemonicMatch() {

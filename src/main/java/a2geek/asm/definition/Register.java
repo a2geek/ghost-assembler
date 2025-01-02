@@ -59,8 +59,7 @@ public class Register {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Register)) return false;
-		Register reg = (Register)obj;
-		return this.id.equals(reg.id);
+		if (!(obj instanceof Register reg)) return false;
+        return this.id.equals(reg.id);
 	}
 }

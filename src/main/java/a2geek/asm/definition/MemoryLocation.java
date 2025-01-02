@@ -26,8 +26,7 @@ public class MemoryLocation {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof MemoryLocation)) return false;
-		MemoryLocation loc = (MemoryLocation)obj;
-		return this.name.equals(loc.name);
+		if (!(obj instanceof MemoryLocation loc)) return false;
+        return this.name.equals(loc.name);
 	}
 }

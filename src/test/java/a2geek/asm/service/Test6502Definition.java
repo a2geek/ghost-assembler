@@ -206,7 +206,4 @@ public class Test6502Definition {
 			};
 		AsmAssert.assemble("Test-6502-fast-multiply-by-10.asm", expected);
 	}
-
-	
-
 }
