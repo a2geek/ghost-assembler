@@ -125,7 +125,7 @@
 	</target>
 	
 	<target name="site" description="Build site">
-		<java classname="com.webcodepro.asm.Main" classpathref="compile.path" fork="true">
+		<java classname="a2geek.asm.Main" classpathref="compile.path" fork="true">
 			<arg value="--document-cpus" />
 			<arg value="ALL" />
 			<arg value="--directory" />
@@ -137,7 +137,7 @@
 		<jar destfile="${dist.dir}/${project.name}-${build.version}-${build.id}.jar"
 			 basedir="${build.classes}">
 			<manifest>
-				<attribute name="Main-Class" value="com.webcodepro.asm.Main" />
+				<attribute name="Main-Class" value="a2geek.asm.Main" />
 				<attribute name="Built-By" value="${user.name}"/>
 				<attribute name="Implementation-Title" value="${project.name}"/>
 				<attribute name="Implementation-Version" value="${build.version}-${build.id}"/>
@@ -152,7 +152,7 @@
 		<one-jar destfile="${dist.dir}/${project.name}-cmd-${build.version}-${build.id}.jar">
 			<manifest>
 				<attribute name="Main-Class" value="com.simontuffs.onejar.Boot" />
-				<attribute name="One-Jar-Main-Class" value="com.webcodepro.asm.Main" />
+				<attribute name="One-Jar-Main-Class" value="a2geek.asm.Main" />
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Implementation-Title" value="${project.name}" />
 				<attribute name="Implementation-Version" value="${build.version}-${build.id}" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://www.webcodepro.com/schemas/cpu-definition/2.0" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="https://www.webcodepro.com/schemas/cpu-definition/2.0" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://a2geek/schemas/cpu-definition/2.1" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="https://a2geek/schemas/cpu-definition/2.1" version="1.0">
       
   
   <xs:element name="definition" type="tns:DefinitionType"/>

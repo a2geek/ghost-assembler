@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Definition for the WDC 65C02. -->
-<definition xmlns="https://www.webcodepro.com/schemas/cpu-definition/2.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="https://www.webcodepro.com/schemas/cpu-definition/2.0 ../../../../../../META-INF/cpu-definition-2.0.xsd">
+<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../schemas/cpu-definition-2.1.xsd">
 
 	<name>RCVM2</name>
 	<overview>

@@ -2,9 +2,9 @@
 <!-- 
 	Definition for SWEET-16 "CPU" as defined by Steve Wozniak.
  -->
-<definition xmlns="https://www.webcodepro.com/schemas/cpu-definition/2.0" 
-		    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-		    xsi:schemaLocation="https://www.webcodepro.com/schemas/cpu-definition/2.0 ../../../../../../META-INF/cpu-definition-2.0.xsd">
+<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../schemas/cpu-definition-2.1.xsd">
 
 	<name>Sweet 16 CPU</name>
 	<overview href="http://en.wikipedia.org/wiki/SWEET16">
