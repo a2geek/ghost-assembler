@@ -4,7 +4,8 @@ import a2geek.asm.definition.AddressMode;
 import a2geek.asm.definition.AddressModeDefinition;
 import a2geek.asm.definition.CpuDefinition;
 import a2geek.asm.definition.Operation;
-import a2geek.asm.io.IOUtils;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
@@ -14,7 +15,6 @@ import org.xml.sax.SAXException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,47 +126,18 @@ public class DefinitionService {
 	 */
 	public static List<String> getCpus() throws AssemblerException {
 		if (cpus == null) {
-			loadFromFileSystem();
-		}
-		if (cpus == null) {
-			loadFromJarFile();
+			cpus = new ArrayList<>();
+			try (ScanResult scanResult = new ClassGraph().acceptPathsNonRecursive("/definitions").scan()) {
+				scanResult.getResourcesWithExtension("xml").forEach(res -> {
+					var file = res.getPath();
+					file = file.split("/")[1];
+					cpus.add(file.substring(0, file.lastIndexOf(".")));
+				});
+			}
 		}
 		return cpus;
 	}
-	
-	private static void loadFromFileSystem() throws AssemblerException {
-		// TODO make this dynamic - needs to work from IDE as well as the Boot JAR
-		final String[] files = { "MOS6502.xml", "RCVM2.xml", "SWEET16.xml", "WDC65C02.xml" };
-		setCpus(files);
-	}
-	private static void loadFromJarFile() throws AssemblerException {
-		InputStream is = DefinitionService.class.getResourceAsStream(buildFilename("cpu.txt"));
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		byte[] buffer = new byte[2048];
-		try {
-			while (true) {
-				int bytes = is.read(buffer);
-				if (bytes == -1) break;
-				os.write(buffer, 0, bytes);
-			}
-		} catch (IOException e) {
-			throw new AssemblerException("Unable to load CPU definition from JAR file", e);
-		} finally {
-			IOUtils.closeQuietly(is);
-			IOUtils.closeQuietly(os);
-		}
-		String s = os.toString();
-		setCpus(s.split(";"));
-		
-	}
-	private static void setCpus(String[] files) {
-		cpus = new ArrayList<String>();
-		for (String file : files) {
-			cpus.add(file.substring(0, file.lastIndexOf(".")));
-		}
 
-	}
-	
 	private static String buildFilename(String filename) {
 		return String.format("/%s/%s", DEFINITION_LOC, filename);
 	}
