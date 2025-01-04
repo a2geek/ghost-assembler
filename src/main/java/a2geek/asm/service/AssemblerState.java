@@ -17,8 +17,9 @@ import java.util.Map;
  * @author Rob
  */
 public class AssemblerState {
-	private static final ThreadLocal<AssemblerState> current = new ThreadLocal<AssemblerState>();;
-	/**
+	private static final ThreadLocal<AssemblerState> current = new ThreadLocal<>();
+
+    /**
 	 * Get the current AssemblerState.
 	 */
 	public static AssemblerState get() {
@@ -78,8 +79,8 @@ public class AssemblerState {
 	private CpuDefinition cpu = null;
 	private LineNumberReader reader = null;
 	private AssemblerByteArrayOutputStream output = new AssemblerByteArrayOutputStream();
-	private Map<String,Long> globalVars = new HashMap<String,Long>();
-	private List<Map<String,Long>> localVars = new ArrayList<Map<String,Long>>();
+	private Map<String,Long> globalVars = new HashMap<>();
+	private List<Map<String,Long>> localVars = new ArrayList<>();
 	private int localScope = 0;
 	private long pc = 0;
 	private boolean active = true;
@@ -107,13 +108,12 @@ public class AssemblerState {
 	}
 	public void addLocalVariable(String name, Long value) {
 		if (localVars.get(localScope) == null) {
-			localVars.set(localScope, new HashMap<String,Long>());
+			localVars.set(localScope, new HashMap<>());
 		}
 		localVars.get(localScope).put(name, value);
 	}
 	public Map<String,Long> getVariables() {
-		Map<String,Long> vars = new HashMap<String,Long>();
-		vars.putAll(globalVars);
+        Map<String, Long> vars = new HashMap<>(globalVars);
 		if (localVars.get(localScope) != null) vars.putAll(localVars.get(localScope));
 		return vars;
 	}

@@ -88,7 +88,7 @@ public class DefinitionService {
 	 * Do some simple validation on the structure and definition of the CPU.
 	 */
 	public static boolean validate(CpuDefinition cpu, List<String> issues) {
-		if (issues == null) issues = new ArrayList<String>();
+		if (issues == null) issues = new ArrayList<>();
 		// Check RE against the FORMAT given:
 		for (AddressMode addressMode : cpu.getAddressModes()) {
 			if (addressMode instanceof AddressModeDefinition defn) {
@@ -124,7 +124,7 @@ public class DefinitionService {
 	 * If we are NOT part of a JAR file, simply process the directory.
 	 * If we ARE part of a JAR file, we need to read the automatically built cpus.txt file (see build.xml). 
 	 */
-	public static List<String> getCpus() throws AssemblerException {
+	public static List<String> getCpus() {
 		if (cpus == null) {
 			cpus = new ArrayList<>();
 			try (ScanResult scanResult = new ClassGraph().acceptPathsNonRecursive("/definitions").scan()) {

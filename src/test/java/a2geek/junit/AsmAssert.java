@@ -63,7 +63,7 @@ public abstract class AsmAssert {
 			if (!success) {
 				pw.close();
 				System.out.println("----------------- " + filename + " ----------------------");
-				System.out.print(sw.toString());
+				System.out.print(sw);
 				System.out.println("---------------------------------------------------------");
 			}
 		}

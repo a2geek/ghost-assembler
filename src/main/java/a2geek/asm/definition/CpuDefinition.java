@@ -32,18 +32,18 @@ public class CpuDefinition {
 
 	@XmlElementWrapper(name = "registers")
 	@XmlElement(name = "register", required = true)
-	private List<Register> registers = new ArrayList<Register>();
+	private List<Register> registers = new ArrayList<>();
 
 	@XmlElementWrapper(name = "address-modes", required = true)
 	@XmlElements({
 			@XmlElement(name = "address-mode", type = AddressModeDefinition.class),
 			@XmlElement(name = "address-mode-reference", type = AddressModeReference.class)
 		})
-	private List<AddressMode> addressModes = new ArrayList<AddressMode>();
+	private List<AddressMode> addressModes = new ArrayList<>();
 
 	@XmlElementWrapper(name = "operations", required = true)
 	@XmlElement(name = "operation", required = true)
-	private List<Operation> operations = new ArrayList<Operation>();
+	private List<Operation> operations = new ArrayList<>();
 	
 	/**
 	 * Inherit the parents attributes.
@@ -84,7 +84,7 @@ public class CpuDefinition {
 		return registers;
 	}
 	public Register getRegister(int number) {
-		return (Register)registers.get(number);
+		return registers.get(number);
 	}
 	public boolean isRegisterGroup(String registerGroup) {
 		for (int i=0; i<registers.size(); i++) {
@@ -105,7 +105,7 @@ public class CpuDefinition {
 	}
 	
 	public List<AddressModeDefinition> getAddressModes() {
-		List<AddressModeDefinition> list = new ArrayList<AddressModeDefinition>();
+		List<AddressModeDefinition> list = new ArrayList<>();
 		for (AddressMode mode : addressModes) {
 			if (mode instanceof AddressModeDefinition) {
 				list.add((AddressModeDefinition)mode);
@@ -117,10 +117,9 @@ public class CpuDefinition {
 	 * Locate the AddressMode by the name given.
 	 */
 	public AddressMode findAddressModeById(String id) {
-		for (int i=0; i<addressModes.size(); i++) {
-			AddressMode mode = (AddressMode)addressModes.get(i);
-			if (id.equals(mode.getId())) return mode;
-		}
+        for (AddressMode addressMode : addressModes) {
+            if (id.equals(addressMode.getId())) return addressMode;
+        }
 		return null;
 	}
 	public List<Operation> getOperations() {
@@ -161,7 +160,7 @@ public class CpuDefinition {
 	}
 
 	@XmlTransient
-	public class OperationMatch {
+	public static class OperationMatch {
 		private Operation operation;
 		private OperationAddressing operationAddressing;
 		private String mnemonicMatchCode;

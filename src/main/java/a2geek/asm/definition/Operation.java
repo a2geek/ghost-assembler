@@ -32,7 +32,7 @@ public class Operation {
 	/**
 	 * Inherit attributes from the parent.
 	 */
-	public void inherit(Operation parent) throws AssemblerException {
+	public void inherit(Operation parent) {
 		if (description == null) this.description = parent.description;
 		// Merge the two lists to perform inheritance
 		if (addressingModes == null) {

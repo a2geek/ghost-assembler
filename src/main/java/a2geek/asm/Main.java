@@ -79,17 +79,12 @@ public class Main {
 	}
 	
 	private static void showCPUs() {
-		try {
-			System.out.println("List of defined CPUs:");
-			for (String f : DefinitionService.getCpus()) {
-				System.out.printf("\t%s\n", f);
-			}
-			System.out.println("** END **");
-			System.exit(0);
-		} catch (AssemblerException e) {
-			System.out.printf("Unable to load CPU listing.  Error: %s\n", e.getMessage());
-			System.exit(4);
+		System.out.println("List of defined CPUs:");
+		for (String f : DefinitionService.getCpus()) {
+			System.out.printf("\t%s\n", f);
 		}
+		System.out.println("** END **");
+		System.exit(0);
 	}
 	
 	private static void documentCPUs() {
@@ -98,7 +93,7 @@ public class Main {
 			if (options.isDocumentAllCpus()) {
 				cpus = DefinitionService.getCpus();
 			} else {
-				cpus = new ArrayList<String>();
+				cpus = new ArrayList<>();
 				cpus.add(options.documentCPUs);
 			}
 			GenerateCpuDocumentation.generate(cpus.toArray(new String[0]), options.directory);

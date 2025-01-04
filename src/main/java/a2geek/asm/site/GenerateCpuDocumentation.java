@@ -29,11 +29,11 @@ public class GenerateCpuDocumentation {
 			GenerateCpuDocumentation.directory = directory;
 			copy("theme.css");
 			
-			Map<String,Object> vars = new HashMap<String,Object>();
+			Map<String,Object> vars = new HashMap<>();
 			vars.put("version", Main.getVersion());
 			vars.put("cpus", cpus);
 
-			List<DirectiveDocumentation> directives = new ArrayList<DirectiveDocumentation>();
+			List<DirectiveDocumentation> directives = new ArrayList<>();
 			for (Directive directive : AssemblerService.getDirectives()) {
 				directives.add(directive.getDocumentation());
 			}

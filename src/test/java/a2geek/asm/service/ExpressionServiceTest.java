@@ -56,7 +56,7 @@ public class ExpressionServiceTest {
 	 */
 	@Test
 	public void testVariables() throws AssemblerException {
-		Map<String,Long> variables = new HashMap<String,Long>();
+		Map<String,Long> variables = new HashMap<>();
 		variables.put("ADDR", 0x312L);
 		testExpression(0x312, "ADDR", variables);
 		testExpression(0x300, "ADDR-0x12", variables);
@@ -168,7 +168,7 @@ public class ExpressionServiceTest {
 	 * that supplies an empty variable map.  
 	 */
 	protected void testExpression(long expected, String expression) throws AssemblerException {
-		testExpression(expected, expression, new HashMap<String,Long>());
+		testExpression(expected, expression, new HashMap<>());
 	}
 	/**
 	 * Evaluate an expression against an expected value using the supplied list
@@ -179,7 +179,7 @@ public class ExpressionServiceTest {
 		Assertions.assertEquals(expected, value.longValue());
 	}
 	protected void testExpression(String expected, String expression) throws AssemblerException {
-		String value = (String)ExpressionService.evaluate(expression, new HashMap<String,Long>());
+		String value = (String)ExpressionService.evaluate(expression, new HashMap<>());
 		Assertions.assertEquals(expected, value);
 	}
 	/**
@@ -198,7 +198,7 @@ public class ExpressionServiceTest {
 	 * Evaluate a value against its expected value.
 	 */
 	protected void testValue(long expected, String expression) throws AssemblerException {
-		Long value = (Long)ExpressionService.evaluateValue(expression, new HashMap<String,Long>());
+		Long value = (Long)ExpressionService.evaluateValue(expression, new HashMap<>());
 		Assertions.assertEquals(expected, value.longValue());
 	}
 }

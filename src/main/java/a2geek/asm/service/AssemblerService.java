@@ -12,7 +12,7 @@ import java.util.*;
  * @author Rob
  */
 public class AssemblerService {
-	private static final Map<String,Directive> directives = new HashMap<String,Directive>();
+	private static final Map<String,Directive> directives = new HashMap<>();
 	
 	static {
 		ServiceLoader<Directive> directiveLoader = ServiceLoader.load(Directive.class);
@@ -145,7 +145,7 @@ public class AssemblerService {
 	 * <code>StreamTokenizer</code>, or a regular expression and <code>Pattern</code>.)
 	 */
 	public static String[] parseCommas(String string) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		StringBuilder work = new StringBuilder();
 		char inQuote = 0;
 		for (int i=0; i<string.length(); i++) {

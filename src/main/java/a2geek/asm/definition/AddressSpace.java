@@ -25,7 +25,7 @@ public class AddressSpace {
 	public void inherit(AddressSpace parent) {
 		if (bitSize == 0) this.bitSize = parent.bitSize;
 		if (parent.memoryLocations != null) {
-			if (this.memoryLocations == null) this.memoryLocations = new ArrayList<MemoryLocation>();
+			if (this.memoryLocations == null) this.memoryLocations = new ArrayList<>();
 			for (MemoryLocation loc : parent.memoryLocations) {
 				if (!this.memoryLocations.contains(loc)) this.memoryLocations.add(loc);
 			}

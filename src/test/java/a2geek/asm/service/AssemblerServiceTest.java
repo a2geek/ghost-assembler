@@ -232,7 +232,7 @@ public class AssemblerServiceTest {
 	 * Test label duplicate error handling.
 	 */
 	@Test
-	public void testLabelDuplicates() throws IOException, AssemblerException {
+	public void testLabelDuplicates() throws IOException {
 		try {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);

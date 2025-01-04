@@ -51,7 +51,7 @@ public class AddressModeDefinition extends AddressMode {
 
 	@XmlElementWrapper(name = "code", required = true)
 	@XmlElement(name = "byte", required = true)
-	private List<ByteCode> byteCode = new ArrayList<ByteCode>();
+	private List<ByteCode> byteCode = new ArrayList<>();
 
 	/**
 	 * Test the arguments to see if they match the RE Pattern.
@@ -71,7 +71,7 @@ public class AddressModeDefinition extends AddressMode {
 						+ "same number of matches (" + argument.groupCount() + "," 
 						+ variable.groupCount() + ").");
 			}
-			Map<String,Long> variables = new HashMap<String, Long>(state.getVariables());
+			Map<String,Long> variables = new HashMap<>(state.getVariables());
 			// ... mainly pull all variables out of the assembly line and place into the variable Map
 			for (int i=1; i<=argument.groupCount(); i++) {
 				variables.put(variable.group(i), (Long)ExpressionService.evaluate(argument.group(i), variables));
@@ -81,7 +81,7 @@ public class AddressModeDefinition extends AddressMode {
 		return false;
 	}
 	public boolean hasConstraint() {
-		return constraint != null && constraint.length() > 0;
+		return constraint != null && !constraint.isEmpty();
 	}
 	public List<ByteCode> getByteCode() {
 		return byteCode;

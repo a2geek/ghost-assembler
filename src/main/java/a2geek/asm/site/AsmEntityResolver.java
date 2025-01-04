@@ -1,7 +1,6 @@
 package a2geek.asm.site;
 
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
 import java.io.IOException;
@@ -16,17 +15,17 @@ import java.io.InputStream;
  */
 public class AsmEntityResolver implements EntityResolver2 {
 	@Override
-	public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+	public InputSource resolveEntity(String publicId, String systemId) throws IOException {
 		return getInputSource(systemId);
 	}
 
 	@Override
-	public InputSource getExternalSubset(String name, String baseURI) throws SAXException, IOException {
+	public InputSource getExternalSubset(String name, String baseURI) {
 		return null;
 	}
 
 	@Override
-	public InputSource resolveEntity(String name, String publicId, String baseURI, String systemId) throws SAXException, IOException {
+	public InputSource resolveEntity(String name, String publicId, String baseURI, String systemId) throws IOException {
 		return getInputSource(systemId);
 	}
 	

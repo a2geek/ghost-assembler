@@ -42,7 +42,7 @@ public class Options {
 	public String directory;
 	
 	@Parameters(description = "Files")
-	public List<String> files = new ArrayList<String>();
+	public List<String> files = new ArrayList<>();
 	
 	public String getOutputName(String filename) {
 		if (outputName == null) {

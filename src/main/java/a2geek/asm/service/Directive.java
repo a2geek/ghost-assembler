@@ -20,16 +20,16 @@ public interface Directive {
 	 * directive.  Usually this is a "." directive, but it may be something 
 	 * like equals ("=").
 	 */
-	public String getOpcodeMnemonic();
+    String getOpcodeMnemonic();
 	/**
 	 * Process this directive using the given line details, updating
 	 * the AssemblerState as needed. 
 	 */
-	public void process(LineParts parts) throws AssemblerException;
+    void process(LineParts parts) throws AssemblerException;
 	/**
 	 * Get details regarding the Directive's documentation.
 	 * Expecting most Directive's to pull documentation from a file, an IOException
 	 * may be thrown.
 	 */
-	public DirectiveDocumentation getDocumentation() throws IOException;
+    DirectiveDocumentation getDocumentation() throws IOException;
 }

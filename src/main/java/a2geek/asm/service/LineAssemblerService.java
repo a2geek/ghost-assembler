@@ -29,7 +29,7 @@ public class LineAssemblerService {
 			AssemblerException.toss("Unable to assemble line '%s'.", parts.toString());
 		}
 		
-		Map<String,Long> generateVariables = new HashMap<String,Long>();
+		Map<String,Long> generateVariables = new HashMap<>();
 		generateVariables.put("opcode", (Long)ExpressionService.evaluate(opcode));
 		generateVariables.put("PC", state.getPC());
 		if (parts.getExpression() != null) {

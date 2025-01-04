@@ -1,7 +1,6 @@
 package a2geek.asm.service.directive;
 
 import a2geek.asm.assembler.LineParts;
-import a2geek.asm.service.AssemblerException;
 import a2geek.asm.service.AssemblerState;
 import a2geek.asm.service.Directive;
 import a2geek.asm.service.DirectiveDocumentation;
@@ -30,7 +29,7 @@ public class EndIfDirective implements Directive {
 	 * the AssemblerState as needed. 
 	 */
 	@Override
-	public void process(LineParts parts) throws AssemblerException {
+	public void process(LineParts parts) {
 		AssemblerState state = AssemblerState.get();
 		state.setActive(true);
 	}

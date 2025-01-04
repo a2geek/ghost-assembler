@@ -19,15 +19,10 @@ import java.util.List;
  */
 public class TestDetailRunner {
 	/** For every TestDetail file found, build a test case for validation. */
-	public static List<String> testCases() throws AssemblerException {
+	public static List<String> testCases() {
 		String dirname = AsmAssert.location("");
 		File dir = new File(dirname);
-		File[] files = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.matches("TestDetail-.*\\.asm");
-			}
-		});
+		File[] files = dir.listFiles((dir1, name) -> name.matches("TestDetail-.*\\.asm"));
 		
 		List<String> list = new ArrayList<>();
 		for (File file : files) {
@@ -52,7 +47,7 @@ public class TestDetailRunner {
 			IOUtils.closeQuietly(pw);
 			if (!success) {
 				System.out.println("----------------- " + fileName + " ----------------------");
-				System.out.print(sw.toString());
+				System.out.print(sw);
 				System.out.println("---------------------------------------------------------");
 			}
 		}

@@ -68,9 +68,9 @@ public class ExpressionService {
 		 * Determine the priority of operations. The higher numbered operands
 		 * should be evaluated first.
 		 */
-		public int priority;
+		public final int priority;
 		
-		private Operator(int priority) {
+		Operator(int priority) {
 			this.priority = priority;
 		}
 	}
@@ -80,7 +80,7 @@ public class ExpressionService {
 	 * and an assumed initial local scope.
 	 */
 	public static Object evaluate(String expression) throws AssemblerException {
-		return evaluate(expression, new HashMap<String,Long>());
+		return evaluate(expression, new HashMap<>());
 	}
 	
 	/**
@@ -91,8 +91,8 @@ public class ExpressionService {
 		State state = State.START;
 		State priorState = State.START;
 		StringBuilder value = new StringBuilder();
-		Stack<Operator> opStack = new Stack<Operator>();
-		Stack<Object> valStack = new Stack<Object>();
+		Stack<Operator> opStack = new Stack<>();
+		Stack<Object> valStack = new Stack<>();
 		char inQuotes = 0;
 		for (int i=0; i<expression.length(); i++) {
 			char ch = expression.charAt(i);
@@ -310,7 +310,7 @@ public class ExpressionService {
 				result = !value1.equals(value2) ? 1L : 0L;
 				break;
 			default:
-				new AssemblerException("The operator is not supported for strings.");
+                throw new AssemblerException("The operator is not supported for strings.");
 		}
 		valStack.push(result);
 	}

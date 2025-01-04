@@ -10,7 +10,7 @@ import java.util.List;
  * Defines any output specifics of the assembled file.
  * This may include magic bytes required by the CPU or interpreter.
  * Usage is expected to be rare.
- * 
+ * <p>
  * NOTE: This is *NOT* an operating-system or file-system type container!!
  * 
  * @author Rob

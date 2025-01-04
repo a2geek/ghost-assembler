@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class CpuDefinitionTest {
 	/** For every known CPU, build a test case for validation. */
-	public static List<String> testCases() throws AssemblerException {
+	public static List<String> testCases() {
 		return DefinitionService.getCpus();
 	}
 	
@@ -28,7 +28,7 @@ public class CpuDefinitionTest {
 	@MethodSource("testCases")
 	public void validateCpu(final String cpuName) throws IOException {
 		CpuDefinition cpu = DefinitionService.load(String.format("<%s>", cpuName), ValidationType.VALIDATE);
-		List<String> issues = new ArrayList<String>();
+		List<String> issues = new ArrayList<>();
 		DefinitionService.validate(cpu, issues);
 		if (!issues.isEmpty()) {
 			System.err.printf("CPU definition %s issues found --\n", cpuName);

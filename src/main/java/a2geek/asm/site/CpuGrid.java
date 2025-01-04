@@ -22,7 +22,7 @@ public class CpuGrid {
 
 	/** Defines all headers. */
 	public List<String> getHeaders() {
-		List<String> headers = new ArrayList<String>();
+		List<String> headers = new ArrayList<>();
 		headers.add("Mnemonic");
 		headers.add("Description");
 		for (AddressModeDefinition defn : cpu.getAddressModes()) {
@@ -39,7 +39,7 @@ public class CpuGrid {
 	
 	/** Retrieves all rows (one per operation). */
 	public List<Row> getRows() {
-		List<Row> rows = new ArrayList<Row>();
+		List<Row> rows = new ArrayList<>();
 		for (Operation op : cpu.getOperations()) {
 			rows.add(new Row(cpu, op));
 		}
@@ -58,7 +58,7 @@ public class CpuGrid {
 		
 		/** Defines each detail column.  Note that this must be in sync with the getHeaders method. */
 		public List<String> getColumns() {
-			List<String> columns = new ArrayList<String>();
+			List<String> columns = new ArrayList<>();
 			columns.add(op.getMnemonic());
 			columns.add(op.getDescription());
 			for (AddressModeDefinition defn : cpu.getAddressModes()) {
