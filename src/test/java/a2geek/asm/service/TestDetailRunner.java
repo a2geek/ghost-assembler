@@ -4,6 +4,7 @@ import a2geek.asm.io.IOUtils;
 import a2geek.junit.AsmAssert;
 import a2geek.junit.TestDetailLoader;
 import a2geek.junit.TestDetailLoader.TestDetail;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * 
  * @author Rob
  */
+@Disabled("preserving just in case concept is useful")
 public class TestDetailRunner {
 	/** For every TestDetail file found, build a test case for validation. */
 	public static List<String> testCases() {
