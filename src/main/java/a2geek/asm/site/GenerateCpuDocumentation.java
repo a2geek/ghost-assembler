@@ -1,15 +1,14 @@
 package a2geek.asm.site;
 
 import a2geek.asm.definition.CpuDefinition;
-import a2geek.asm.io.IOUtils;
-import a2geek.asm.service.*;
+import a2geek.asm.service.AssemblerException;
+import a2geek.asm.service.DefinitionService;
 import a2geek.asm.service.DefinitionService.ValidationType;
 import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.attributes.AttributeResolver;
 import io.pebbletemplates.pebble.error.LoaderException;
 import io.pebbletemplates.pebble.error.PebbleException;
 import io.pebbletemplates.pebble.extension.*;
-import io.pebbletemplates.pebble.loader.ClasspathLoader;
 import io.pebbletemplates.pebble.loader.Loader;
 import io.pebbletemplates.pebble.operator.BinaryOperator;
 import io.pebbletemplates.pebble.operator.UnaryOperator;
@@ -17,10 +16,15 @@ import io.pebbletemplates.pebble.template.EvaluationContext;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
 import io.pebbletemplates.pebble.tokenParser.TokenParser;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A command-line tool used to generate CPU documentation based on the XML definition.
