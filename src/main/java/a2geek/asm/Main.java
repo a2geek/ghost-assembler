@@ -33,7 +33,6 @@ public class Main {
 	 * A basic command-line parser for the Assembler. 
 	 */
 	public static void main(String[] args) {
-		var options = new Options();
 		var cmd = new CommandLine(options);
 		try {
 			cmd.parseArgs(args);
