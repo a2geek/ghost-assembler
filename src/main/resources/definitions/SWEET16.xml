@@ -8,35 +8,27 @@
 
 	<name>Sweet 16 CPU</name>
 	<overview href="http://en.wikipedia.org/wiki/SWEET16">
-	<![CDATA[
-	<p>
-	SWEET16 is an interpreted "byte-code" language invented by Steve Wozniak and implemented 
-	as part of the Integer BASIC ROM in the Apple II computer. It was created because Wozniak 
-	needed to manipulate 16-bit pointer data in his implementation of BASIC, and the Apple II 
-	was an 8-bit computer.
-	</p>
-	<p>
-	SWEET16 code is executed as if it were running on a (non-existent) 16-bit processor with 
-	sixteen, internal 16-bit little-endian registers, R0 through R15. Some registers have 
-	well-defined functions:
-	<ul>
-	<li>R0 is the accumulator.</li>
-	<li>R14 is the status register.</li>
-	<li>R13 stores the result of all comparison operations for branch testing.</li>
-	<li>R15 is the program counter.</li>
-	</ul>
-	</p>
-	<p>
-	The 16 virtual registers, 32 bytes in total, are located in the zero page of the 
-	Apple II's real, physical memory map (at $00-$1F). The actual SWEET16 interpreter is 
-	located from $F689 to $F7FC.
-	</p>
-	<p>
-	According to Wozniak, the SWEET16 implementation is a model of frugal coding, taking 
-	up only about 300 bytes in memory. SWEET16 runs about 10 times slower than the equivalent 
-	native 6502 code.
-	</p>
-	]]>
+		SWEET16 is an interpreted "byte-code" language invented by Steve Wozniak and implemented
+		as part of the Integer BASIC ROM in the Apple II computer. It was created because Wozniak
+		needed to manipulate 16-bit pointer data in his implementation of BASIC, and the Apple II
+		was an 8-bit computer.
+
+		SWEET16 code is executed as if it were running on a (non-existent) 16-bit processor with
+		sixteen, internal 16-bit little-endian registers, R0 through R15. Some registers have
+		well-defined functions:
+
+		* R0 is the accumulator.
+		* R14 is the status register.
+		* R13 stores the result of all comparison operations for branch testing.
+		* R15 is the program counter.
+
+		The 16 virtual registers, 32 bytes in total, are located in the zero page of the
+		Apple II's real, physical memory map (at $00-$1F). The actual SWEET16 interpreter is
+		located from $F689 to $F7FC.
+
+		According to Wozniak, the SWEET16 implementation is a model of frugal coding, taking
+		up only about 300 bytes in memory. SWEET16 runs about 10 times slower than the equivalent
+		native 6502 code.
 	</overview>
 
 	<address-space bit-size="16"/>

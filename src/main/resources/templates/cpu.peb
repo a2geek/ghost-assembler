@@ -1,0 +1,51 @@
+# {{ cpu.name }}
+
+{{ cpu.overview.text | fixText(newlines="keep") }}
+
+{% if cpu.overview.referenceUrl == null %}
+([source]({{ cpu.overview.referenceUrl }}))
+{% endif %}
+
+{% if cpu.addressSpace.memoryLocations is not empty %}
+## Memory Locations
+
+These memory locations are intrinsic to this CPU.
+
+| Name | Address |
+| --- | :--- |
+{% for mem in cpu.addressSpace.memoryLocations %}
+| {{ mem.name }} | {{ mem.address }} |
+{% endfor %}
+{% endif %}
+
+{% if cpu.registers is not empty %}
+## Registers
+
+| Name | ID | Bits | Description |
+| --- | --- | --- | :--- |
+{% for reg in cpu.registers %}
+| {{ reg.name }} | {{ reg.id }} | {{ reg.bitSize }} | {{ reg.description | fixText }} |
+{% endfor %}
+{% endif %}
+
+{% if cpu.addressModes is not empty %}
+## Addressing Modes
+
+| Title | ID | Format | Bytes | Description |
+| --- | --- | --- | --- | --- |
+{% for mode in cpu.addressModes %}
+| {{  mode.title }} | {{ mode.id }} | {{ mode.format }} | {{ mode.byteCodeSize }} | {{ mode.description | fixText }} |
+{% endfor %}
+{% endif %}
+
+{% if cpu.operations is not empty %}
+## Operations
+
+| Mnemonic | Description | Opcode | Format | ID | Bytes |
+| --- | --- | --- | --- | --- | --- |
+{% for op in cpu.operations %}
+{% for addr in op.addressingModes %}
+| {{ op.mnemonic }} | {{ op.description }} | {{ addr.opcode }} | {{ addr.addressMode.format }} | {{ addr.addressMode.id }} | {{ addr.addressMode.byteCodeSize }} |
+{% endfor %}
+{% endfor %}
+{% endif %}
