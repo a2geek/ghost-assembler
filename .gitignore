@@ -1,6 +1,3 @@
-# Ignore Maven project-specific cache directory
-.mvn
-
 # Ignore Idea directory
 .idea
 
