@@ -41,7 +41,6 @@ public class ElifDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional ELSE-IF", 
-				getClass().getResourceAsStream("elif.html"), IfDirective.MNEMONIC, 2);
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional ELSE-IF", "elif.peb", IfDirective.MNEMONIC, 2);
 	}
 }

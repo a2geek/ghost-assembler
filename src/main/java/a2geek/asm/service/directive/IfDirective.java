@@ -43,7 +43,6 @@ public class IfDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional IF", 
-				getClass().getResourceAsStream("if.html"), MNEMONIC, 1);
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional IF", "if.peb", MNEMONIC, 1);
 	}
 }

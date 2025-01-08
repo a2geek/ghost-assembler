@@ -40,7 +40,6 @@ public class OrgDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Change the code address origin", 
-				getClass().getResourceAsStream("org.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Change the code address origin", "org.peb");
 	}
 }

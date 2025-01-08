@@ -2,6 +2,7 @@ package a2geek.asm.site;
 
 import a2geek.asm.definition.CpuDefinition;
 import a2geek.asm.service.AssemblerException;
+import a2geek.asm.service.AssemblerService;
 import a2geek.asm.service.DefinitionService;
 import a2geek.asm.service.DefinitionService.ValidationType;
 import io.pebbletemplates.pebble.PebbleEngine;
@@ -49,6 +50,7 @@ public class GenerateCpuDocumentation {
 				CpuDefinition def = DefinitionService.load(String.format("<%s>", cpu), ValidationType.NONE);
 				process(def);
 			}
+			generateDirective();
 		} catch (IOException e) {
 			throw new AssemblerException(e);
 		}
@@ -69,6 +71,24 @@ public class GenerateCpuDocumentation {
 		template.evaluate(sw, context);
 
 		Path path = Path.of(directory, String.format("%s.md", cpu.getName()));
+		Files.writeString(path, sw.toString());
+	}
+
+	private static void generateDirective() throws IOException {
+		PebbleEngine engine = new PebbleEngine.Builder()
+				.loader(new CustomClasspathLoader())
+				.extension(new CustomExtension())
+				.strictVariables(true)
+				.build();
+		PebbleTemplate template = engine.getTemplate("/templates/directives.peb");
+
+		Map<String,Object> context = new HashMap<>();
+		context.put("directives", AssemblerService.directives.values());
+
+		StringWriter sw = new StringWriter();
+		template.evaluate(sw, context);
+
+		Path path = Path.of(directory, "directives.md");
 		Files.writeString(path, sw.toString());
 	}
 
@@ -100,7 +120,9 @@ public class GenerateCpuDocumentation {
 
 		@Override
 		public java.lang.String resolveRelativePath(String relativePath, String anchorPath) {
-			return "";
+			Path relative = Path.of(relativePath);
+			Path anchor = Path.of(anchorPath);
+			return anchor.resolveSibling(relative).toString();
 		}
 
 		@Override

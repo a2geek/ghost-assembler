@@ -1,0 +1,37 @@
+# Directives
+
+Directives are pseudo opcodes used to control the state of the assembler and the code generated.  They may change
+the target location for the assembler or switch to a new CPU definition.  They are executed at assembly time, not
+at run time.  In the Assembler project, they are dynamically discovered and extensible, see the 
+"Adding directives" section below for details.
+
+{% for directive in directives %}
+{% set docs = directive.documentation %}
+{% if docs is not empty %}
+## {{ docs.mnemonic }} - {{ docs.name }}
+
+{% if docs.fileName is empty %}
+TBD
+{% else %}
+{% include "directive/#{docs.fileName}" %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+## Adding directives
+
+All directives in the Assembler project are dynamically added via the Java `ServiceLoader` mechanism.
+This means that, if needed, custom directives can be added into the Assembler.  The usefulness of this will be 
+determined by what methods are exposed via the `Directive` interface. 
+
+Generally speaking, to add a new directive, create a class that implements the `Directive`
+interface.  In the Java `META-INF` folder, create a `services` folder.  In that, create
+a directive file named `a2geek.asm.service.Directive` (full name of interface being implemented).  In that file
+list the full name of the class(es).  Create a JAR file, add it to the class path, and it will be
+discovered by the Java `ServiceLoader`.
+
+Note that each `Directive` has a method to build a `DirectiveDocumentation` object.
+It is in this manner that the directive documentation on this page is dynamically generated.
+
+More details about the `ServiceLoader` interface can be found in the
+[Java documentation](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ServiceLoader.html).

@@ -40,7 +40,6 @@ public class AssignmentDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Assignment", 
-				getClass().getResourceAsStream("assignment.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Assignment", "assignment.peb");
 	}
 }

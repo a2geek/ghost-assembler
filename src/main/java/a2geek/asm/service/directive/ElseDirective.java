@@ -42,7 +42,6 @@ public class ElseDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional ELSE", 
-				getClass().getResourceAsStream("else.html"), IfDirective.MNEMONIC, 3);
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional ELSE", "else.peb", IfDirective.MNEMONIC, 3);
 	}
 }

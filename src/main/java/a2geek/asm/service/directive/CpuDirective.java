@@ -68,7 +68,6 @@ public class CpuDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Load CPU definition", 
-				getClass().getResourceAsStream("cpu.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Load CPU definition", "cpu.peb");
 	}
 }

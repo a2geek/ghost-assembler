@@ -41,7 +41,6 @@ public class DefineDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Define a variable", 
-				getClass().getResourceAsStream("define.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Define a variable", "define.peb");
 	}
 }

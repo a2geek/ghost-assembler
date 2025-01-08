@@ -1,0 +1,39 @@
+Multiple `.cpu` directives may be used in the source file to switch between CPU definitions
+(for instance, on the Apple II series to switch between 6502 and Sweet-16).
+
+### .cpu <name>
+
+Load CPU definition from the predefined list.
+
+Example (from [Porting Sweet 16](http://www.6502.org/source/interpreters/sweet16.htm)):
+
+```
+     .cpu <MOS6502>
+MOVE JSR SWEET.16
+     .cpu <SWEET16>
+     SET 1,SOURCE    ; ADDRESS OF SOURCE BLOCK
+     SET 2,DESTIN    ; ADDRESS OF DESTINATION BLOCK
+     SET 3,N         ; # BYTES TO MOVE
+LOOP LD  @1          ; GET BYTE FROM SOURCE
+     ST  @2          ; STORE IN DESTINATION
+     DCR 3
+     BNZ LOOP        ; NOT FINISHED YET
+     RTN
+     .cpu <MOS6502>
+     RTS
+```
+
+### .cpu "name"
+
+Load custom CPU from the file system. Relative or absolute path names are allowed.
+
+Example:
+
+```
+     .cpu "my_68000.xml"
+     moveq #0, d0
+     moveq #0, d1
+loop move.w (a0)+, d0
+     add.l d0, d1
+     dbra d2, loop
+```

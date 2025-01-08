@@ -34,7 +34,6 @@ public class ByteDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Bytes", 
-				getClass().getResourceAsStream("byte.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Bytes", "byte.peb");
 	}
 }

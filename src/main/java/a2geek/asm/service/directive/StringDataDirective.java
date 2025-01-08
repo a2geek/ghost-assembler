@@ -34,7 +34,6 @@ public class StringDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text", 
-				getClass().getResourceAsStream("string.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text", "string.peb");
 	}
 }

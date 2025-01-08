@@ -34,7 +34,6 @@ public class StringhDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text (high-bit set)", 
-				getClass().getResourceAsStream("stringh.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text (high-bit set)", "stringh.peb");
 	}
 }

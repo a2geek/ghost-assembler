@@ -34,7 +34,6 @@ public class AsciihDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "ASCII Text (high-bit set)", 
-				getClass().getResourceAsStream("asciih.html"));
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "ASCII Text (high-bit set)", "asciih.peb");
 	}
 }

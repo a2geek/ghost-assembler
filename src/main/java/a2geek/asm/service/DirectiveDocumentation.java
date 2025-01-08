@@ -13,22 +13,19 @@ import java.io.InputStream;
  * @author Rob
  */
 public class DirectiveDocumentation implements Comparable<DirectiveDocumentation> {
-	private String mnemonic;
-	private String name;
-	private String text;
-	private String group;
-	private int groupOrder;
+	private final String mnemonic;
+	private final String name;
+	private final String fileName;
+	private final String group;
+	private final int groupOrder;
 	
-	public DirectiveDocumentation(String mnemonic, String name, InputStream inputStream, String group, int groupOrder) throws IOException {
-		this(mnemonic, name, IOUtils.readAsString(inputStream), group, groupOrder);
+	public DirectiveDocumentation(String mnemonic, String name, String fileName) throws IOException {
+		this(mnemonic, name, fileName, null, 0);
 	}
-	public DirectiveDocumentation(String mnemonic, String name, InputStream inputStream) throws IOException {
-		this(mnemonic, name, IOUtils.readAsString(inputStream), null, 0);
-	}
-	public DirectiveDocumentation(String mnemonic, String name, String text, String group, int groupOrder) {
+	public DirectiveDocumentation(String mnemonic, String name, String fileName, String group, int groupOrder) {
 		this.mnemonic = mnemonic;
 		this.name = name;
-		this.text = text;
+		this.fileName = fileName;
 		this.group = group;
 		this.groupOrder = groupOrder;
 	}
@@ -46,13 +43,11 @@ public class DirectiveDocumentation implements Comparable<DirectiveDocumentation
 		return this.name;
 	}
 	/**
-	 * Retrieve the descriptive text for a directive.  A null may be returned
+	 * Retrieve the help template for this directive.  A null may be returned
 	 * to fill in the description with a "TBD" until something can be written.
-	 * Note that the typical response will just be a 
-	 * <code>getClass().getResourceAsStream()</code>.
 	 */
-	public String getText() {
-		return this.text;
+	public String getFileName() {
+		return this.fileName;
 	}
 	/**
 	 * Some directives are associated in their usage.  The documentation group

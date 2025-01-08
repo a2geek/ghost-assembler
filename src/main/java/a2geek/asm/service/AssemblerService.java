@@ -12,7 +12,7 @@ import java.util.*;
  * @author Rob
  */
 public class AssemblerService {
-	private static final Map<String,Directive> directives = new HashMap<>();
+	public static final Map<String,Directive> directives = new HashMap<>();
 	
 	static {
 		ServiceLoader<Directive> directiveLoader = ServiceLoader.load(Directive.class);

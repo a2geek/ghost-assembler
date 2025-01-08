@@ -41,7 +41,6 @@ public class EndIfDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "End conditional IF", 
-				getClass().getResourceAsStream("endif.html"), IfDirective.MNEMONIC, 4);
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "End conditional IF", "endif.peb", IfDirective.MNEMONIC, 4);
 	}
 }
