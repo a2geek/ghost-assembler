@@ -1,0 +1,7 @@
+Assign a value to a label.
+
+Example:
+
+```
+PTR = 0x05
+```

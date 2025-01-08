@@ -1,0 +1,11 @@
+Place a name into the global name space with no value. This can be tested with the `.if` directive.
+
+Example:
+
+```
+.define debug
+
+.if debug
+; do something
+.endif
+```

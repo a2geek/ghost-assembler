@@ -1,0 +1,15 @@
+Test the given expression and include following code if expression is non-zero. Must be first directive.
+
+Example:
+
+```
+.if var=1
+lda #0xff
+.elif var=2
+lda #0x80
+.else
+lda #0
+.endif
+```
+
+Note that nested `.if` directives are not allowed at this time.

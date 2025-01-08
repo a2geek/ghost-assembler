@@ -1,0 +1,4 @@
+Test another expression and include following code if expression is non-zero. 
+Must follow `.if` directive and occur before `.else` or `.endif`.
+
+See `.if` for example.
