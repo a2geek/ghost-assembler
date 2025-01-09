@@ -49,3 +49,15 @@ These memory locations are intrinsic to this CPU.
 {% endfor %}
 {% endfor %}
 {% endif %}
+
+{% if grid is not empty %}
+## Opcode Grid
+
+|   | x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | xA | xB | xC | xD | xE | xF |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+{% for hibyte in range(0,15) %}
+| {{ hibyte | hexDigit | upper }}x | {% for lobyte in range(0,15) %} {% set cell = grid[hibyte*16+lobyte] %}{% if cell is empty %}-{% else %}
+{{ cell.op.mnemonic }}<br/>{{ cell.opAddr.addressMode.format }}{% endif %} | {% endfor %}
+
+{% endfor %}
+{% endif %}
