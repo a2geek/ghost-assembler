@@ -491,7 +491,7 @@
 			<mnemonic>LDX</mnemonic>
 			<description>Load x-register</description>
 			<addressing-mode ref="immediate" opcode="0xa2" />
-			<addressing-mode ref="zero-page" opcode="0xa4" />
+			<addressing-mode ref="zero-page" opcode="0xa6" />
 			<addressing-mode ref="zero-page-indexed-y" opcode="0xb6" />
 			<addressing-mode ref="absolute" opcode="0xae" />
 			<addressing-mode ref="absolute-indexed-y" opcode="0xbe" />
