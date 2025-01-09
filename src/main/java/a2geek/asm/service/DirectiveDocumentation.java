@@ -1,9 +1,6 @@
 package a2geek.asm.service;
 
-import a2geek.asm.io.IOUtils;
-
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * The DirectiveDocumentation contains all pertinent information regarding

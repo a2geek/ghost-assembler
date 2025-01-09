@@ -1,6 +1,5 @@
 package a2geek.asm.site;
 
-import a2geek.asm.definition.AddressMode;
 import a2geek.asm.definition.CpuDefinition;
 import a2geek.asm.definition.Operation;
 import a2geek.asm.definition.OperationAddressing;
