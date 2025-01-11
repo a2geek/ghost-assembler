@@ -12,6 +12,10 @@
     <version>0.9.6-SNAPSHOT</version>
   </parent>
 
+  <properties>
+    <maven.deploy.skip>false</maven.deploy.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>a2geek</groupId>
