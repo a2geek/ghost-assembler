@@ -166,7 +166,7 @@ determined by what methods are exposed via the `Directive` interface.
 
 Generally speaking, to add a new directive, create a class that implements the `Directive`
 interface.  In the Java `META-INF` folder, create a `services` folder.  In that, create
-a directive file named `a2geek.asm.service.Directive` (full name of interface being implemented).  In that file
+a directive file named `service.a2geek.asm.api.Directive` (full name of interface being implemented).  In that file
 list the full name of the class(es).  Create a JAR file, add it to the class path, and it will be
 discovered by the Java `ServiceLoader`.
 

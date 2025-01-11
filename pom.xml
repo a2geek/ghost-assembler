@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>a2geek.asm</groupId>
+  <groupId>a2geek</groupId>
   <artifactId>ghost-assembler</artifactId>
-  <packaging>jar</packaging>
-  <version>0.9.5-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <version>0.9.6-SNAPSHOT</version>
   <name>ghost-assembler</name>
 
   <properties>
@@ -27,104 +27,10 @@
     </dependencies>
   </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>4.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>4.0.5</version>
-    </dependency>
-    <dependency>
-      <groupId>info.picocli</groupId>
-      <artifactId>picocli</artifactId>
-      <version>4.7.6</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.8.179</version>
-    </dependency>
-    <dependency>
-      <groupId>io.pebbletemplates</groupId>
-      <artifactId>pebble</artifactId>
-      <version>3.2.2</version>
-    </dependency>
-    <dependency>
-      <!-- Disabling the logging that Pebble brings in -->
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-nop</artifactId>
-      <version>1.7.25</version>
-    </dependency>
-
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>3.4.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-            <configuration>
-              <mainClass>a2geek.asm.Main</mainClass>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jaxb2-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>schemagen</id>
-            <goals>
-              <goal>schemagen</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <sources>
-            <source>src/main/java/a2geek/asm/definition</source>
-          </sources>
-          <outputDirectory>src/main/resources/schemas</outputDirectory>
-          <clearOutputDir>false</clearOutputDir>
-          <transformSchemas>
-            <transformSchema>
-              <uri>https://a2geek/schemas/cpu-definition/2.1</uri>
-              <toFile>cpu-definition-2.1.xsd</toFile>
-            </transformSchema>
-          </transformSchemas>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <modules>
+    <module>api</module>
+    <module>cli</module>
+  </modules>
 
   <distributionManagement>
     <repository>
