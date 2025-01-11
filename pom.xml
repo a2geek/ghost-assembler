@@ -6,7 +6,7 @@
   <groupId>a2geek.asm</groupId>
   <artifactId>ghost-assembler</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.4-SNAPSHOT</version>
+  <version>0.9.5-SNAPSHOT</version>
   <name>ghost-assembler</name>
 
   <properties>
@@ -125,4 +125,12 @@
       </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub OWNER Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/a2geek/ghost-assembler</url>
+    </repository>
+  </distributionManagement>
 </project>
