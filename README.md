@@ -22,3 +22,7 @@ Current Capabilities:
 * Expressions to handle basic mathematics and addressing  
 * User-defined operations, opcodes, and mnemonics  
 * Dynamic set of [directives](doc/directives.md)
+
+Reference information:
+
+* Defining a [processor](doc/DEFINITION.md).
