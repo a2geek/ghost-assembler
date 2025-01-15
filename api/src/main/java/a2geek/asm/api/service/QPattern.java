@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Support using the question mark (Q) as a wildcard in a simple pattern matching scheme.
+ * Support using the question mark as a wildcard in a simple pattern matching scheme.
  * Each match is returned in a string array. If the array is <code>null</code>, then there
  * was no match. If the array is empty, there was a match but no results (either no pattern
  * or no wildcards, such as "LDA A" type syntax where "A" is the pattern). Otherwise, the
