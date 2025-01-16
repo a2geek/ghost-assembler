@@ -40,12 +40,15 @@ public class AddressModeDefinition extends AddressMode {
 	
 	@XmlElement(name = "format")
 	private String format = NULL_FORMAT;
-	
+
 	@XmlElement(name = "regex")
 	private String regex;
 	@XmlTransient
 	private Pattern regexPattern;
-	
+
+	@XmlElement(name = "pattern")
+	private String pattern;
+
 	@XmlElement(name = "constraint")
 	private String constraint;
 
@@ -103,6 +106,9 @@ public class AddressModeDefinition extends AddressMode {
 			}
 		}
 		return size;
+	}
+	public String getPattern() {
+		return pattern;
 	}
 	public String getRegex() {
 		return regex;

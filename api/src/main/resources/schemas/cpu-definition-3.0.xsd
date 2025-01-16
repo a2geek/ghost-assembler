@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://a2geek/schemas/cpu-definition/3.0" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="https://a2geek/schemas/cpu-definition/3.0" version="1.0">
+      
+  
+  <xs:element name="definition" type="tns:DefinitionType"/>
+      
+  
+  <xs:complexType abstract="true" name="AddressModeType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Base class for addressing modes.
+
+(author): Rob
+(see): AddressModeDefinition, AddressModeReference]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence/>
+            
+    
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="AddressModeDefinitionType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Container for information regarding the CPU addressing mode.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:complexContent>
+                  
+      
+      <xs:extension base="tns:AddressModeType">
+                        
+        
+        <xs:sequence>
+                              
+          
+          <xs:element minOccurs="0" name="title" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="mnemonic-format" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="format" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="regex" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="pattern" type="xs:string"/>
+                              
+          
+          <xs:element minOccurs="0" name="constraint" type="xs:string"/>
+                              
+          
+          <xs:element name="code">
+                                    
+            
+            <xs:complexType>
+                                          
+              
+              <xs:sequence>
+                                                
+                
+                <xs:element maxOccurs="unbounded" name="byte" type="tns:ByteCodeType"/>
+                                              
+              
+              </xs:sequence>
+                                        
+            
+            </xs:complexType>
+                                  
+          
+          </xs:element>
+                            
+        
+        </xs:sequence>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:complexContent>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="ByteCodeType">
+            
+    
+    <xs:simpleContent>
+                  
+      
+      <xs:extension base="xs:string">
+                        
+        
+        <xs:attribute name="mnemonic-match" type="xs:string"/>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:simpleContent>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="AddressModeReferenceType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[This is a place-holder which we presume will be inherited from another CPU definition.
+If the reference is not inherited, that implies a structural error in the definition.
+Within the XML file, the reference serves as a contract that the addressing mode
+will be defined.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:complexContent>
+                  
+      
+      <xs:extension base="tns:AddressModeType">
+                        
+        
+        <xs:sequence/>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:complexContent>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="AddressSpaceType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Definition of the address space available for the defined CPU.
+This includes the memory size (defined in bits) as well as any
+intrinsic memory locations for the CPU.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="memory-location" type="tns:MemoryLocationType"/>
+                
+    
+    </xs:sequence>
+            
+    
+    <xs:attribute name="bit-size" type="xs:int" use="required"/>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="MemoryLocationType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[A memory location.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element name="name" type="xs:string"/>
+                  
+      
+      <xs:element name="address" type="xs:string"/>
+                
+    
+    </xs:sequence>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="DefinitionType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[A CPU definition.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element name="name" type="xs:string"/>
+                  
+      
+      <xs:element minOccurs="0" name="overview" type="tns:OverviewType"/>
+                  
+      
+      <xs:element minOccurs="0" name="output-format" type="tns:OutputFormatType"/>
+                  
+      
+      <xs:element name="address-space" type="tns:AddressSpaceType"/>
+                  
+      
+      <xs:element minOccurs="0" name="registers">
+                        
+        
+        <xs:complexType>
+                              
+          
+          <xs:sequence>
+                                    
+            
+            <xs:element maxOccurs="unbounded" name="register" type="tns:RegisterType"/>
+                                  
+          
+          </xs:sequence>
+                            
+        
+        </xs:complexType>
+                      
+      
+      </xs:element>
+                  
+      
+      <xs:element name="address-modes">
+                        
+        
+        <xs:complexType>
+                              
+          
+          <xs:sequence>
+                                    
+            
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                          
+              
+              <xs:element name="address-mode" type="tns:AddressModeDefinitionType"/>
+                                          
+              
+              <xs:element name="address-mode-reference" type="tns:AddressModeReferenceType"/>
+                                        
+            
+            </xs:choice>
+                                  
+          
+          </xs:sequence>
+                            
+        
+        </xs:complexType>
+                      
+      
+      </xs:element>
+                  
+      
+      <xs:element name="operations">
+                        
+        
+        <xs:complexType>
+                              
+          
+          <xs:sequence>
+                                    
+            
+            <xs:element maxOccurs="unbounded" name="operation" type="tns:OperationType"/>
+                                  
+          
+          </xs:sequence>
+                            
+        
+        </xs:complexType>
+                      
+      
+      </xs:element>
+                
+    
+    </xs:sequence>
+            
+    
+    <xs:attribute name="inherit-from" type="xs:string"/>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="OverviewType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Overview of the CPU definition.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:simpleContent>
+                  
+      
+      <xs:extension base="xs:string">
+                        
+        
+        <xs:attribute name="href" type="xs:anyURI"/>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:simpleContent>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="OutputFormatType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Defines any output specifics of the assembled file.
+This may include magic bytes required by the CPU or interpreter.
+Usage is expected to be rare.
+<p>
+NOTE: This is *NOT* an operating-system or file-system type container!!
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element minOccurs="0" name="header">
+                        
+        
+        <xs:complexType>
+                              
+          
+          <xs:sequence>
+                                    
+            
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="byte" type="xs:string"/>
+                                  
+          
+          </xs:sequence>
+                            
+        
+        </xs:complexType>
+                      
+      
+      </xs:element>
+                
+    
+    </xs:sequence>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="RegisterType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Definition of a CPU register.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element name="name" type="xs:string"/>
+                  
+      
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+                
+    
+    </xs:sequence>
+            
+    
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+            
+    
+    <xs:attribute name="bit-size" type="xs:short" use="required"/>
+            
+    
+    <xs:attribute name="value" type="xs:string"/>
+            
+    
+    <xs:attribute name="groups" type="xs:string"/>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="OperationType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[An individual operation.
+<p>
+Note:  (of historical importance)
+We store opcodes by addressModeId instead of object because inheritance causes 
+issues with object relations.  (If parent and child share an addressing mode,
+and they each have an AddressMode object, which one is to be used?  How about
+back-patching the appropriate instance of AddressMode?  Etc.)
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence>
+                  
+      
+      <xs:element name="mnemonic" type="xs:string"/>
+                  
+      
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+                  
+      
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="addressing-mode" type="tns:OperationAddressingType"/>
+                
+    
+    </xs:sequence>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:complexType name="OperationAddressingType">
+        
+    <xs:annotation>
+            
+      <xs:documentation><![CDATA[Operation addressing represents one of potentially many addressing
+modes that an operation will support.
+
+(author): Rob]]></xs:documentation>
+          
+    </xs:annotation>
+            
+    
+    <xs:sequence/>
+            
+    
+    <xs:attribute name="ref" type="xs:IDREF" use="required"/>
+            
+    
+    <xs:attribute name="opcode" type="xs:string" use="required"/>
+          
+  
+  </xs:complexType>
+      
+  
+  <xs:simpleType name="mnemonicMatchType">
+            
+    
+    <xs:restriction base="xs:string">
+                  
+      
+      <xs:enumeration value="DIRECT_MATCH"/>
+                  
+      
+      <xs:enumeration value="PATTERN_MATCH"/>
+                
+    
+    </xs:restriction>
+          
+  
+  </xs:simpleType>
+    
+
+</xs:schema>

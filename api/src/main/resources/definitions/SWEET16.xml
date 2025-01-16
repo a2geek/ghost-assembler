@@ -2,9 +2,9 @@
 <!-- 
 	Definition for SWEET-16 "CPU" as defined by Steve Wozniak.
  -->
-<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+<definition xmlns="https://a2geek/schemas/cpu-definition/3.0"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../schemas/cpu-definition-2.1.xsd">
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/3.0 ../schemas/cpu-definition-3.0.xsd">
 
 	<name>Sweet 16 CPU</name>
 	<overview href="http://en.wikipedia.org/wiki/SWEET16">
@@ -88,6 +88,7 @@
 		<address-mode id="register-immediate">
 			<format>Rn,value</format>
 			<regex>([rR].+),(.+)</regex>
+			<pattern>R?,?</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
 				<byte>value</byte>
@@ -97,6 +98,7 @@
 		<address-mode id="register-indirect">
 			<format>@Rn</format>
 			<regex>@([Rr].+)</regex>
+			<pattern>@R?</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
 			</code>
@@ -104,6 +106,7 @@
 		<address-mode id="register-direct">
 			<format>Rn</format>
 			<regex>([Rr].+)</regex>
+			<pattern>R?</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
 			</code>
@@ -111,6 +114,7 @@
 		<address-mode id="relative-branch">
 			<format>addr</format>
 			<regex>(.+)</regex>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr - PC - 2</byte>

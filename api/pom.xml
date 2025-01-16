@@ -63,14 +63,14 @@
         </executions>
         <configuration>
           <sources>
-            <source>src/main/java/a2geek/asm/definition</source>
+            <source>src/main/java/a2geek/asm/api/definition</source>
           </sources>
           <outputDirectory>src/main/resources/schemas</outputDirectory>
           <clearOutputDir>false</clearOutputDir>
           <transformSchemas>
             <transformSchema>
-              <uri>https://a2geek/schemas/cpu-definition/2.1</uri>
-              <toFile>cpu-definition-2.1.xsd</toFile>
+              <uri>https://a2geek/schemas/cpu-definition/3.0</uri>
+              <toFile>cpu-definition-3.0.xsd</toFile>
             </transformSchema>
           </transformSchemas>
         </configuration>

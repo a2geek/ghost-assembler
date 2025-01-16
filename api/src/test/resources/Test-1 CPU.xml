@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+<definition xmlns="https://a2geek/schemas/cpu-definition/3.0"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../../main/resources/schemas/cpu-definition-2.1.xsd">
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/3.0 ../../main/resources/schemas/cpu-definition-3.0.xsd">
 
 	<name>Test-1 CPU</name>
 	<overview>
@@ -20,6 +20,7 @@
 		<address-mode id="absolute-into-A">
 			<format>A,[addr]</format>
 			<regex>A,\[(.+)\]</regex>
+			<pattern>A,[?]</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>
@@ -29,6 +30,7 @@
 		<address-mode id="fake-register">
 			<format>Rn,value</format>
 			<regex>([rR].+),(.+)</regex>
+			<pattern>R?,?</pattern>
 			<code>
 				<byte>opcode | Rn</byte>
 				<byte>value>>8</byte>
@@ -38,6 +40,7 @@
 		<address-mode id="absolute-address">
 			<format>addr</format>
 			<regex>(.+)</regex>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>
