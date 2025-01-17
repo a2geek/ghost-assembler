@@ -1,16 +1,21 @@
 package a2geek.asm.service;
 
-import a2geek.asm.api.service.QPattern;
+import a2geek.asm.api.util.pattern.QPattern;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class QPatternTest {
     private void check(String pattern, String testcase, final String... expected) {
-        final List<String> actual = QPattern.match(pattern, testcase);
+        QPattern qPattern = QPattern.build(pattern);
+        final List<String> actual = qPattern.match(testcase);
+        if (actual == null && expected.length > 0) {
+            fail("Expecting a match, but no match found");
+        }
         int len = Math.min(expected.length, actual.size());
         for (int i = 0; i<len; i++) {
             assertEquals(expected[i], actual.get(i), inequalityError(expected[i], actual.get(i)));
@@ -50,6 +55,13 @@ public class QPatternTest {
     @Test
     public void testTwoWildcard() {
         check("R?,?", "R3,$1234", "3", "$1234");
+    }
+
+    @Test
+    public void testCombined() {
+        check("{R?}", "R3", "R3");
+        check("@{R?}", "@R3", "R3");
+        check("{R?},?", "R3,$1234", "R3", "$1234");
     }
 
     @Test
