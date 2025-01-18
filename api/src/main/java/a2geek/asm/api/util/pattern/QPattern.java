@@ -14,7 +14,7 @@ import java.util.Objects;
 public abstract class QPattern {
     protected QPattern next;
 
-    public void append(QPattern matcher) {
+    public final void append(QPattern matcher) {
         if (next == null) {
             next = matcher;
         }
@@ -23,23 +23,30 @@ public abstract class QPattern {
         }
     }
 
-    public abstract List<String> match(String test);
+    public final QMatch match(String test) {
+        Objects.requireNonNull(test);
+        QMatch qmatch = new QMatch();
+        boolean matched = match(qmatch, test);
+        qmatch.setMatched(matched);
+        return qmatch;
+    }
 
-    protected List<String> matchNext(String test) {
+    protected abstract boolean match(QMatch qmatch, String test);
+
+    protected final boolean matchNext(QMatch qmatch, String test) {
+        Objects.requireNonNull(qmatch);
         Objects.requireNonNull(test);
         if (this.next != null) {
-            return this.next.match(test);
+            return this.next.match(qmatch, test);
         }
-        if (test.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return null;
+        // we're successful if this is a terminal QPattern AND nothing else to match
+        return test.isEmpty();
     }
 
     @Override
     public String toString() {
         if (this.next == null) {
-            return "-empty-";
+            return "";
         }
         return this.next.toString();
     }
@@ -70,12 +77,14 @@ public abstract class QPattern {
                     qpattern.append(new QStringPattern(sb.toString(), false));
                     sb.setLength(0);
                 }
-                qpattern.append(buildEcho(chars));
+                qpattern.append(new QBeginGroupPattern());
             }
             else if (ch == '}') {
-                var msg = String.format("too many echo close operators in pattern '%s'",
-                    pattern);
-                throw new RuntimeException(msg);
+                if (!sb.isEmpty()) {
+                    qpattern.append(new QStringPattern(sb.toString(), false));
+                    sb.setLength(0);
+                }
+                qpattern.append(new QEndGroupPattern());
             }
             else {
                 sb.append(ch);
@@ -85,37 +94,5 @@ public abstract class QPattern {
             qpattern.append(new QStringPattern(sb.toString(), false));
         }
         return qpattern;
-    }
-    private static QEchoPattern buildEcho(List<Character> chars) {
-        StringBuilder sb = new StringBuilder();
-        QEchoPattern qpattern = new QEchoPattern();
-        int wildcardCount = 0;
-        while (!chars.isEmpty()) {
-            char ch = chars.removeFirst();
-            if (ch == '?') {
-                if (!sb.isEmpty()) {
-                    qpattern.appendEcho(new QStringPattern(sb.toString(), true));
-                    sb.setLength(0);
-                }
-                qpattern.appendEcho(new QWildcardPattern());
-                wildcardCount++;
-            }
-            else if (ch == '{') {
-                throw new RuntimeException("cannot nest echo patterns");
-            }
-            else if (ch == '}') {
-                if (!sb.isEmpty()) {
-                    qpattern.appendEcho(new QStringPattern(sb.toString(), true));
-                }
-                if (wildcardCount != 1) {
-                    throw new RuntimeException("only one '?' allowed per echo pattern");
-                }
-                return qpattern;
-            }
-            else {
-                sb.append(ch);
-            }
-        }
-        throw new RuntimeException("unterminated echo group");
     }
 }

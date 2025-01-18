@@ -1,5 +1,6 @@
 package a2geek.asm.service;
 
+import a2geek.asm.api.util.pattern.QMatch;
 import a2geek.asm.api.util.pattern.QPattern;
 import org.junit.jupiter.api.Test;
 
@@ -11,18 +12,19 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class QPatternTest {
     private void check(String pattern, String testcase, final String... expected) {
-        QPattern qPattern = QPattern.build(pattern);
-        final List<String> actual = qPattern.match(testcase);
-        if (actual == null && expected.length > 0) {
+        QPattern qpattern = QPattern.build(pattern);
+        final QMatch actual = qpattern.match(testcase);
+        if (!actual.isMatched()) {
             fail("Expecting a match, but no match found");
         }
-        int len = Math.min(expected.length, actual.size());
+        int len = Math.min(expected.length, actual.getSize());
         for (int i = 0; i<len; i++) {
-            assertEquals(expected[i], actual.get(i), inequalityError(expected[i], actual.get(i)));
+            assertEquals(expected[i], actual.getResult(i),
+                inequalityError(expected[i], actual.getResult(i)));
         }
-        assertEquals(expected.length, actual.size(), () -> {
-            return String.format("Expecting actual and expected to match: %s vs %s", actual, List.of(expected));
-        });
+        assertEquals(expected.length, actual.getSize(), () ->
+            String.format("Expecting actual and expected to match: %s vs %s",
+                actual, List.of(expected)));
     }
     private Supplier<String> inequalityError(String a, String b) {
         return () -> String.format("'%s' != '%s'", a, b);
