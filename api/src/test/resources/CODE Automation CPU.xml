@@ -21,7 +21,7 @@
 		<address-mode id="absolute-into-A">
 			<format>A,[addr]</format>
 			<regex>A,\[([:expr:]+)\]</regex>
-			<pattern>A,?</pattern>
+			<pattern>A,[?]</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>

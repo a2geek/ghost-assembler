@@ -30,7 +30,7 @@
 		<address-mode id="fake-register">
 			<format>Rn,value</format>
 			<regex>([rR].+),(.+)</regex>
-			<pattern>R?,?</pattern>
+			<pattern>{R?},?</pattern>
 			<code>
 				<byte>opcode | Rn</byte>
 				<byte>value>>8</byte>

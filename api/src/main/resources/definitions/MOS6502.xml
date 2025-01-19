@@ -243,7 +243,7 @@
 			</description>
 			<format>addr</format>
 			<regex>([:expr:]+)</regex>
-			<pattern>(?)</pattern>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr - PC - 2</byte>
@@ -257,7 +257,7 @@
 			</description>
 			<format>addr</format>
 			<regex>([:expr:]+)</regex>
-			<pattern>(?)</pattern>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
