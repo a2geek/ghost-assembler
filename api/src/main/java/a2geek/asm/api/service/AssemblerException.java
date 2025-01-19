@@ -64,6 +64,10 @@ public class AssemblerException extends Exception {
         super(cause);
     }
 
+    public AssemblerException(String fmt, Object... args) {
+        super(String.format(fmt, args));
+    }
+
     /**
      * Helper method to throw a formatted message in the AssemblerException.
      */

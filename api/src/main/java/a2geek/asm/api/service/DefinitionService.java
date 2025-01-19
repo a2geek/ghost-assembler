@@ -4,6 +4,7 @@ import a2geek.asm.api.definition.AddressMode;
 import a2geek.asm.api.definition.AddressModeDefinition;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.definition.Operation;
+import a2geek.asm.api.util.pattern.QMatch;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 import jakarta.xml.bind.JAXBContext;
@@ -21,8 +22,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Provides services to load the CpuDefinition objects.
@@ -92,15 +91,13 @@ public class DefinitionService {
 		// Check RE against the FORMAT given:
 		for (AddressMode addressMode : cpu.getAddressModes()) {
 			if (addressMode instanceof AddressModeDefinition defn) {
-                Pattern pattern = defn.getRegexPattern();
-				if (pattern == null) {
-					issues.add(String.format("RE pattern (%s) did not compile for '%s'.", 
-							defn.getRegex(), defn.getId()));
-				}
-				Matcher matcher = pattern.matcher(defn.getFormat());
-				if (!matcher.matches()) {
-					issues.add(String.format("RE pattern (%s) and parameter format (%s) do not match for '%s'.",
-							defn.getRegex(), defn.getFormat(), defn.getId()));
+//				if (defn.getPattern() == null) {
+//					issues.add(String.format("Pattern does not exist for '%s'.", defn.getId()));
+//				}
+				QMatch qmatch = defn.getQPattern().match(defn.getFormat());
+				if (!qmatch.isMatched()) {
+					issues.add(String.format("Pattern (%s) and parameter format (%s) do not match for '%s'.",
+							defn.getPattern(), defn.getFormat(), defn.getId()));
 				}
 			} else {
 				issues.add(String.format("The address-mode-reference with id of '%s' does not have a concrete definition", 

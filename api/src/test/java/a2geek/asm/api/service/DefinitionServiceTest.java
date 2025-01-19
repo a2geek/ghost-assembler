@@ -44,8 +44,7 @@ public class DefinitionServiceTest {
 		AddressModeDefinition mode = cpu.getAddressModes().getFirst();
 		Assertions.assertEquals("absolute-into-A", mode.getId());
 		Assertions.assertEquals("A,[addr]", mode.getFormat());
-		Assertions.assertEquals("A,\\[(" + AddressModeDefinition.MATCH_REGEX + "+)\\]", 
-				mode.getRegexPattern().pattern());
+		Assertions.assertEquals("A,[?]", mode.getPattern());
 		Assertions.assertEquals(3, mode.getByteCode().size());
 		Assertions.assertEquals("opcode", mode.getByteCode().get(0).getExpression());
 		Assertions.assertEquals("addr>>8", mode.getByteCode().get(1).getExpression());
@@ -53,8 +52,7 @@ public class DefinitionServiceTest {
 		mode = cpu.getAddressModes().get(1);
 		Assertions.assertEquals("absolute-from-A", mode.getId());
 		Assertions.assertEquals("[addr],A", mode.getFormat());
-		Assertions.assertEquals("\\[(" + AddressModeDefinition.MATCH_REGEX + "+)\\],A", 
-				mode.getRegexPattern().pattern());
+		Assertions.assertEquals("[?],A", mode.getPattern());
 		Assertions.assertEquals(3, mode.getByteCode().size());
 		Assertions.assertEquals("opcode", mode.getByteCode().get(0).getExpression());
 		Assertions.assertEquals("addr>>8", mode.getByteCode().get(1).getExpression());
@@ -62,8 +60,7 @@ public class DefinitionServiceTest {
 		mode = cpu.getAddressModes().get(2);
 		Assertions.assertEquals("absolute-address", mode.getId());
 		Assertions.assertEquals("addr", mode.getFormat());
-		Assertions.assertEquals("(" + AddressModeDefinition.MATCH_REGEX + "+)", 
-				mode.getRegexPattern().pattern());
+		Assertions.assertEquals("?", mode.getPattern());
 		Assertions.assertEquals(3, mode.getByteCode().size());
 		Assertions.assertEquals("opcode", mode.getByteCode().get(0).getExpression());
 		Assertions.assertEquals("addr>>8", mode.getByteCode().get(1).getExpression());
@@ -71,7 +68,7 @@ public class DefinitionServiceTest {
 		mode = cpu.getAddressModes().get(3);
 		Assertions.assertEquals("none", mode.getId());
 		Assertions.assertEquals("", mode.getFormat());
-		Assertions.assertNull(mode.getRegex());
+		Assertions.assertNull(mode.getPattern());
 		Assertions.assertEquals(1, mode.getByteCode().size());
 		Assertions.assertEquals("opcode", mode.getByteCode().getFirst().getExpression());
 	}
