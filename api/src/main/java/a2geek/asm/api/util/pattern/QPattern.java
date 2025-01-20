@@ -3,7 +3,6 @@ package a2geek.asm.api.util.pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * Support using the question mark as a wildcard in a simple pattern matching scheme.
