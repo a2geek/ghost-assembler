@@ -29,6 +29,11 @@ public class QStringPattern extends QPattern {
     }
 
     @Override
+    public int size() {
+        return 1;
+    }
+
+    @Override
     public String toString() {
         return String.format("%s%s", this.string, super.toString());
     }

@@ -7,6 +7,11 @@ public class QRootPattern extends QPattern {
     }
 
     @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         if (this.next == null) {
             return "-empty-";

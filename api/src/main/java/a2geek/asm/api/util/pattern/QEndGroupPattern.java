@@ -10,6 +10,11 @@ public class QEndGroupPattern extends QPattern {
     }
 
     @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return String.format("%s}", super.toString());
     }
