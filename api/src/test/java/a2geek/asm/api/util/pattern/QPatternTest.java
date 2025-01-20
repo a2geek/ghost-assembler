@@ -1,7 +1,5 @@
-package a2geek.asm.service;
+package a2geek.asm.api.util.pattern;
 
-import a2geek.asm.api.util.pattern.QMatch;
-import a2geek.asm.api.util.pattern.QPattern;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
