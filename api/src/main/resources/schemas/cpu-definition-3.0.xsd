@@ -58,9 +58,6 @@
           <xs:element minOccurs="0" name="format" type="xs:string"/>
                               
           
-          <xs:element minOccurs="0" name="regex" type="xs:string"/>
-                              
-          
           <xs:element minOccurs="0" name="pattern" type="xs:string"/>
                               
           

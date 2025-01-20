@@ -20,7 +20,6 @@
 	<address-modes>
 		<address-mode id="absolute-into-A">
 			<format>A,[addr]</format>
-			<regex>A,\[([:expr:]+)\]</regex>
 			<pattern>A,[?]</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -30,7 +29,6 @@
 		</address-mode>
 		<address-mode id="absolute-from-A">
 			<format>[addr],A</format>
-			<regex>\[([:expr:]+)\],A</regex>
 			<pattern>[?],A</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -40,7 +38,6 @@
 		</address-mode>
 		<address-mode id="absolute-address">
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
 			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>

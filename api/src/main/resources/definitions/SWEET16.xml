@@ -87,7 +87,6 @@
 	<address-modes>
 		<address-mode id="register-immediate">
 			<format>Rn,value</format>
-			<regex>([rR].+),(.+)</regex>
 			<pattern>{R?},?</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
@@ -97,7 +96,6 @@
 		</address-mode>
 		<address-mode id="register-indirect">
 			<format>@Rn</format>
-			<regex>@([Rr].+)</regex>
 			<pattern>@{R?}</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
@@ -105,7 +103,6 @@
 		</address-mode>
 		<address-mode id="register-direct">
 			<format>Rn</format>
-			<regex>([Rr].+)</regex>
 			<pattern>{R?}</pattern>
 			<code>
 				<byte>(opcode&amp;0xf0) | (Rn&amp;0x0f)</byte>
@@ -113,7 +110,6 @@
 		</address-mode>
 		<address-mode id="relative-branch">
 			<format>addr</format>
-			<regex>(.+)</regex>
 			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>

@@ -98,7 +98,6 @@
 				instruction.
 			</description>
 			<format>#value</format>
-			<regex>#([:expr:]+)</regex>
 			<pattern>#?</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -112,7 +111,6 @@
 				added to the second byte of instruction to form the effective address.
 			</description>
 			<format>zp,X</format>
-			<regex>([:expr:]+),x</regex>
 			<pattern>?,x</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
@@ -128,7 +126,6 @@
 				added to form the page zero effective address.
 			</description>
 			<format>zp,Y</format>
-			<regex>([:expr:]+),y</regex>
 			<pattern>?,y</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
@@ -144,7 +141,6 @@
 				of the effective address.
 			</description>
 			<format>addr,X</format>
-			<regex>([:expr:]+),x</regex>
 			<pattern>?,x</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -160,7 +156,6 @@
 				effective address.
 			</description>
 			<format>addr,Y</format>
-			<regex>([:expr:]+),y</regex>
 			<pattern>?,y</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -177,7 +172,6 @@
 				first and second bytes at this pointer.
 			</description>
 			<format>(addr)</format>
-			<regex>\(([:expr:]+)\)</regex>
 			<pattern>(?)</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -194,7 +188,6 @@
 				of the indirect address.
 			</description>
 			<format>(addr,X)</format>
-			<regex>\(([:expr:]+),x\)</regex>
 			<pattern>(?,x)</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -210,7 +203,6 @@
 				added to the base address to form the effective address.
 			</description>
 			<format>(addr),Y</format>
-			<regex>\(([:expr:]+)\),y</regex>
 			<pattern>(?),y</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -224,7 +216,6 @@
 				address of the operand in page zero.
 			</description>
 			<format>zp</format>
-			<regex>([:expr:]+)</regex>
 			<pattern>?</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
@@ -242,7 +233,6 @@
 				memory location.
 			</description>
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
 			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -256,7 +246,6 @@
 				form the 16-bit address.
 			</description>
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
 			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>

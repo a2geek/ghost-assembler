@@ -24,9 +24,6 @@ import java.util.regex.Pattern;
  */
 @XmlType(name = "AddressModeDefinitionType")
 public class AddressModeDefinition extends AddressMode {
-	public static final String MATCH_NAME = "[:expr:]";
-	public static final String MATCH_REGEX = "[0-9_:a-z-/'\\+\\*\\.\\$><&]";
-	public static final Pattern NULL_PATTERN = Pattern.compile("", Pattern.CASE_INSENSITIVE);
 	public static final String NULL_FORMAT = "";
 	
 	@XmlElement(name = "title")

@@ -19,7 +19,6 @@
 	<address-modes>
 		<address-mode id="absolute-into-A">
 			<format>A,[addr]</format>
-			<regex>A,\[(.+)\]</regex>
 			<pattern>A,[?]</pattern>
 			<code>
 				<byte>opcode</byte>
@@ -29,7 +28,6 @@
 		</address-mode>
 		<address-mode id="fake-register">
 			<format>Rn,value</format>
-			<regex>([rR].+),(.+)</regex>
 			<pattern>{R?},?</pattern>
 			<code>
 				<byte>opcode | Rn</byte>
@@ -39,7 +37,6 @@
 		</address-mode>
 		<address-mode id="absolute-address">
 			<format>addr</format>
-			<regex>(.+)</regex>
 			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>

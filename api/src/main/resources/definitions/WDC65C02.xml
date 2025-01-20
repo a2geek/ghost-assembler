@@ -25,7 +25,6 @@
 				a two byte effective address.
 			</description>
 			<format>(zp)</format>
-			<regex>\(([:expr:]+)\)</regex>
 			<pattern>(?)</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
@@ -43,7 +42,6 @@
 				bytes at this pointer.
 			</description>
 			<format>(addr,X)</format>
-			<regex>\(([:expr:]+),x\)</regex>
 			<pattern>(?,x)</pattern>
 			<code>
 				<byte>opcode</byte>
