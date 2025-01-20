@@ -18,7 +18,10 @@ public class QWildcardPattern extends QPattern {
             work = work.substring(1);
         }
 
-        if (!match.isEmpty()) {
+        if (match.isEmpty()) {
+            matched = false;
+        }
+        else {
             qmatch.addResult(match.toString().trim());
         }
         return matched;
