@@ -5,6 +5,7 @@ import a2geek.asm.api.definition.AddressModeDefinition;
 import a2geek.asm.api.definition.ByteCode;
 import a2geek.asm.api.definition.CpuDefinition.OperationMatch;
 import a2geek.asm.api.definition.Register;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.pattern.QMatch;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class LineAssemblerService {
 		AddressModeDefinition mode = operationMatch.getOperationAddressing().getAddressMode();
 		String opcode = operationMatch.getOperationAddressing().getOpcode();
 		if (opcode == null) {
-			AssemblerException.toss("Unable to assemble line #%d: '%s'.", parts.getLineNumber(), parts.toString());
+			throw new AssemblerException("Unable to assemble line #%d: '%s'.", parts.getLineNumber(), parts.toString());
 		}
 		
 		Map<String,Long> generateVariables = new HashMap<>();
@@ -48,7 +49,7 @@ public class LineAssemblerService {
 					if (register != null) {
 						registerName = register.getValue();
 					} else {
-						AssemblerException.toss("Expecting register on line #%d ('%s') but found '%s'.",
+						throw new AssemblerException("Expecting register on line #%d ('%s') but found '%s'.",
 								parts.getLineNumber(), parts.toString(), registerName);
 					}
 				}
@@ -67,9 +68,9 @@ public class LineAssemblerService {
 	public static int size(LineParts parts) throws AssemblerException {
 		OperationMatch match = AssemblerState.get().getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		if (match == null) {
-			AssemblerException.toss("Unknown operator in line #%d ('%s')!", parts.getLineNumber(), parts.toString());
+			throw new AssemblerException("Unknown operator in line #%d ('%s')!", parts.getLineNumber(), parts.toString());
 		} else if (match.getOperationAddressing() == null) {
-			AssemblerException.toss("Unknown address mode for %s in line #%d ('%s')!", match.getOperation().getMnemonic(),
+			throw new AssemblerException("Unknown address mode for %s in line #%d ('%s')!", match.getOperation().getMnemonic(),
 					parts.getLineNumber(), parts.toString());
 		}
 		return match.getOperationAddressing().getAddressMode().getByteCodeSize();

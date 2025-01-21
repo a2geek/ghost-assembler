@@ -4,6 +4,7 @@ import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.service.*;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
+import a2geek.asm.api.util.AssemblerException;
 
 import java.io.IOException;
 
@@ -55,7 +56,7 @@ public class CpuDirective implements Directive {
 			if (ex instanceof AssemblerException) {
 				throw (AssemblerException)ex;
 			}
-			AssemblerException.toss(
+			throw new AssemblerException(
 				"Unable to load CPU definition file '%s' specified on line #%d!",
 				parts.getExpression(), state.getReader().getLineNumber());
 		}

@@ -1,6 +1,7 @@
 package a2geek.asm.api.service;
 
 import a2geek.asm.api.io.IOUtils;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.junit.AsmAssert;
 import a2geek.junit.TestDetailLoader;
 import a2geek.junit.TestDetailLoader.TestDetail;

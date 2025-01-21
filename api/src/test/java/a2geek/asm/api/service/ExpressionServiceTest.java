@@ -1,5 +1,6 @@
 package a2geek.asm.api.service;
 
+import a2geek.asm.api.util.AssemblerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 package a2geek.asm.api.definition;
 
 import a2geek.asm.api.definition.Operation.MnemonicMatch;
-import a2geek.asm.api.service.AssemblerException;
+import a2geek.asm.api.util.AssemblerException;
 import jakarta.xml.bind.annotation.*;
 
 import java.util.ArrayList;

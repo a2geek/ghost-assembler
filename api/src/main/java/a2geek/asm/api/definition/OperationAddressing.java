@@ -1,6 +1,6 @@
 package a2geek.asm.api.definition;
 
-import a2geek.asm.api.service.AssemblerException;
+import a2geek.asm.api.util.AssemblerException;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlType;
@@ -35,7 +35,7 @@ public class OperationAddressing {
 		if (addressMode instanceof AddressModeReference) {
 			AddressMode am = cpu.findAddressModeById(addressMode.getId());
 			if (am == null) {
-				AssemblerException.toss("Unable to inherit address-mode-reference '%s' for opcode '%s'", 
+				throw new AssemblerException("Unable to inherit address-mode-reference '%s' for opcode '%s'",
 						addressMode.getId(), opcode);
 			}
 			addressMode = am;

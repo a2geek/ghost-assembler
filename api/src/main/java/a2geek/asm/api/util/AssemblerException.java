@@ -1,4 +1,4 @@
-package a2geek.asm.api.service;
+package a2geek.asm.api.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -64,18 +64,10 @@ public class AssemblerException extends Exception {
         super(cause);
     }
 
+    /**
+     * Helper constructor for a formatted message in the AssemblerException.
+     */
     public AssemblerException(String fmt, Object... args) {
         super(String.format(fmt, args));
     }
-
-    /**
-     * Helper method to throw a formatted message in the AssemblerException.
-     */
-	public static void toss(String format, Object ... args) throws AssemblerException {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PrintWriter pw = new PrintWriter(out);
-		pw.printf(format, args);
-		pw.close();
-		throw new AssemblerException(out.toString());
-	}
 }

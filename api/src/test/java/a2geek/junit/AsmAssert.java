@@ -1,6 +1,6 @@
 package a2geek.junit;
 
-import a2geek.asm.api.service.AssemblerException;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.service.AssemblerService;
 import org.junit.jupiter.api.Assertions;
 

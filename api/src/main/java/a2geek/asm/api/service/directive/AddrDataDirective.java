@@ -2,6 +2,7 @@ package a2geek.asm.api.service.directive;
 
 import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.service.*;
+import a2geek.asm.api.util.AssemblerException;
 
 import java.io.IOException;
 

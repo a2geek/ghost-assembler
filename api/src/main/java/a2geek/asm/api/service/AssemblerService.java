@@ -1,6 +1,7 @@
 package a2geek.asm.api.service;
 
 import a2geek.asm.api.assembler.LineParts;
+import a2geek.asm.api.util.AssemblerException;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,7 +136,7 @@ public class AssemblerService {
 				Directive directive = directives.get(directiveKey);
 				directive.process(parts);
 			} else {
-				AssemblerException.toss(
+				throw new AssemblerException(
 						"Unknown assembler directive '%s' on line #%d!",
 						parts.getOpcode(), state.getReader().getLineNumber());
 			}

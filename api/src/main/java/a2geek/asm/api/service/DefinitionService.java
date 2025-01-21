@@ -4,6 +4,7 @@ import a2geek.asm.api.definition.AddressMode;
 import a2geek.asm.api.definition.AddressModeDefinition;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.definition.Operation;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.pattern.QMatch;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;

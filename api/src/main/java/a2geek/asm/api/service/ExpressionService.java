@@ -1,5 +1,7 @@
 package a2geek.asm.api.service;
 
+import a2geek.asm.api.util.AssemblerException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;

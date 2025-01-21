@@ -3,7 +3,7 @@ package a2geek.asm.cli;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.definition.Operation;
 import a2geek.asm.api.definition.OperationAddressing;
-import a2geek.asm.api.service.AssemblerException;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.service.AssemblerService;
 import a2geek.asm.api.service.DefinitionService;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
