@@ -1,18 +1,18 @@
-package a2geek.asm.api.service.directive;
+package a2geek.asm.api.directive;
 
 import a2geek.asm.api.assembler.LineParts;
-import a2geek.asm.api.service.AssemblerState;
-import a2geek.asm.api.service.Directive;
-import a2geek.asm.api.service.DirectiveDocumentation;
+import a2geek.asm.api.service.*;
+import a2geek.asm.api.util.AssemblerException;
+
+import java.io.IOException;
 
 /**
- * Handle the .reset directives.
+ * Handle assignment (=) directives.
  * 
+ * @author Rob
  * @see Directive
  */
-public class ResetDirective implements Directive {
-	public static final String MNEMONIC = ".reset";
-	
+public class AssignmentDirective implements Directive {
 	/** 
 	 * Answer with the specific opcode mnemonic requesting this particular 
 	 * directive.  Usually this is a "." directive, but it may be something 
@@ -20,7 +20,7 @@ public class ResetDirective implements Directive {
 	 */
 	@Override
 	public String getOpcodeMnemonic() {
-		return MNEMONIC;
+		return "=";
 	}
 
 	/**
@@ -28,9 +28,10 @@ public class ResetDirective implements Directive {
 	 * the AssemblerState as needed. 
 	 */
 	@Override
-	public void process(LineParts parts) {
+	public void process(LineParts parts) throws AssemblerException {
 		AssemblerState state = AssemblerState.get();
-		state.nextLocalScope();
+		Long value = (Long) ExpressionService.evaluate(parts.getExpression());
+		state.addGlobalVariable(parts.getLabel(), value);
 	}
 
 	/**
@@ -39,8 +40,7 @@ public class ResetDirective implements Directive {
 	 * may be thrown.
 	 */
 	@Override
-	public DirectiveDocumentation getDocumentation() {
-		// TODO
-		return null;
+	public DirectiveDocumentation getDocumentation() throws IOException {
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Assignment", "assignment.peb");
 	}
 }

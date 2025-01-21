@@ -1,19 +1,22 @@
-package a2geek.asm.api.service.directive;
+package a2geek.asm.api.directive;
 
-import a2geek.asm.api.assembler.LineParts;
-import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.service.DirectiveDocumentation;
 
 import java.io.IOException;
 
 /**
- * Handle the .endif directives.
+ * Handle the .byte data directives.
  * 
  * @author Rob
  * @see Directive
+ * @see AbstractDataDirective
  */
-public class EndIfDirective implements Directive {
+public class StringDataDirective extends AbstractDataDirective {
+	public StringDataDirective() {
+		super(0x00, true);
+	}
+	
 	/** 
 	 * Answer with the specific opcode mnemonic requesting this particular 
 	 * directive.  Usually this is a "." directive, but it may be something 
@@ -21,17 +24,7 @@ public class EndIfDirective implements Directive {
 	 */
 	@Override
 	public String getOpcodeMnemonic() {
-		return ".endif";
-	}
-
-	/**
-	 * Process this directive using the given line details, updating
-	 * the AssemblerState as needed. 
-	 */
-	@Override
-	public void process(LineParts parts) {
-		AssemblerState state = AssemblerState.get();
-		state.setActive(true);
+		return ".string";
 	}
 
 	/**
@@ -41,6 +34,6 @@ public class EndIfDirective implements Directive {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "End conditional IF", "endif.peb", IfDirective.MNEMONIC, 4);
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text", "string.peb");
 	}
 }

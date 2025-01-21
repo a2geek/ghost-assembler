@@ -1,4 +1,4 @@
-package a2geek.asm.api.service.directive;
+package a2geek.asm.api.directive;
 
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.service.DirectiveDocumentation;
@@ -12,9 +12,9 @@ import java.io.IOException;
  * @see Directive
  * @see AbstractDataDirective
  */
-public class ByteDataDirective extends AbstractDataDirective {
-	public ByteDataDirective() {
-		super(0x00, false);
+public class StringhDataDirective extends AbstractDataDirective {
+	public StringhDataDirective() {
+		super(0x80, true);
 	}
 	
 	/** 
@@ -24,7 +24,7 @@ public class ByteDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public String getOpcodeMnemonic() {
-		return ".byte";
+		return ".stringh";
 	}
 
 	/**
@@ -34,6 +34,6 @@ public class ByteDataDirective extends AbstractDataDirective {
 	 */
 	@Override
 	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Bytes", "byte.peb");
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "String Text (high-bit set)", "stringh.peb");
 	}
 }

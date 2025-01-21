@@ -1,18 +1,18 @@
-package a2geek.asm.api.service.directive;
+package a2geek.asm.api.directive;
 
 import a2geek.asm.api.assembler.LineParts;
-import a2geek.asm.api.service.AssemblerState;
-import a2geek.asm.api.service.Directive;
-import a2geek.asm.api.service.DirectiveDocumentation;
+import a2geek.asm.api.service.*;
+import a2geek.asm.api.util.AssemblerException;
+
+import java.io.IOException;
 
 /**
- * Handle the .ifndef directives.
+ * Handle ORG directives.
  * 
+ * @author Rob
  * @see Directive
  */
-public class IfNdefDirective implements Directive {
-	public static final String MNEMONIC = ".ifndef";
-	
+public class OrgDirective implements Directive {
 	/** 
 	 * Answer with the specific opcode mnemonic requesting this particular 
 	 * directive.  Usually this is a "." directive, but it may be something 
@@ -20,7 +20,7 @@ public class IfNdefDirective implements Directive {
 	 */
 	@Override
 	public String getOpcodeMnemonic() {
-		return MNEMONIC;
+		return ".org";
 	}
 
 	/**
@@ -28,9 +28,10 @@ public class IfNdefDirective implements Directive {
 	 * the AssemblerState as needed. 
 	 */
 	@Override
-	public void process(LineParts parts) {
+	public void process(LineParts parts) throws AssemblerException {
 		AssemblerState state = AssemblerState.get();
-		state.setActive(!state.getVariables().containsKey(parts.getExpression()));
+		Long value = (Long) ExpressionService.evaluate(parts.getExpression());
+		state.setPC(value.intValue());
 	}
 
 	/**
@@ -39,8 +40,7 @@ public class IfNdefDirective implements Directive {
 	 * may be thrown.
 	 */
 	@Override
-	public DirectiveDocumentation getDocumentation() {
-		// TODO
-		return null;
+	public DirectiveDocumentation getDocumentation() throws IOException {
+		return new DirectiveDocumentation(getOpcodeMnemonic(), "Change the code address origin", "org.peb");
 	}
 }

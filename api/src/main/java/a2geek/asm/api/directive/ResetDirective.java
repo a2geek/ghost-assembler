@@ -1,19 +1,17 @@
-package a2geek.asm.api.service.directive;
+package a2geek.asm.api.directive;
 
 import a2geek.asm.api.assembler.LineParts;
-import a2geek.asm.api.service.*;
-import a2geek.asm.api.util.AssemblerException;
-
-import java.io.IOException;
+import a2geek.asm.api.service.AssemblerState;
+import a2geek.asm.api.service.Directive;
+import a2geek.asm.api.service.DirectiveDocumentation;
 
 /**
- * Handle the .if directives.
+ * Handle the .reset directives.
  * 
- * @author Rob
  * @see Directive
  */
-public class IfDirective implements Directive {
-	public static final String MNEMONIC = ".if";
+public class ResetDirective implements Directive {
+	public static final String MNEMONIC = ".reset";
 	
 	/** 
 	 * Answer with the specific opcode mnemonic requesting this particular 
@@ -30,11 +28,9 @@ public class IfDirective implements Directive {
 	 * the AssemblerState as needed. 
 	 */
 	@Override
-	public void process(LineParts parts) throws AssemblerException {
-		//FIXME Does not handle nested if statements
+	public void process(LineParts parts) {
 		AssemblerState state = AssemblerState.get();
-		Long value = (Long) ExpressionService.evaluate(parts.getExpression());
-		state.setActive(0L != value);
+		state.nextLocalScope();
 	}
 
 	/**
@@ -43,7 +39,8 @@ public class IfDirective implements Directive {
 	 * may be thrown.
 	 */
 	@Override
-	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional IF", "if.peb", MNEMONIC, 1);
+	public DirectiveDocumentation getDocumentation() {
+		// TODO
+		return null;
 	}
 }
