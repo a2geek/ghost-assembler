@@ -1,5 +1,7 @@
 package a2geek.asm.api.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.io.Serial;
 
 /**

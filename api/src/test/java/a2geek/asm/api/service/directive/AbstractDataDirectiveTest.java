@@ -1,7 +1,7 @@
 package a2geek.asm.api.service.directive;
 
-import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.service.AssemblerState;
 import a2geek.junit.AsmAssert;
 import org.junit.jupiter.api.Test;
 
