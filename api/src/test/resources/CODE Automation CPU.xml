@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+<definition xmlns="https://a2geek/schemas/cpu-definition/3.0"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-            xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../../main/resources/schemas/cpu-definition-2.1.xsd">
+            xsi:schemaLocation="https://a2geek/schemas/cpu-definition/3.0 ../../main/resources/schemas/cpu-definition-3.0.xsd">
 
 	<name>CODE Automation CPU</name>
 	<overview>
@@ -20,7 +20,7 @@
 	<address-modes>
 		<address-mode id="absolute-into-A">
 			<format>A,[addr]</format>
-			<regex>A,\[([:expr:]+)\]</regex>
+			<pattern>A,[?]</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>
@@ -29,7 +29,7 @@
 		</address-mode>
 		<address-mode id="absolute-from-A">
 			<format>[addr],A</format>
-			<regex>\[([:expr:]+)\],A</regex>
+			<pattern>[?],A</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>
@@ -38,7 +38,7 @@
 		</address-mode>
 		<address-mode id="absolute-address">
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr>>8</byte>

@@ -3,6 +3,8 @@ package a2geek.asm.api.definition;
 import a2geek.asm.api.service.AssemblerException;
 import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.ExpressionService;
+import a2geek.asm.api.util.pattern.QMatch;
+import a2geek.asm.api.util.pattern.QPattern;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlTransient;
@@ -22,9 +24,6 @@ import java.util.regex.Pattern;
  */
 @XmlType(name = "AddressModeDefinitionType")
 public class AddressModeDefinition extends AddressMode {
-	public static final String MATCH_NAME = "[:expr:]";
-	public static final String MATCH_REGEX = "[0-9_:a-z-/'\\+\\*\\.\\$><&]";
-	public static final Pattern NULL_PATTERN = Pattern.compile("", Pattern.CASE_INSENSITIVE);
 	public static final String NULL_FORMAT = "";
 	
 	@XmlElement(name = "title")
@@ -40,12 +39,12 @@ public class AddressModeDefinition extends AddressMode {
 	
 	@XmlElement(name = "format")
 	private String format = NULL_FORMAT;
-	
-	@XmlElement(name = "regex")
-	private String regex;
+
+	@XmlElement(name = "pattern")
+	private String pattern;
 	@XmlTransient
-	private Pattern regexPattern;
-	
+	private QPattern qpattern;
+
 	@XmlElement(name = "constraint")
 	private String constraint;
 
@@ -58,23 +57,23 @@ public class AddressModeDefinition extends AddressMode {
 	 * If so, execute the match constraint (if present).
 	 */
 	public boolean matches(String args) throws AssemblerException {
-		Matcher argument = getRegexPattern().matcher(args);
+		QMatch argMatch = getQPattern().match(args);
 		AssemblerState state = AssemblerState.get();
-		if (argument.matches()) {
+		if (argMatch.isMatched()) {
 			if (getConstraint() == null) return true;		// a match
 			// need to do a bit more work...
-			Matcher variable = getRegexPattern().matcher(getFormat());
-			if (!argument.matches() || !variable.matches() ||
-					argument.groupCount() != variable.groupCount()) {
+			QMatch formatMatch = getQPattern().match(getFormat());
+			if (!formatMatch.isMatched() || argMatch.getSize() != formatMatch.getSize()) {
 				throw new AssemblerException("Expression of '"
 						+ args + "' and format of '" + getFormat() + "' did not resolve to the "
-						+ "same number of matches (" + argument.groupCount() + "," 
-						+ variable.groupCount() + ").");
+						+ "same number of matches (" + argMatch.getSize() + ","
+						+ formatMatch.getSize() + ").");
 			}
 			Map<String,Long> variables = new HashMap<>(state.getVariables());
 			// ... mainly pull all variables out of the assembly line and place into the variable Map
-			for (int i=1; i<=argument.groupCount(); i++) {
-				variables.put(variable.group(i), (Long)ExpressionService.evaluate(argument.group(i), variables));
+			for (int i=1; i<=argMatch.getSize(); i++) {
+				variables.put(formatMatch.getResult(i-1),
+					(Long)ExpressionService.evaluate(argMatch.getResult(i-1), variables));
 			}
 			return (Long)ExpressionService.evaluate(getConstraint(), variables) == 1;
 		}
@@ -104,22 +103,16 @@ public class AddressModeDefinition extends AddressMode {
 		}
 		return size;
 	}
-	public String getRegex() {
-		return regex;
+	public String getPattern() {
+		return pattern;
 	}
-	public Pattern getRegexPattern() {
-		if (regexPattern == null) {
-			if (regex != null) {
-				this.regex = regex.replace(MATCH_NAME, MATCH_REGEX);
-				regexPattern = Pattern.compile(this.regex, Pattern.CASE_INSENSITIVE);
-			} else {
-				this.regex = null;
-				regexPattern = NULL_PATTERN;
-			}
+	public QPattern getQPattern() {
+		if (qpattern == null) {
+			qpattern = QPattern.build(pattern);
 		}
-		return regexPattern;
+		return qpattern;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -207,8 +200,8 @@ public class AddressModeDefinition extends AddressMode {
 	}
 
 	/** For unit tests */
-	void setRegex(String regex) {
-		this.regex = regex;
+	void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 	/** For unit tests */
 	void setFormat(String format) {

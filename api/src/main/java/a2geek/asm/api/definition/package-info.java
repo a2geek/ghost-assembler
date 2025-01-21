@@ -1,7 +1,7 @@
 /**
  * Package level settings for JAXB.
  */
-@jakarta.xml.bind.annotation.XmlSchema(namespace = "https://a2geek/schemas/cpu-definition/2.1",
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "https://a2geek/schemas/cpu-definition/3.0",
 	elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED,
 	attributeFormDefault = jakarta.xml.bind.annotation.XmlNsForm.UNQUALIFIED)
 @jakarta.xml.bind.annotation.XmlAccessorType(jakarta.xml.bind.annotation.XmlAccessType.FIELD)

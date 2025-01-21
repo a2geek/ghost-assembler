@@ -2,9 +2,9 @@
 <!-- 
 	Definition for the WDC 65C02.
  -->
-<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+<definition xmlns="https://a2geek/schemas/cpu-definition/3.0"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../schemas/cpu-definition-2.1.xsd"
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/3.0 ../schemas/cpu-definition-3.0.xsd"
 			inherit-from="MOS6502">
 	
 	<name>WDC65C02</name>
@@ -25,7 +25,7 @@
 				a two byte effective address.
 			</description>
 			<format>(zp)</format>
-			<regex>\(([:expr:]+)\)</regex>
+			<pattern>(?)</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
 				<byte>opcode</byte>
@@ -42,7 +42,7 @@
 				bytes at this pointer.
 			</description>
 			<format>(addr,X)</format>
-			<regex>\(([:expr:]+),x\)</regex>
+			<pattern>(?,x)</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>

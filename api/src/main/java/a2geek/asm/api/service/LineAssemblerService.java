@@ -5,11 +5,11 @@ import a2geek.asm.api.definition.AddressModeDefinition;
 import a2geek.asm.api.definition.ByteCode;
 import a2geek.asm.api.definition.CpuDefinition.OperationMatch;
 import a2geek.asm.api.definition.Register;
+import a2geek.asm.api.util.pattern.QMatch;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 /**
  * Provides services around assembling of an individual line of code.
@@ -33,16 +33,16 @@ public class LineAssemblerService {
 		generateVariables.put("opcode", (Long)ExpressionService.evaluate(opcode));
 		generateVariables.put("PC", state.getPC());
 		if (parts.getExpression() != null) {
-			Matcher expression = mode.getRegexPattern().matcher(parts.getExpression());
-			Matcher variable = mode.getRegexPattern().matcher(mode.getFormat());
-			if (!expression.matches() || !variable.matches() ||
-					expression.groupCount() != variable.groupCount()) {
-				AssemblerException.toss("Expression on line '%s' did not match expected format of '%s'.",
+			QMatch exprMatch = mode.getQPattern().match(parts.getExpression());
+			QMatch varMatch = mode.getQPattern().match(mode.getFormat());
+			if (!exprMatch.isMatched() || !varMatch.isMatched() ||
+					exprMatch.getSize() != varMatch.getSize()) {
+				throw new AssemblerException("Expression on line '%s' did not match expected format of '%s'.",
 						parts.toString(), mode.getFormat());
 			}
-			for (int i=0; i<expression.groupCount(); i++) {
-				String registerGroup = variable.group(1+i);
-				String registerName = expression.group(1+i);
+			for (int i=0; i< exprMatch.getSize(); i++) {
+				String registerGroup = varMatch.getResult(i);
+				String registerName = exprMatch.getResult(i);
 				if (state.getCpuDefinition().isRegisterGroup(registerGroup)) {
 					Register register = state.getCpuDefinition().findRegister(registerGroup, registerName);
 					if (register != null) {
@@ -86,4 +86,3 @@ public class LineAssemblerService {
 		}
 	}
 }
-	

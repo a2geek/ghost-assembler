@@ -5,6 +5,8 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -74,7 +76,10 @@ public class Operation {
 	 */
 	public OperationAddressing findOperationAddressingByExpression(String expression) throws AssemblerException {
 		if (expression == null) expression = "";
-		for (OperationAddressing opaddr : addressingModes) {
+		List<OperationAddressing> sortedModes = new ArrayList<>(addressingModes);
+		Comparator<OperationAddressing> comparator = Comparator.comparingInt(a -> a.getAddressMode().getQPattern().length());
+		sortedModes.sort(comparator.reversed());
+		for (OperationAddressing opaddr : sortedModes) {
 			try {
 				if (opaddr.getAddressMode().hasConstraint() && opaddr.getAddressMode().matches(expression)) {
 					return opaddr;
@@ -85,7 +90,7 @@ public class Operation {
 				// but likely won't carry further than that... time will tell.
 			}
 		}
-		for (OperationAddressing opaddr : addressingModes) {
+		for (OperationAddressing opaddr : sortedModes) {
 			if (!opaddr.getAddressMode().hasConstraint() && opaddr.getAddressMode().matches(expression)) {
 				return opaddr;
 			}

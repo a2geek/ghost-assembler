@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Provides additional JUnit TestCase assert methods.
@@ -63,7 +65,12 @@ public abstract class AsmAssert {
 			if (!success) {
 				pw.close();
 				System.out.println("----------------- " + filename + " ----------------------");
-				System.out.print(sw);
+				if (sw.getBuffer().isEmpty()) {
+					System.out.println(Files.readString(Path.of(location(filename))));
+				}
+				else {
+					System.out.print(sw);
+				}
 				System.out.println("---------------------------------------------------------");
 			}
 		}

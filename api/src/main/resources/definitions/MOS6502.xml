@@ -2,9 +2,9 @@
 <!-- 
 	Definition for the (generic) 6502.
  -->
-<definition xmlns="https://a2geek/schemas/cpu-definition/2.1"
+<definition xmlns="https://a2geek/schemas/cpu-definition/3.0"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/2.1 ../schemas/cpu-definition-2.1.xsd">
+			xsi:schemaLocation="https://a2geek/schemas/cpu-definition/3.0 ../schemas/cpu-definition-3.0.xsd">
 
 	<name>MOS6502</name>
 	<overview href="http://en.wikipedia.org/wiki/MOS_Technology_6502">
@@ -98,7 +98,7 @@
 				instruction.
 			</description>
 			<format>#value</format>
-			<regex>#([:expr:]+)</regex>
+			<pattern>#?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>value</byte>
@@ -111,7 +111,7 @@
 				added to the second byte of instruction to form the effective address.
 			</description>
 			<format>zp,X</format>
-			<regex>([:expr:]+),x</regex>
+			<pattern>?,x</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
 				<byte>opcode</byte>
@@ -126,7 +126,7 @@
 				added to form the page zero effective address.
 			</description>
 			<format>zp,Y</format>
-			<regex>([:expr:]+),y</regex>
+			<pattern>?,y</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
 				<byte>opcode</byte>
@@ -141,7 +141,7 @@
 				of the effective address.
 			</description>
 			<format>addr,X</format>
-			<regex>([:expr:]+),x</regex>
+			<pattern>?,x</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
@@ -156,7 +156,7 @@
 				effective address.
 			</description>
 			<format>addr,Y</format>
-			<regex>([:expr:]+),y</regex>
+			<pattern>?,y</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
@@ -172,7 +172,7 @@
 				first and second bytes at this pointer.
 			</description>
 			<format>(addr)</format>
-			<regex>\(([:expr:]+)\)</regex>
+			<pattern>(?)</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
@@ -188,7 +188,7 @@
 				of the indirect address.
 			</description>
 			<format>(addr,X)</format>
-			<regex>\(([:expr:]+),x\)</regex>
+			<pattern>(?,x)</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
@@ -203,7 +203,7 @@
 				added to the base address to form the effective address.
 			</description>
 			<format>(addr),Y</format>
-			<regex>\(([:expr:]+)\),y</regex>
+			<pattern>(?),y</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
@@ -216,7 +216,7 @@
 				address of the operand in page zero.
 			</description>
 			<format>zp</format>
-			<regex>([:expr:]+)</regex>
+			<pattern>?</pattern>
 			<constraint>zp &lt;= 0xff &amp;&amp; zp &gt;= 0x00</constraint>
 			<code>
 				<byte>opcode</byte>
@@ -233,7 +233,7 @@
 				memory location.
 			</description>
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr - PC - 2</byte>
@@ -246,7 +246,7 @@
 				form the 16-bit address.
 			</description>
 			<format>addr</format>
-			<regex>([:expr:]+)</regex>
+			<pattern>?</pattern>
 			<code>
 				<byte>opcode</byte>
 				<byte>addr</byte>
