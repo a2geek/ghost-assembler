@@ -26,7 +26,7 @@ public class LineAssemblerService {
 		AddressModeDefinition mode = operationMatch.getOperationAddressing().getAddressMode();
 		String opcode = operationMatch.getOperationAddressing().getOpcode();
 		if (opcode == null) {
-			AssemblerException.toss("Unable to assemble line '%s'.", parts.toString());
+			AssemblerException.toss("Unable to assemble line #%d: '%s'.", parts.getLineNumber(), parts.toString());
 		}
 		
 		Map<String,Long> generateVariables = new HashMap<>();
@@ -37,8 +37,8 @@ public class LineAssemblerService {
 			QMatch varMatch = mode.getQPattern().match(mode.getFormat());
 			if (!exprMatch.isMatched() || !varMatch.isMatched() ||
 					exprMatch.getSize() != varMatch.getSize()) {
-				throw new AssemblerException("Expression on line '%s' did not match expected format of '%s'.",
-						parts.toString(), mode.getFormat());
+				throw new AssemblerException("Expression on line #%d ('%s') did not match expected format of '%s'.",
+						parts.getLineNumber(), parts.toString(), mode.getFormat());
 			}
 			for (int i=0; i< exprMatch.getSize(); i++) {
 				String registerGroup = varMatch.getResult(i);
@@ -48,8 +48,8 @@ public class LineAssemblerService {
 					if (register != null) {
 						registerName = register.getValue();
 					} else {
-						AssemblerException.toss("Expecting register on line '%s' but found '%s'.",
-								parts.toString(), registerName);
+						AssemblerException.toss("Expecting register on line #%d ('%s') but found '%s'.",
+								parts.getLineNumber(), parts.toString(), registerName);
 					}
 				}
 				generateVariables.put(registerGroup, (Long)ExpressionService.evaluate(registerName, state.getVariables()));
@@ -67,9 +67,10 @@ public class LineAssemblerService {
 	public static int size(LineParts parts) throws AssemblerException {
 		OperationMatch match = AssemblerState.get().getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		if (match == null) {
-			AssemblerException.toss("Unknown operator in line '%s'!", parts.toString());
+			AssemblerException.toss("Unknown operator in line #%d ('%s')!", parts.getLineNumber(), parts.toString());
 		} else if (match.getOperationAddressing() == null) {
-			AssemblerException.toss("Unknown address mode for %s in line '%s'!", match.getOperation().getMnemonic(), parts.toString());
+			AssemblerException.toss("Unknown address mode for %s in line #%d ('%s')!", match.getOperation().getMnemonic(),
+					parts.getLineNumber(), parts.toString());
 		}
 		return match.getOperationAddressing().getAddressMode().getByteCodeSize();
 	}

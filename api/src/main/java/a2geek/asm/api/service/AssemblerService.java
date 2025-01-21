@@ -55,10 +55,13 @@ public class AssemblerService {
 	protected static void determineLabelLocations() throws IOException, AssemblerException {
 		AssemblerState state = AssemblerState.get();
 		state.setIdentifyLabels(true);	// gives some leniency when a label hasn't been defined
+		int lineNumber=0;
 		while (true) {
 			String line = state.getReader().readLine();
 			if (line == null) break;
+			lineNumber++;
 			LineParts parts = LineParserService.parseLine(line);
+			parts.setLineNumber(lineNumber);
 			if (state.isActive() && parts.getLabel() != null) {
 				if (parts.isGlobalLabel()) {
 					if (state.containsGlobalVariable(parts.getLabel())) {
@@ -90,10 +93,13 @@ public class AssemblerService {
 	 */
 	protected static void assembleFile(PrintWriter pw) throws IOException, AssemblerException {
 		AssemblerState state = AssemblerState.get();
+		int lineNumber=0;
 		while (true) {
 			String line = state.getReader().readLine();
 			if (line == null) break;
+			lineNumber++;
 			LineParts parts = LineParserService.parseLine(line);
+			parts.setLineNumber(lineNumber);
 			long startPosition = state.getOutput().size();
 			if (state.isActive() && parts.isGlobalLabel()) {
 				state.nextLocalScope();

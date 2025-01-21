@@ -6,6 +6,7 @@ package a2geek.asm.api.assembler;
  * @author Rob
  */
 public class LineParts {
+	private int lineNumber=-1;
 	private String comment;
 	private String label;
 	private String opcode;
@@ -17,7 +18,13 @@ public class LineParts {
 	public boolean isLocalLabel() {
 		return label != null && label.startsWith(":");
 	}
-	
+
+	public int getLineNumber() {
+		return lineNumber;
+	}
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
 	public String getComment() {
 		return comment;
 	}
@@ -47,17 +54,17 @@ public class LineParts {
 		StringBuilder buf = new StringBuilder();
 		if (label != null) {
 			buf.append(label);
-			buf.append(' ');
 		}
 		if (opcode != null) {
+			if (!buf.isEmpty()) buf.append(' ');
 			buf.append(opcode);
-			buf.append(' ');
 		}
 		if (expression != null) {
+			if (!buf.isEmpty()) buf.append(' ');
 			buf.append(expression);
-			buf.append(' ');
 		}
 		if (comment != null) {
+			if (!buf.isEmpty()) buf.append(' ');
 			buf.append(comment);
 		}
 		return buf.toString();
