@@ -107,31 +107,31 @@ public class Main {
 	 * Perform the actual assembly.
 	 */
 	private static void assemble(String filename) {
+		StringWriter sw = new StringWriter();
 		try {
 			Date startTime = new Date();
 			
 			File assemblyFile = new File(filename);
-			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			byte[] code = AssemblerService.assemble(pw, assemblyFile);
 			pw.close();
-			
-			if (options.assemblyListingName != null) {
-				String assembledCode = sw.toString();
-				writeTextFile(options.assemblyListingName, assembledCode);
-			}
-			
+
 			String outputName = options.getOutputName(filename);
 			FileOutputStream output = new FileOutputStream(outputName);
 			output.write(code);
 			output.close();
-			
+
 			Date endTime = new Date();
 			long length = endTime.getTime() - startTime.getTime();
 			System.out.printf("Assembled %s in %s seconds.  Binary file written was %d bytes.\n",
 					outputName, length/1000, code.length);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
+		} finally {
+			if (options.assemblyListingName != null) {
+				String assembledCode = sw.toString();
+				writeTextFile(options.assemblyListingName, assembledCode);
+			}
 		}
 	}
 	
