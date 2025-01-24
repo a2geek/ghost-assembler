@@ -31,7 +31,7 @@ public class ExpressionService {
 	private static final String PATTERN_HEXIDECIMAL3 = "\\$\\p{XDigit}+";
 	private static final String PATTERN_BINARY = "0b[01]+";
 	private static final String PATTERN_OCTAL = "0[0-7]+";
-	private static final String PATTERN_VARIABLE = "[a-z:_A-Z]\\w*";
+	private static final String PATTERN_VARIABLE = "[@a-z:_A-Z]\\w*";
 	private static final String PATTERN_CHARACTER = "'.'";
 	private static final String PATTERN_STRING = "\"[^\"]*\"";
 	
@@ -321,7 +321,7 @@ public class ExpressionService {
 	 * Indicates if this character is part of a name or a value.
 	 */
 	protected static boolean isNameOrValue(char ch) {
-		return Character.isLetterOrDigit(ch) || ch == '_' || ch == ':' || ch == '.' || ch == '$' || ch == '\'' || ch == '"';
+		return Character.isLetterOrDigit(ch) || ch == '_' || ch == ':' || ch == '.' || ch == '$' || ch == '\'' || ch == '"' || ch == '@';
 	}
 	/**
 	 * Indicates if this character is an operand.
