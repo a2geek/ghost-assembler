@@ -50,6 +50,8 @@ public class ExpressionService {
 		DIVIDE(2),
 		MODULO(2),
 		UNARY_MINUS(3),
+		UNARY_LOBYTE(1),
+		UNARY_HIBYTE(1),
 		LEFT_PAREN(0),
 		RIGHT_PAREN(0),
 		BITWISE_OR(2),
@@ -139,6 +141,12 @@ public class ExpressionService {
 				if (operator == Operator.SUBTRACT	// unary minus and minus look the same  
 						&& (priorState == State.START || priorState == State.OPERAND)) {
 					opStack.push(Operator.UNARY_MINUS);
+				} else if (operator == Operator.LESS_THAN
+		 				&& (priorState == State.START || priorState == State.OPERAND)) {
+					opStack.push(Operator.UNARY_LOBYTE);
+				} else if (operator == Operator.GREATER_THAN
+					&& (priorState == State.START || priorState == State.OPERAND)) {
+					opStack.push(Operator.UNARY_HIBYTE);
 				} else if (opStack.isEmpty()) {
 					opStack.push(operator);
 				} else if (operator == Operator.LEFT_PAREN) {
@@ -246,6 +254,10 @@ public class ExpressionService {
 		long result = 0;
 		if (op == Operator.UNARY_MINUS) {
 			result = -value2;
+		} else if (op == Operator.UNARY_LOBYTE) {
+			result = value2 & 0xff;
+		} else if (op == Operator.UNARY_HIBYTE) {
+			result = (value2 >> 8) & 0xff;
 		} else {
 			if (valStack.isEmpty()) {
 				throw new AssemblerException("Value stack empty when evaluating binary Number operation.");
