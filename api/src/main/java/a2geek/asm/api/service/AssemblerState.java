@@ -86,6 +86,13 @@ public class AssemblerState {
 	private boolean active = true;
 	private boolean identifyLabels = false;
 
+	public String fixVarName(String name) {
+		if (name.length() > 1 && name.endsWith(":")) {
+			return name.substring(0, name.length()-1);
+		}
+		return name;
+	}
+
 	public boolean containsGlobalVariable(String name) {
 		return globalVars.containsKey(name);
 	}
@@ -93,7 +100,7 @@ public class AssemblerState {
 		addGlobalVariable(name, pc);
 	}
 	public void addGlobalVariable(String name, Long value) {
-		globalVars.put(name, value);
+		globalVars.put(fixVarName(name), value);
 	}
 	
 	public boolean containsLocalVariable(String name) {
@@ -110,7 +117,7 @@ public class AssemblerState {
 		if (localVars.get(localScope) == null) {
 			localVars.set(localScope, new HashMap<>());
 		}
-		localVars.get(localScope).put(name, value);
+		localVars.get(localScope).put(fixVarName(name), value);
 	}
 	public Map<String,Long> getVariables() {
         Map<String, Long> vars = new HashMap<>(globalVars);
