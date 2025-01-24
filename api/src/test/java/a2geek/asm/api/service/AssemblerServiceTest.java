@@ -29,7 +29,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testSimpleAssembly() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x10, 0x10, 0x05,	// lod	A,[1005h]
 				0x20, 0x10, 0x01,	// add	A,[1001h]
 				0x11, 0x10, 0x05,	// sto	[1005h],A
@@ -52,7 +52,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testSimpleAssemblyWithLabels() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x10, 0x00, 0x24,	// lod	A,[result+1]
 				0x20, 0x00, 0x20,	// add	A,[num1+1]
 				0x11, 0x00, 0x24,	// sto	[result+1],A
@@ -75,7 +75,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testAssemblyWithOddLabels() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x10, 0x00, 0x04,	// lod	A,[over_here]
 				(byte)0xff,			// hlt
 				0x00		 		// 00h, 00h	(over_here)	
@@ -87,7 +87,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testAssemblyWithNegativeConstants() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x10, (byte)0xff, (byte)0xff,	//	lod A,[-1]
 				0x11, (byte)0xff, (byte)0xfe,	//	sto [over_here],A
 				(byte)0xff						//  hlt
@@ -105,7 +105,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testSweet16a() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x10, 0x00, 0x00,	// set R0,0
 				0x11, 0x00, 0x0a,	// set R1,block
 				0x12, 0x34, 0x02, 	// set R2,N
@@ -122,7 +122,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testSweet16b() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x11, 0x00, 0x0a,			// set R1,source
 				0x12, (byte) 0x80, 0x0a,	// set R2,dest
 				0x13, 0x23, 0x00,			// set R3,N
@@ -140,7 +140,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testSweet16c() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				0x11, (byte) 0xca, 0x00,	// set R1,pp
 				0x61,						// ldd @R1
 				0x31, 						// set R1
@@ -174,7 +174,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testLocalLabels() throws IOException, AssemblerException {
-		byte[] expected = {
+		final byte[] expected = {
 				(byte)0xa9, 0x00,			// LDA #0x00
 				(byte)0xa8,					// TAY
 				(byte)0x91, 0x00,			// STA (TOPNT),Y
@@ -205,7 +205,7 @@ public class AssemblerServiceTest {
 	@Test
 	public void testStringAssemble() throws IOException, AssemblerException {
 		byte h = (byte)0x80;
-		byte[] expected = {
+		final byte[] expected = {
 				// .byte "Hello, World!",0
 				'H','e','l','l','o',',',' ','W','o','r','l','d','!',0,
 				// .ascii "Hello, World!",0
@@ -226,7 +226,7 @@ public class AssemblerServiceTest {
 	 */
 	@Test
 	public void testIfDef() throws IOException, AssemblerException {
-		byte[] expected = { 1, 4 };
+		final byte[] expected = { 1, 4 };
 		AsmAssert.assemble("Test-Assemble-ifdef.asm", expected);
 	}
 	/**
@@ -254,5 +254,18 @@ public class AssemblerServiceTest {
 		AsmAssert.assertEquals(new String[] { "'a,b,c'" }, AssemblerService.parseCommas("'a,b,c'"));
 		AsmAssert.assertEquals(new String[] { "\"a,'b,c" }, AssemblerService.parseCommas("\"a,'b,c"));
 		AsmAssert.assertEquals(new String[] { "a","\"b,c\"" }, AssemblerService.parseCommas("a,\"b,c\""));
+	}
+
+	@Test
+	public void testLabelIssue1() throws AssemblerException, IOException {
+		AsmAssert.assemble("Test-Labels-1.asm", new byte[0]);
+	}
+
+	@Test
+	public void testLabelIssue2() throws AssemblerException, IOException {
+		final byte[] expected = {
+				0x4c, 0x03, 0x00		// JMP $300
+			};
+		AsmAssert.assemble("Test-Labels-2.asm", expected);
 	}
 }

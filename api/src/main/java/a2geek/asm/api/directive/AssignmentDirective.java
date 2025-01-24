@@ -30,7 +30,8 @@ public class AssignmentDirective implements Directive {
 	@Override
 	public void process(LineParts parts) throws AssemblerException {
 		AssemblerState state = AssemblerState.get();
-		Long value = (Long) ExpressionService.evaluate(parts.getExpression());
+		Long value = (Long) ExpressionService.evaluate(parts.getExpression(),
+			state.getVariables());
 		state.addGlobalVariable(parts.getLabel(), value);
 	}
 
