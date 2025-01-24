@@ -4,8 +4,6 @@ import a2geek.asm.api.util.pattern.QPattern;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.regex.Pattern;
-
 /**
  * Exercise the interesting functions in AddressModeDefinition.
  * 
