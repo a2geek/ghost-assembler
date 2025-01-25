@@ -1,7 +1,5 @@
 package a2geek.junit;
 
-import a2geek.asm.api.io.IOUtils;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
@@ -20,12 +18,11 @@ public abstract class TestDetailLoader {
 	 * Load test case from the given file name.
 	 */
 	public static TestDetail load(String name) throws IOException {
-		FileReader fileReader = null;
-		BufferedReader bufferedReader = null;
-		try {
-			String filename = AsmAssert.location(name);
-			fileReader = new FileReader(filename);
-			bufferedReader = new BufferedReader(fileReader);
+		String filename = AsmAssert.location(name);
+		try (
+			FileReader fileReader = new FileReader(filename);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+		) {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			StringBuilder sourceCode = new StringBuilder();
 			splitDetails(bufferedReader, outputStream, sourceCode);
@@ -33,9 +30,6 @@ public abstract class TestDetailLoader {
 			detail.expected = outputStream.toByteArray();
 			detail.source = sourceCode.toString();
 			return detail;
-		} finally {
-			IOUtils.closeQuietly(bufferedReader);
-			IOUtils.closeQuietly(fileReader);
 		}
 	}
 	/** Read through the input file and parse it into a series of bytes and the associated source code. */

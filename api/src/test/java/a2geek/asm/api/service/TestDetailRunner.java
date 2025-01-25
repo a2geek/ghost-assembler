@@ -1,6 +1,5 @@
 package a2geek.asm.api.service;
 
-import a2geek.asm.api.io.IOUtils;
 import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.Sources;
 import a2geek.junit.AsmAssert;
@@ -45,13 +44,11 @@ public class TestDetailRunner {
 		TestDetail detail = TestDetailLoader.load(fileName);
 		boolean success = false;
 		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		try {
+		try (PrintWriter pw = new PrintWriter(sw)) {
 			byte[] code = AssemblerService.assemble(pw, Sources.get(detail.source));
 			AsmAssert.assertEquals(detail.expected, code);
 			success = true;
 		} finally {
-			IOUtils.closeQuietly(pw);
 			if (!success) {
 				System.out.println("----------------- " + fileName + " ----------------------");
 				System.out.print(sw);
