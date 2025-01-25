@@ -4,6 +4,7 @@ import a2geek.asm.api.service.AssemblerService;
 import a2geek.asm.api.service.DefinitionService;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.Sources;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 
@@ -113,7 +114,7 @@ public class Main {
 			
 			File assemblyFile = new File(filename);
 			PrintWriter pw = new PrintWriter(sw);
-			byte[] code = AssemblerService.assemble(pw, assemblyFile);
+			byte[] code = AssemblerService.assemble(pw, Sources.get(assemblyFile));
 			pw.close();
 
 			String outputName = options.getOutputName(filename);
