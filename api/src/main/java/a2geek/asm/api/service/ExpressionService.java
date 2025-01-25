@@ -43,7 +43,7 @@ public class ExpressionService {
 	}
 
 	/** All operators understood within an expression. */
-	enum Operator {
+	protected enum Operator {
 		ADD(1),
 		SUBTRACT(1),
 		MULTIPLY(2),

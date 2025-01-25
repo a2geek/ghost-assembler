@@ -9,7 +9,7 @@ import a2geek.asm.api.util.LineParts;
  */
 public class LineParserService {
 	/** Indicates the current state of line parsing. */
-	enum State {
+	protected enum State {
 		LABEL,
 		OPCODE,
 		EXPRESSION,
