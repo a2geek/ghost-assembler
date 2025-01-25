@@ -134,7 +134,11 @@ public class AssemblerService {
 			if (directiveKey != null) directiveKey = directiveKey.toLowerCase();
 			if (directives.containsKey(directiveKey)) {
 				Directive directive = directives.get(directiveKey);
-				directive.process(parts);
+				try {
+					directive.process(parts);
+				} catch (Throwable t) {
+					throw new AssemblerException(t, "Error in line #%d", parts.getLineNumber());
+				}
 			} else {
 				throw new AssemblerException(
 						"Unknown assembler directive '%s' on line #%d!",

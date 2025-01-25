@@ -32,6 +32,10 @@ public class LineParserService {
 		State state = State.LABEL;
 		for (int i=0; i<line.length(); i++) {
 			char ch = line.charAt(i);
+			if (i==0 && ch=='.') {
+				// Special handling for directives that start in left-hand column
+				state = State.OPCODE;
+			}
 			if (isAtEndOfPart(state, ch, buf.length())) {
 				savePart(state, buf, parts);
 				state = state.next();

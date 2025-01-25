@@ -16,7 +16,7 @@ public class LineParts {
 		return label != null && !isLocalLabel();
 	}
 	public boolean isLocalLabel() {
-		return label != null && label.startsWith(":");
+		return label != null && (label.startsWith(":") || label.startsWith("@"));
 	}
 
 	public int getLineNumber() {

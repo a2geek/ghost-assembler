@@ -4,18 +4,15 @@ import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.service.DirectiveDocumentation;
-import a2geek.asm.api.service.ExpressionService;
-import a2geek.asm.api.util.AssemblerException;
-
-import java.io.IOException;
 
 /**
- * Handle the .elif directives.
+ * Handle the .reset directives.
  * 
- * @author Rob
  * @see Directive
  */
-public class ElifDirective implements Directive {
+public class EndProcDirective implements Directive {
+	public static final String MNEMONIC = ".endproc";
+	
 	/** 
 	 * Answer with the specific opcode mnemonic requesting this particular 
 	 * directive.  Usually this is a "." directive, but it may be something 
@@ -23,7 +20,7 @@ public class ElifDirective implements Directive {
 	 */
 	@Override
 	public String getOpcodeMnemonic() {
-		return ".elif";
+		return MNEMONIC;
 	}
 
 	/**
@@ -31,11 +28,9 @@ public class ElifDirective implements Directive {
 	 * the AssemblerState as needed. 
 	 */
 	@Override
-	public void process(LineParts parts) throws AssemblerException {
-		//FIXME Does not know if (a) prior if or elif was true and (b) handle nested if statements
+	public void process(LineParts parts) {
 		AssemblerState state = AssemblerState.get();
-		Long value = (Long) ExpressionService.evaluate(parts.getExpression());
-		state.setActive(0L != value);
+		state.nextLocalScope();
 	}
 
 	/**
@@ -44,7 +39,8 @@ public class ElifDirective implements Directive {
 	 * may be thrown.
 	 */
 	@Override
-	public DirectiveDocumentation getDocumentation() throws IOException {
-		return new DirectiveDocumentation(getOpcodeMnemonic(), "Conditional ELSE-IF", "elif.peb", IfDirective.MNEMONIC, 2);
+	public DirectiveDocumentation getDocumentation() {
+		// TODO
+		return null;
 	}
 }

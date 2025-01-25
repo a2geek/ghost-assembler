@@ -15,3 +15,5 @@ a2geek.asm.api.directive.OrgDirective
 a2geek.asm.api.directive.ResetDirective
 a2geek.asm.api.directive.StringDataDirective
 a2geek.asm.api.directive.StringhDataDirective
+a2geek.asm.api.directive.ProcDirective
+a2geek.asm.api.directive.EndProcDirective

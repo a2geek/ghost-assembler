@@ -1,8 +1,8 @@
 package a2geek.asm.api.definition;
 
-import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.ExpressionService;
+import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.pattern.QMatch;
 import a2geek.asm.api.util.pattern.QPattern;
 import jakarta.xml.bind.annotation.XmlElement;

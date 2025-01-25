@@ -2,12 +2,17 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.io.AssemblerByteArrayOutputStream;
+import a2geek.asm.api.util.Sources;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Tracks current state of the assembly process.
@@ -31,7 +36,7 @@ public class AssemblerState {
 	 */
 	public static void init(File file) throws IOException {
 		current.set(new AssemblerState());
-		get().file = file;
+		get().source = Sources.get(file);
 		get().reset();
 		get().localVars.add(null);
 	}
@@ -41,7 +46,9 @@ public class AssemblerState {
 	 */
 	public static void init(String source) throws IOException {
 		current.set(new AssemblerState());
-		get().source = source;
+		if (source != null) {
+			get().source = Sources.get(source);
+		}
 		get().reset();
 		get().localVars.add(null);
 	}
@@ -63,10 +70,8 @@ public class AssemblerState {
 		localScope = 0;
 		// Setup reader
 		reader = null;
-		if (file != null) {
-			reader = new LineNumberReader(new FileReader(file));
-		} else if (source != null) {
-			reader = new LineNumberReader(new StringReader(source));
+		if (source != null) {
+			reader = new LineNumberReader(source.get());
 		}
 		// Set lines to be active by default
 		active = true;
@@ -74,8 +79,7 @@ public class AssemblerState {
 		identifyLabels = false;
 	}
 
-	private File file = null;
-	private String source = null;
+	private Supplier<Reader> source = null;
 	private CpuDefinition cpu = null;
 	private LineNumberReader reader = null;
 	private AssemblerByteArrayOutputStream output = new AssemblerByteArrayOutputStream();
@@ -86,6 +90,13 @@ public class AssemblerState {
 	private boolean active = true;
 	private boolean identifyLabels = false;
 
+	public String fixVarName(String name) {
+		if (name.length() > 1 && name.endsWith(":")) {
+			return name.substring(0, name.length()-1);
+		}
+		return name;
+	}
+
 	public boolean containsGlobalVariable(String name) {
 		return globalVars.containsKey(name);
 	}
@@ -93,7 +104,7 @@ public class AssemblerState {
 		addGlobalVariable(name, pc);
 	}
 	public void addGlobalVariable(String name, Long value) {
-		globalVars.put(name, value);
+		globalVars.put(fixVarName(name), value);
 	}
 	
 	public boolean containsLocalVariable(String name) {
@@ -110,7 +121,7 @@ public class AssemblerState {
 		if (localVars.get(localScope) == null) {
 			localVars.set(localScope, new HashMap<>());
 		}
-		localVars.get(localScope).put(name, value);
+		localVars.get(localScope).put(fixVarName(name), value);
 	}
 	public Map<String,Long> getVariables() {
         Map<String, Long> vars = new HashMap<>(globalVars);

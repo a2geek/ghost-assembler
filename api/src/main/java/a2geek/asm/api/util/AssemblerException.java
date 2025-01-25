@@ -1,7 +1,5 @@
 package a2geek.asm.api.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
 import java.io.Serial;
 
 /**
@@ -69,5 +67,12 @@ public class AssemblerException extends Exception {
      */
     public AssemblerException(String fmt, Object... args) {
         super(String.format(fmt, args));
+    }
+
+    /**
+     * Helper constructor for a formatted message in the AssemblerException.
+     */
+    public AssemblerException(Throwable cause, String fmt, Object... args) {
+        super(String.format(fmt, args), cause);
     }
 }
