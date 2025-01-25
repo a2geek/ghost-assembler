@@ -4,6 +4,7 @@ import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.Sources;
 import a2geek.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class LineAssemblerServiceTest {
 	@BeforeEach
 	public void setup() throws IOException {
-		AssemblerState.get().reset();
+		AssemblerState.init(Sources.get("; empty"));
 		AssemblerState state = AssemblerState.get();
 
 		CpuDefinition cpu = DefinitionService.load(AsmAssert.location("Test-1 CPU.xml"), ValidationType.VALIDATE);

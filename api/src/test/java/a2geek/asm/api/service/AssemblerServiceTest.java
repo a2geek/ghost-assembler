@@ -21,7 +21,7 @@ import java.io.StringWriter;
 public class AssemblerServiceTest {
 	@BeforeEach
 	public void setUp() throws IOException {
-		AssemblerState.remove();
+		AssemblerState.init(Sources.get("; empty"));
 	}
 	
 	/**
