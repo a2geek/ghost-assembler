@@ -299,33 +299,17 @@ public class ExpressionService {
 		if (valStack.isEmpty()) {
 			throw new AssemblerException("Value stack empty when evaluating binary String operation.");
 		}
-		Object result = null;
 		String value1 = (String)valStack.pop();
-		switch (op) {
-			case ADD:
-				result = value1 + value2;
-				break;
-			case EQUALS:
-				result = value1.equals(value2) ? 1L : 0L; 
-				break;
-			case GREATER_EQUALS:
-				result = value1.compareTo(value2) >= 0 ? 1L : 0L;
-				break;
-			case GREATER_THAN:
-				result = value1.compareTo(value2) > 0 ? 1L : 0L;
-				break;
-			case LESS_EQUALS:
-				result = value1.compareTo(value2) <= 0 ? 1L : 0L;
-				break;
-			case LESS_THAN:
-				result = value1.compareTo(value2) < 0 ? 1L : 0L;
-				break;
-			case NOT_EQUALS:
-				result = !value1.equals(value2) ? 1L : 0L;
-				break;
-			default:
-                throw new AssemblerException("The operator is not supported for strings.");
-		}
+        Object result = switch (op) {
+            case ADD -> value1 + value2;
+            case EQUALS -> value1.equals(value2) ? 1L : 0L;
+            case GREATER_EQUALS -> value1.compareTo(value2) >= 0 ? 1L : 0L;
+            case GREATER_THAN -> value1.compareTo(value2) > 0 ? 1L : 0L;
+            case LESS_EQUALS -> value1.compareTo(value2) <= 0 ? 1L : 0L;
+            case LESS_THAN -> value1.compareTo(value2) < 0 ? 1L : 0L;
+            case NOT_EQUALS -> !value1.equals(value2) ? 1L : 0L;
+            default -> throw new AssemblerException("The operator is not supported for strings.");
+        };
 		valStack.push(result);
 	}
 	
