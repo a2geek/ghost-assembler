@@ -2,15 +2,17 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.io.AssemblerByteArrayOutputStream;
-import a2geek.asm.api.util.Source;
+import a2geek.asm.api.util.Sources;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Tracks current state of the assembly process.
@@ -34,7 +36,7 @@ public class AssemblerState {
 	 */
 	public static void init(File file) throws IOException {
 		current.set(new AssemblerState());
-		get().source = new Source(file);
+		get().source = Sources.get(file);
 		get().reset();
 		get().localVars.add(null);
 	}
@@ -45,7 +47,7 @@ public class AssemblerState {
 	public static void init(String source) throws IOException {
 		current.set(new AssemblerState());
 		if (source != null) {
-			get().source = new Source(source);
+			get().source = Sources.get(source);
 		}
 		get().reset();
 		get().localVars.add(null);
@@ -69,7 +71,7 @@ public class AssemblerState {
 		// Setup reader
 		reader = null;
 		if (source != null) {
-			reader = new LineNumberReader(source.newReader());
+			reader = new LineNumberReader(source.get());
 		}
 		// Set lines to be active by default
 		active = true;
@@ -77,7 +79,7 @@ public class AssemblerState {
 		identifyLabels = false;
 	}
 
-	private Source source = null;
+	private Supplier<Reader> source = null;
 	private CpuDefinition cpu = null;
 	private LineNumberReader reader = null;
 	private AssemblerByteArrayOutputStream output = new AssemblerByteArrayOutputStream();
