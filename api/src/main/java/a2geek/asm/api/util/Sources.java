@@ -19,4 +19,8 @@ public class Sources {
     public static Supplier<Reader> get(String source) {
         return () -> new StringReader(source);
     }
+
+    public static Supplier<Reader> get(Supplier<InputStream> inputStream) {
+        return () -> new InputStreamReader(inputStream.get());
+    }
 }

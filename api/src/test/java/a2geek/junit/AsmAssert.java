@@ -2,6 +2,7 @@ package a2geek.junit;
 
 import a2geek.asm.api.service.AssemblerService;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.Sources;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
@@ -58,7 +59,7 @@ public abstract class AsmAssert {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		try {
-			byte[] code = AssemblerService.assemble(pw, new File(location(filename)));
+			byte[] code = AssemblerService.assemble(pw, Sources.get(new File(location(filename))));
 			assertEquals(expected, code);
 			success = true;
 		} finally {

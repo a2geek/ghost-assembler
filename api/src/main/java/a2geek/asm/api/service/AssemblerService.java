@@ -3,10 +3,11 @@ package a2geek.asm.api.service;
 import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.util.AssemblerException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Provide services surrounding assembly of an entire program file.
@@ -27,21 +28,8 @@ public class AssemblerService {
 		return directives.values();
 	}
 
-	/**
-	 * Assemble the source code from a string (useful for integrations) into a byte array.
-	 */
-	public static byte[] assemble(PrintWriter pw, String source) throws IOException, AssemblerException {
-		AssemblerState.init(source);
-		return assemble(pw);
-	}
-	/**
-	 * Assemble the source code from a file into a byte array.
-	 */
-	public static byte[] assemble(PrintWriter pw, File file) throws IOException, AssemblerException {
-		AssemblerState.init(file);
-		return assemble(pw);
-	}
-	private static byte[] assemble(PrintWriter pw) throws IOException, AssemblerException {
+	public static byte[] assemble(PrintWriter pw, Supplier<Reader> sourceReader) throws IOException, AssemblerException {
+		AssemblerState.init(sourceReader);
 		determineLabelLocations();	// Pass #1
 		AssemblerState.get().reset();
 		assembleFile(pw);			// Pass #2

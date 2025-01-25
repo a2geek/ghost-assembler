@@ -1,6 +1,7 @@
 package a2geek.asm.api.service;
 
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.Sources;
 import a2geek.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ import java.io.StringWriter;
 public class AssemblerServiceTest {
 	@BeforeEach
 	public void setUp() throws IOException {
-		AssemblerState.init((String)null);
+		AssemblerState.remove();
 	}
 	
 	/**
@@ -237,7 +238,8 @@ public class AssemblerServiceTest {
 		try {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
-			AssemblerService.assemble(pw, new File(AsmAssert.location("Test-Assemble-label-duplicates.asm")));
+			File file = new File(AsmAssert.location("Test-Assemble-label-duplicates.asm"));
+			AssemblerService.assemble(pw, Sources.get(file));
 			Assertions.fail("Expecting duplicates to cause error.");
 		} catch (AssemblerException expected) {
 			// Expecting the error

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class LineAssemblerServiceTest {
 	@BeforeEach
 	public void setup() throws IOException {
-		AssemblerState.init((String)null);
+		AssemblerState.get().reset();
 		AssemblerState state = AssemblerState.get();
 
 		CpuDefinition cpu = DefinitionService.load(AsmAssert.location("Test-1 CPU.xml"), ValidationType.VALIDATE);

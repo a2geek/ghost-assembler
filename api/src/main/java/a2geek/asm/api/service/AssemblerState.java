@@ -2,16 +2,11 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.io.AssemblerByteArrayOutputStream;
-import a2geek.asm.api.util.Sources;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -31,24 +26,14 @@ public class AssemblerState {
 		return current.get();
 	}
 	/**
-	 * Initialize this state with the file to be processed.
+	 * Initialize this state with the reader to be processed.
 	 * Fully resets the AssemblerService.
 	 */
-	public static void init(File file) throws IOException {
+	public static void init(Supplier<Reader> sourceReader) throws IOException {
+		Objects.requireNonNull(sourceReader);
+
 		current.set(new AssemblerState());
-		get().source = Sources.get(file);
-		get().reset();
-		get().localVars.add(null);
-	}
-	/** 
-	 * Initialize this state with the source code to be processed.
-	 * Fully resets the AssemblerService.
-	 */
-	public static void init(String source) throws IOException {
-		current.set(new AssemblerState());
-		if (source != null) {
-			get().source = Sources.get(source);
-		}
+		get().source = sourceReader;
 		get().reset();
 		get().localVars.add(null);
 	}

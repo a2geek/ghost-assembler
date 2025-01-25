@@ -2,6 +2,7 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.io.IOUtils;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.Sources;
 import a2geek.junit.AsmAssert;
 import a2geek.junit.TestDetailLoader;
 import a2geek.junit.TestDetailLoader.TestDetail;
@@ -46,7 +47,7 @@ public class TestDetailRunner {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		try {
-			byte[] code = AssemblerService.assemble(pw, detail.source);
+			byte[] code = AssemblerService.assemble(pw, Sources.get(detail.source));
 			AsmAssert.assertEquals(detail.expected, code);
 			success = true;
 		} finally {
