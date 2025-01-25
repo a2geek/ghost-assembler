@@ -39,7 +39,7 @@ public class LineParserService {
 			if (isAtEndOfPart(state, ch, buf.length())) {
 				savePart(state, buf, parts);
 				state = state.next();
-				// We may have the start of a comment and we don't want to 
+				// We may have the start of a comment, and we don't want to
 				// lose it!
 				if (state == State.COMMENT) buf.append(ch);
 			} else {

@@ -21,7 +21,7 @@
 			<title>Zero Page Indirect</title>
 			<description>
 				With Zero Page Indirect addressing mode, the second byte of the
-				instruction is a zero page indirect address that points to the low byte of
+				instruction is a Zero Page indirect address that points to the low byte of
 				a two byte effective address.
 			</description>
 			<format>(zp)</format>

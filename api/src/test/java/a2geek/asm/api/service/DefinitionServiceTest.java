@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Provide a very basic test to confirm that the basics of the DefinitionService
- * are setup correctly to reconstitute the XML CPU definition into the appropriate
+ * are set up correctly to reconstitute the XML CPU definition into the appropriate
  * Java model.
  * 
  * @author Rob

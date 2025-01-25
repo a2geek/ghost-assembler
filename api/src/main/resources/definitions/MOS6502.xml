@@ -9,7 +9,7 @@
 	<name>MOS6502</name>
 	<overview href="http://en.wikipedia.org/wiki/MOS_Technology_6502">
 	The MOS Technology 6502 is an 8-bit microprocessor designed by Chuck Peddle for MOS Technology 
-	in 1975. When it was introduced it was the least expensive full featured CPU on the market by 
+	in 1975. When it was introduced it was the least expensive full-featured CPU on the market by
 	far, at about 1/6th the price, or less, of competing designs from larger companies such as 
 	Motorola and Intel. It was nevertheless faster than most of them, and, along with the Zilog Z80, 
 	sparked off a series of computer projects* that would eventually result in the home computer 
@@ -122,7 +122,7 @@
 			<title>Zero Page Indexed with Y</title>
 			<description>
 				With Zero Page Indexed with Y addressing, the second byte of the
-				instruction is the zero page address to which the Y Index Register is
+				instruction is the Zero Page address to which the Y Index Register is
 				added to form the page zero effective address.
 			</description>
 			<format>zp,Y</format>
@@ -183,7 +183,7 @@
 			<title>Zero Page Indexed Indirect</title>
 			<description>
 				The Zero Page Indexed Indirect addressing mode is often referred to as
-				Indirect,X. The second byte of the instruction is the zero page address to
+				Indirect,X. The second byte of the instruction is the Zero Page address to
 				which the X Index Register is added and the result points to the low byte
 				of the indirect address.
 			</description>

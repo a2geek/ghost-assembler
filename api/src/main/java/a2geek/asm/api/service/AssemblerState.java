@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 /**
  * Tracks current state of the assembly process.
- * This is setup as a ThreadLocal so all components have access to the state
+ * This is set up as a ThreadLocal so all components have access to the state
  * without passing the state object or pieces of the state object around.
  * 
  * @author Rob

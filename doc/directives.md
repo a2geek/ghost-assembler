@@ -63,6 +63,8 @@ Example:
 ```
 
 Places `0x48 0x65 0x6C 0x6C 0x6F 0x00` into memory.
+## .addr - Address
+TBD
 ## .define - Define a variable
 Place a name into the global name space with no value. This can be tested with the `.if` directive.
 
