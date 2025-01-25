@@ -171,12 +171,13 @@ public class AssemblerService {
 	 * Display the output.
 	 */
 	protected static void display(PrintWriter pw, long startPosition, String originalLine, AssemblerState state) {
-		long bytesWritten = state.getOutput().size() - startPosition;
+		byte[] code = state.getOutput().toByteArray();
+		long bytesWritten = code.length - startPosition;
 		long startingAddress = state.getPC() - bytesWritten;
 		pw.printf("%04X: ", startingAddress);
 		int maxHexNumbers = 3;
-		while (startPosition < state.getOutput().size() && maxHexNumbers > 0) {
-			pw.printf("%02X ", state.getOutput().byteAt((int)startPosition));
+		while (startPosition < code.length && maxHexNumbers > 0) {
+			pw.printf("%02X ", code[(int)startPosition]);
 			startPosition++;
 			maxHexNumbers--;
 			startingAddress++;
@@ -184,11 +185,11 @@ public class AssemblerService {
 		while (maxHexNumbers-- > 0) pw.printf("   ");
 		pw.printf("%4d  %s\n", state.getReader().getLineNumber(), originalLine);
 		// If we have more than 3 bytes of data, print them 8 per line...
-		while (startPosition < state.getOutput().size()) {
+		while (startPosition < code.length) {
 			pw.printf("%04X: ", startingAddress);
 			maxHexNumbers = 8;
-			while (startPosition < state.getOutput().size() && maxHexNumbers > 0) {
-				pw.printf("%02X ", state.getOutput().byteAt((int)startPosition));
+			while (startPosition < code.length && maxHexNumbers > 0) {
+				pw.printf("%02X ", code[(int)startPosition]);
 				startPosition++;
 				maxHexNumbers--;
 				startingAddress++;

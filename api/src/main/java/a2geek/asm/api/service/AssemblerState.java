@@ -1,8 +1,8 @@
 package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
-import a2geek.asm.api.io.AssemblerByteArrayOutputStream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
@@ -67,7 +67,7 @@ public class AssemblerState {
 	private Supplier<Reader> source = null;
 	private CpuDefinition cpu = null;
 	private LineNumberReader reader = null;
-	private AssemblerByteArrayOutputStream output = new AssemblerByteArrayOutputStream();
+	private ByteArrayOutputStream output = new ByteArrayOutputStream();
 	private Map<String,Long> globalVars = new HashMap<>();
 	private List<Map<String,Long>> localVars = new ArrayList<>();
 	private int localScope = 0;
@@ -148,7 +148,7 @@ public class AssemblerState {
 	public LineNumberReader getReader() {
 		return reader;
 	}
-	public AssemblerByteArrayOutputStream getOutput() {
+	public ByteArrayOutputStream getOutput() {
 		return output;
 	}
 	
