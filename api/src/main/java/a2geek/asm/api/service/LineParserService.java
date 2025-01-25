@@ -1,6 +1,6 @@
 package a2geek.asm.api.service;
 
-import a2geek.asm.api.assembler.LineParts;
+import a2geek.asm.api.util.LineParts;
 
 /**
  * Provide services surrounding lines of assembly code.

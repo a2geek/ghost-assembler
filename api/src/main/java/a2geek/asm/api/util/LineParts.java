@@ -1,4 +1,4 @@
-package a2geek.asm.api.assembler;
+package a2geek.asm.api.util;
 
 /**
  * Contains all the parts of a source assembly line.

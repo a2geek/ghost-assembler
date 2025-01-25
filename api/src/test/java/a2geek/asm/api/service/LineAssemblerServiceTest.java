@@ -1,9 +1,9 @@
 package a2geek.asm.api.service;
 
-import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.LineParts;
 import a2geek.asm.api.util.Sources;
 import a2geek.junit.AsmAssert;
 import org.junit.jupiter.api.Assertions;

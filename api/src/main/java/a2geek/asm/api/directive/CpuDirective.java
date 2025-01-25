@@ -1,10 +1,10 @@
 package a2geek.asm.api.directive;
 
-import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.service.*;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.LineParts;
 
 import java.io.IOException;
 

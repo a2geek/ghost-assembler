@@ -1,11 +1,11 @@
 package a2geek.asm.api.directive;
 
-import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.service.AssemblerService;
 import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.service.ExpressionService;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.LineParts;
 
 /**
  * Handle various data directives.

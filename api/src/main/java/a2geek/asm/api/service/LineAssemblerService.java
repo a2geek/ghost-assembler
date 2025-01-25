@@ -1,11 +1,11 @@
 package a2geek.asm.api.service;
 
-import a2geek.asm.api.assembler.LineParts;
 import a2geek.asm.api.definition.AddressModeDefinition;
 import a2geek.asm.api.definition.ByteCode;
 import a2geek.asm.api.definition.CpuDefinition.OperationMatch;
 import a2geek.asm.api.definition.Register;
 import a2geek.asm.api.util.AssemblerException;
+import a2geek.asm.api.util.LineParts;
 import a2geek.asm.api.util.pattern.QMatch;
 
 import java.util.HashMap;
