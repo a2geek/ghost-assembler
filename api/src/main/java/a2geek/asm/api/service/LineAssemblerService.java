@@ -22,61 +22,63 @@ public class LineAssemblerService {
 	 * Assemble a line of code.
 	 */
 	public static int assemble(LineParts parts) throws AssemblerException {
-		try {
-			AssemblerState state = AssemblerState.get();
-			OperationMatch operationMatch = state.getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
-			AddressModeDefinition mode = operationMatch.getOperationAddressing().getAddressMode();
-			String opcode = operationMatch.getOperationAddressing().getOpcode();
-			if (opcode == null) {
-				throw new AssemblerException("Unable to assemble line #%d: '%s'.", parts.getLineNumber(), parts.toString());
-			}
-
-			Map<String,Long> generateVariables = new HashMap<>();
-			generateVariables.put("opcode", (Long)ExpressionService.evaluate(opcode));
-			generateVariables.put("PC", state.getPC());
-			if (parts.getExpression() != null) {
-				QMatch exprMatch = mode.getQPattern().match(parts.getExpression());
-				QMatch varMatch = mode.getQPattern().match(mode.getFormat());
-				if (!exprMatch.isMatched() || !varMatch.isMatched() ||
-						exprMatch.getSize() != varMatch.getSize()) {
-					throw new AssemblerException("Expression on line #%d ('%s') did not match expected format of '%s'.",
-							parts.getLineNumber(), parts.toString(), mode.getFormat());
-				}
-				for (int i=0; i< exprMatch.getSize(); i++) {
-					String registerGroup = varMatch.getResult(i);
-					String registerName = exprMatch.getResult(i);
-					if (state.getCpuDefinition().isRegisterGroup(registerGroup)) {
-						Register register = state.getCpuDefinition().findRegister(registerGroup, registerName);
-						if (register != null) {
-							registerName = register.getValue();
-						} else {
-							throw new AssemblerException("Expecting register on line #%d ('%s') but found '%s'.",
-									parts.getLineNumber(), parts.toString(), registerName);
-						}
-					}
-					generateVariables.put(registerGroup, (Long)ExpressionService.evaluate(registerName, state.getVariables()));
-				}
-			}
-
-			evaluateCode(mode.getByteCode(), operationMatch.getMnemonicMatchCode(), generateVariables);
-
-			return size(parts);
-		} catch (Throwable t) {
-			throw new AssemblerException(t, "Error in line #%d (%s)",
-				parts.getLineNumber(), parts.toString());
+		AssemblerState state = AssemblerState.get();
+		if (state.getCpuDefinition() == null) {
+			throw new AssemblerException("a cpu has not been selected, please use the '.cpu' directive to select one");
 		}
+		OperationMatch operationMatch = state.getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
+		AddressModeDefinition mode = operationMatch.getOperationAddressing().getAddressMode();
+		String opcode = operationMatch.getOperationAddressing().getOpcode();
+		if (opcode == null) {
+			throw new AssemblerException("Unable to determine opcode: '%s'.", parts.toString());
+		}
+
+		Map<String,Long> generateVariables = new HashMap<>();
+		generateVariables.put("opcode", (Long)ExpressionService.evaluate(opcode));
+		generateVariables.put("PC", state.getPC());
+		if (parts.getExpression() != null) {
+			QMatch exprMatch = mode.getQPattern().match(parts.getExpression());
+			QMatch varMatch = mode.getQPattern().match(mode.getFormat());
+			if (!exprMatch.isMatched() || !varMatch.isMatched() ||
+					exprMatch.getSize() != varMatch.getSize()) {
+				throw new AssemblerException("Expression did not match expected format of '%s'.",
+						parts.toString(), mode.getFormat());
+			}
+			for (int i=0; i< exprMatch.getSize(); i++) {
+				String registerGroup = varMatch.getResult(i);
+				String registerName = exprMatch.getResult(i);
+				if (state.getCpuDefinition().isRegisterGroup(registerGroup)) {
+					Register register = state.getCpuDefinition().findRegister(registerGroup, registerName);
+					if (register != null) {
+						registerName = register.getValue();
+					} else {
+						throw new AssemblerException("Expecting register but found '%s'.",
+								parts.toString(), registerName);
+					}
+				}
+				generateVariables.put(registerGroup, (Long)ExpressionService.evaluate(registerName, state.getVariables()));
+			}
+		}
+
+		evaluateCode(mode.getByteCode(), operationMatch.getMnemonicMatchCode(), generateVariables);
+
+		return size(parts);
 	}
 	
 	/**
 	 * Determine the number of bytes that a line will use.
 	 */
 	public static int size(LineParts parts) throws AssemblerException {
-		OperationMatch match = AssemblerState.get().getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
+		AssemblerState state = AssemblerState.get();
+		if (state.getCpuDefinition() == null) {
+			throw new AssemblerException("a cpu has not been selected, please use the '.cpu' directive to select one");
+		}
+		OperationMatch match = state.getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		if (match == null) {
-			throw new AssemblerException("Unknown operator in line #%d ('%s')!", parts.getLineNumber(), parts.toString());
+			throw new AssemblerException("Unknown operator ('%s')!", parts.getOpcode());
 		} else if (match.getOperationAddressing() == null) {
-			throw new AssemblerException("Unknown address mode for %s in line #%d ('%s')!", match.getOperation().getMnemonic(),
-					parts.getLineNumber(), parts.toString());
+			throw new AssemblerException("Unknown address mode for %s ('%s')!",
+					match.getOperation().getMnemonic(), parts.toString());
 		}
 		return match.getOperationAddressing().getAddressMode().getByteCodeSize();
 	}

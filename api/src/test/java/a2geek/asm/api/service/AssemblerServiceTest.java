@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * Test the assembler.  This starts out with a simple CPU and simple types of code
@@ -236,10 +234,8 @@ public class AssemblerServiceTest {
 	@Test
 	public void testLabelDuplicates() throws IOException {
 		try {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
 			File file = new File(AsmAssert.location("Test-Assemble-label-duplicates.asm"));
-			AssemblerService.assemble(pw, Sources.get(file));
+			AssemblerService.assemble(Sources.get(file));
 			Assertions.fail("Expecting duplicates to cause error.");
 		} catch (AssemblerException expected) {
 			// Expecting the error

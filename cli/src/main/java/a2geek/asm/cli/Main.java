@@ -1,6 +1,7 @@
 package a2geek.asm.cli;
 
 import a2geek.asm.api.service.AssemblerService;
+import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.DefinitionService;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.util.AssemblerException;
@@ -8,7 +9,10 @@ import a2geek.asm.api.util.Sources;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,14 +112,13 @@ public class Main {
 	 * Perform the actual assembly.
 	 */
 	private static void assemble(String filename) {
-		StringWriter sw = new StringWriter();
+		AssemblerState state = null;
 		try {
 			Date startTime = new Date();
 			
 			File assemblyFile = new File(filename);
-			PrintWriter pw = new PrintWriter(sw);
-			byte[] code = AssemblerService.assemble(pw, Sources.get(assemblyFile));
-			pw.close();
+			state = AssemblerService.assemble(Sources.get(assemblyFile));
+			byte[] code = state.getOutput().toByteArray();
 
 			String outputName = options.getOutputName(filename);
 			FileOutputStream output = new FileOutputStream(outputName);
@@ -127,11 +130,17 @@ public class Main {
 			System.out.printf("Assembled %s in %s seconds.  Binary file written was %d bytes.\n",
 					outputName, length/1000, code.length);
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			System.err.println(ex.getMessage());
+			AssemblerState.get().getLog().forEach(log -> {
+				switch (log.type()) {
+					case ERROR -> System.out.printf("      | %s: %s\n", log.type(), log.message());
+					case SOURCE -> System.out.printf("%05d | %s\n", log.lineNumber(), log.message());
+				}
+			});
+			System.exit(1);
 		} finally {
-			if (options.assemblyListingName != null) {
-				String assembledCode = sw.toString();
-				writeTextFile(options.assemblyListingName, assembledCode);
+			if (options.assemblyListingName != null && state != null) {
+				writeListingFile(options.assemblyListingName, state);
 			}
 		}
 	}
@@ -140,10 +149,15 @@ public class Main {
 	 * Given some text, write that text to given filename.  This method assumes that the text
 	 * is already formatted.
 	 */
-	private static void writeTextFile(String filename, String text) {
+	private static void writeListingFile(String filename, AssemblerState state) {
 		try {
 			PrintWriter pw = new PrintWriter(filename);
-			pw.println(text);
+			state.getLog().forEach(log -> {
+				switch (log.type()) {
+					case SOURCE -> pw.println(log.message());
+					case ERROR -> pw.printf("%s: %s\n", log.type(), log.message());
+				}
+			});
 			pw.close();
 		} catch (FileNotFoundException ex) {
 			throw new RuntimeException(ex);

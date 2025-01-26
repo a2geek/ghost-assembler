@@ -2,10 +2,12 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.LineParts;
+import a2geek.asm.api.util.LogEntry.LogType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -28,49 +30,62 @@ public class AssemblerService {
 		return directives.values();
 	}
 
-	public static byte[] assemble(PrintWriter pw, Supplier<Reader> sourceReader) throws IOException, AssemblerException {
+	public static AssemblerState assemble(Supplier<Reader> sourceReader) throws IOException, AssemblerException {
 		AssemblerState.init(sourceReader);
 		determineLabelLocations();	// Pass #1
+		if (AssemblerState.get().hasErrors()) {
+			throw new AssemblerException("Errors encountered in pass #1");
+		}
 		AssemblerState.get().reset();
-		assembleFile(pw);			// Pass #2
-
-		return AssemblerState.get().getOutput().toByteArray();
+		assembleFile();            // Pass #2
+		if (AssemblerState.get().hasErrors()) {
+			throw new AssemblerException("Errors encountered in pass #2");
+		}
+		return AssemblerState.get();
 	}
 
 	/**
 	 * Perform the first pass of the assembler.  That is, run through and assign
 	 * the appropriate memory location for each declared label.
 	 */
-	protected static void determineLabelLocations() throws IOException, AssemblerException {
+	protected static void determineLabelLocations() throws IOException {
 		AssemblerState state = AssemblerState.get();
 		state.setIdentifyLabels(true);	// gives some leniency when a label hasn't been defined
 		int lineNumber=0;
 		while (true) {
-			String line = state.getReader().readLine();
-			if (line == null) break;
-			lineNumber++;
-			LineParts parts = LineParserService.parseLine(line);
-			parts.setLineNumber(lineNumber);
-			if (state.isActive() && parts.getLabel() != null) {
-				if (parts.isGlobalLabel()) {
-					if (state.containsGlobalVariable(parts.getLabel())) {
-						throw new AssemblerException("Unable to redefine global label '" +
-								parts.getLabel() + "'.");
+			String line = null;
+			try {
+				line = state.getReader().readLine();
+				if (line == null) break;
+				lineNumber++;
+				LineParts parts = LineParserService.parseLine(line);
+				if (state.isActive() && parts.getLabel() != null) {
+					if (parts.isGlobalLabel()) {
+						if (state.containsGlobalVariable(parts.getLabel())) {
+							throw new AssemblerException("Unable to redefine global label '%s'.",
+								parts.getLabel());
+						}
+						state.addGlobalVariable_PC(parts.getLabel());
+						state.nextLocalScope();
+					} else {	// Assume a local label
+						if (state.containsLocalVariable(parts.getLabel())) {
+							throw new AssemblerException(
+								"Unable to redefine local label '%s' without a '.reset locals' directive.",
+								parts.getLabel());
+						}
+						state.addLocalVariable_PC(parts.getLabel());
 					}
-					state.addGlobalVariable_PC(parts.getLabel());
-					state.nextLocalScope();
-				} else {	// Assume a local label
-					if (state.containsLocalVariable(parts.getLabel())) {
-						throw new AssemblerException("Unable to redefine local label '" +
-								parts.getLabel() + "' without a '.reset locals' directive.");
-					}
-					state.addLocalVariable_PC(parts.getLabel());
 				}
-			}
-			if (isDirective(parts)) {
-				processDirective(parts);
-			} else if (state.isActive() && parts.getOpcode() != null) {
-				state.incrementPC(LineAssemblerService.size(parts));
+				if (isDirective(parts)) {
+					processDirective(parts);
+				} else if (state.isActive() && parts.getOpcode() != null) {
+					state.incrementPC(LineAssemblerService.size(parts));
+				}
+			} catch (Throwable t) {
+				if (line != null) {
+					state.addLog(lineNumber, LogType.SOURCE, line);
+				}
+				state.addLog(lineNumber, LogType.ERROR, t.getMessage());
 			}
 		}
 		state.reset();
@@ -78,27 +93,36 @@ public class AssemblerService {
 
 	/**
 	 * Perform the second pass of the assembler.  This pass actually generates
-	 * the byte-level code that is the ultimate output.
+	 * the byte-type code that is the ultimate output.
 	 */
-	protected static void assembleFile(PrintWriter pw) throws IOException, AssemblerException {
+	protected static void assembleFile() throws IOException {
 		AssemblerState state = AssemblerState.get();
 		int lineNumber=0;
 		while (true) {
-			String line = state.getReader().readLine();
-			if (line == null) break;
-			lineNumber++;
-			LineParts parts = LineParserService.parseLine(line);
-			parts.setLineNumber(lineNumber);
-			long startPosition = state.getOutput().size();
-			if (state.isActive() && parts.isGlobalLabel()) {
-				state.nextLocalScope();
+			String line = null;
+			try {
+				line = state.getReader().readLine();
+				if (line == null) break;
+				lineNumber++;
+				LineParts parts = LineParserService.parseLine(line);
+				long startPosition = state.getOutput().size();
+				if (state.isActive() && parts.isGlobalLabel()) {
+					state.nextLocalScope();
+				}
+				if (isDirective(parts)) {
+					processDirective(parts);
+				} else if (state.isActive() && parts.getOpcode() != null) {
+					state.incrementPC(LineAssemblerService.assemble(parts));
+				}
+				for (String output : formatOutput(startPosition, line, state)) {
+					state.addLog(lineNumber, LogType.SOURCE, output);
+				}
+			} catch (Throwable t) {
+				if (line != null) {
+					state.addLog(lineNumber, LogType.SOURCE, line);
+				}
+				state.addLog(lineNumber, LogType.ERROR, t.getMessage());
 			}
-			if (isDirective(parts)) {
-				processDirective(parts);
-			} else if (state.isActive() && parts.getOpcode() != null) {
-				state.incrementPC(LineAssemblerService.assemble(parts));
-			}
-			display(pw, startPosition, line, state);
 		}
 		state.getReader().close();
 	}
@@ -122,11 +146,7 @@ public class AssemblerService {
 			if (directiveKey != null) directiveKey = directiveKey.toLowerCase();
 			if (directives.containsKey(directiveKey)) {
 				Directive directive = directives.get(directiveKey);
-				try {
-					directive.process(parts);
-				} catch (Throwable t) {
-					throw new AssemblerException(t, "Error in line #%d", parts.getLineNumber());
-				}
+				directive.process(parts);
 			} else {
 				throw new AssemblerException(
 						"Unknown assembler directive '%s' on line #%d!",
@@ -170,7 +190,9 @@ public class AssemblerService {
 	/**
 	 * Display the output.
 	 */
-	protected static void display(PrintWriter pw, long startPosition, String originalLine, AssemblerState state) {
+	protected static String[] formatOutput(long startPosition, String originalLine, AssemblerState state) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
 		byte[] code = state.getOutput().toByteArray();
 		long bytesWritten = code.length - startPosition;
 		long startingAddress = state.getPC() - bytesWritten;
@@ -196,5 +218,6 @@ public class AssemblerService {
 			}
 			pw.printf("\n");
 		}
+		return sw.toString().split("\n");
 	}
 }

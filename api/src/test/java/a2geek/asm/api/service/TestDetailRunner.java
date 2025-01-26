@@ -11,8 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,15 +41,17 @@ public class TestDetailRunner {
 	public void validateTestDetail(final String fileName) throws IOException, AssemblerException {
 		TestDetail detail = TestDetailLoader.load(fileName);
 		boolean success = false;
-		StringWriter sw = new StringWriter();
-		try (PrintWriter pw = new PrintWriter(sw)) {
-			byte[] code = AssemblerService.assemble(pw, Sources.get(detail.source));
-			AsmAssert.assertEquals(detail.expected, code);
+		AssemblerState state = null;
+		try {
+			state = AssemblerService.assemble(Sources.get(detail.source));
+			AsmAssert.assertEquals(detail.expected, state.getOutput().toByteArray());
 			success = true;
 		} finally {
 			if (!success) {
 				System.out.println("----------------- " + fileName + " ----------------------");
-				System.out.print(sw);
+				if (state != null) {
+					state.getLog().forEach(System.out::println);
+				}
 				System.out.println("---------------------------------------------------------");
 			}
 		}
