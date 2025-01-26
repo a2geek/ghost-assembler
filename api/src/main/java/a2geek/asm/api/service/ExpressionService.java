@@ -4,6 +4,7 @@ import a2geek.asm.api.util.AssemblerException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -91,7 +92,9 @@ public class ExpressionService {
 	 * Evaluate an expression with the given set of variables.  The Map should
 	 * be keyed by the variable name and contain a Long.
 	 */
-	public static Object evaluate(String expression, Map<String,Long> variables) throws AssemblerException {
+	public static Object evaluate(final String expression, Map<String,Long> variables) throws AssemblerException {
+		Objects.requireNonNull(expression);
+		Objects.requireNonNull(variables);
 		State state = State.START;
 		State priorState = State.START;
 		StringBuilder value = new StringBuilder();
@@ -233,12 +236,14 @@ public class ExpressionService {
 	 * the value stack.
 	 */
 	protected static void reduce(Stack<Operator> opStack, Stack<Object> valStack) throws AssemblerException {
-		if (valStack.peek() instanceof Long) {
+		if (valStack.isEmpty()) {
+			throw new AssemblerException("no value found");
+		} else if (valStack.peek() instanceof Long) {
 			reduceNumber(opStack, valStack);
 		} else if (valStack.peek() instanceof String) {
 			reduceString(opStack, valStack);
 		} else {
-			throw new AssemblerException("Unknown object type on the value stack! (" 
+			throw new AssemblerException("Unknown object type on the value stack! ("
 					+ valStack.peek().getClass().getName() + ")");
 		}
 	}
@@ -248,7 +253,7 @@ public class ExpressionService {
 	protected static void reduceNumber(Stack<Operator> opStack, Stack<Object> valStack) throws AssemblerException {
 		Operator op = opStack.pop();
 		if (valStack.isEmpty()) {
-			throw new AssemblerException("Value stack empty when evaluating a Number operation.");
+			throw new AssemblerException("No value found for '%s' operation.", op);
 		}
 		long value2 = (Long)valStack.pop();
 		long result = 0;
@@ -260,7 +265,7 @@ public class ExpressionService {
 			result = (value2 >> 8) & 0xff;
 		} else {
 			if (valStack.isEmpty()) {
-				throw new AssemblerException("Value stack empty when evaluating binary Number operation.");
+				throw new AssemblerException("Only one value found for '%s' operation.", op);
 			}
 			long value1 = (Long)valStack.pop();
             result = switch (op) {
