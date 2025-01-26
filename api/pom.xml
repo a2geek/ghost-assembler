@@ -9,7 +9,7 @@
   <parent>
     <groupId>a2geek</groupId>
     <artifactId>ghost-assembler</artifactId>
-    <version>0.11.0-SNAPSHOT</version>
+    <version>0.11.0-RELEASE</version>
   </parent>
 
   <dependencies>
