@@ -50,7 +50,6 @@ public class AssemblerService {
 			if (line == null) break;
 			lineNumber++;
 			LineParts parts = LineParserService.parseLine(line);
-			parts.setLineNumber(lineNumber);
 			if (state.isActive() && parts.getLabel() != null) {
 				if (parts.isGlobalLabel()) {
 					if (state.containsGlobalVariable(parts.getLabel())) {
@@ -88,7 +87,6 @@ public class AssemblerService {
 			if (line == null) break;
 			lineNumber++;
 			LineParts parts = LineParserService.parseLine(line);
-			parts.setLineNumber(lineNumber);
 			long startPosition = state.getOutput().size();
 			if (state.isActive() && parts.isGlobalLabel()) {
 				state.nextLocalScope();
@@ -122,11 +120,7 @@ public class AssemblerService {
 			if (directiveKey != null) directiveKey = directiveKey.toLowerCase();
 			if (directives.containsKey(directiveKey)) {
 				Directive directive = directives.get(directiveKey);
-				try {
-					directive.process(parts);
-				} catch (Throwable t) {
-					throw new AssemblerException(t, "Error in line #%d", parts.getLineNumber());
-				}
+				directive.process(parts);
 			} else {
 				throw new AssemblerException(
 						"Unknown assembler directive '%s' on line #%d!",

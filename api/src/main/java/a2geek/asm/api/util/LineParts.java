@@ -6,7 +6,6 @@ package a2geek.asm.api.util;
  * @author Rob
  */
 public class LineParts {
-	private int lineNumber=-1;
 	private String comment;
 	private String label;
 	private String opcode;
@@ -19,12 +18,6 @@ public class LineParts {
 		return label != null && (label.startsWith(":") || label.startsWith("@"));
 	}
 
-	public int getLineNumber() {
-		return lineNumber;
-	}
-	public void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
 	public String getComment() {
 		return comment;
 	}
