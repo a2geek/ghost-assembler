@@ -23,6 +23,9 @@ public class LineAssemblerService {
 	 */
 	public static int assemble(LineParts parts) throws AssemblerException {
 		AssemblerState state = AssemblerState.get();
+		if (state.getCpuDefinition() == null) {
+			throw new AssemblerException("a cpu has not been selected, please use the '.cpu' directive to select one");
+		}
 		OperationMatch operationMatch = state.getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		AddressModeDefinition mode = operationMatch.getOperationAddressing().getAddressMode();
 		String opcode = operationMatch.getOperationAddressing().getOpcode();
@@ -66,9 +69,13 @@ public class LineAssemblerService {
 	 * Determine the number of bytes that a line will use.
 	 */
 	public static int size(LineParts parts) throws AssemblerException {
-		OperationMatch match = AssemblerState.get().getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
+		AssemblerState state = AssemblerState.get();
+		if (state.getCpuDefinition() == null) {
+			throw new AssemblerException("a cpu has not been selected, please use the '.cpu' directive to select one");
+		}
+		OperationMatch match = state.getCpuDefinition().findOperation(parts.getOpcode(), parts.getExpression());
 		if (match == null) {
-			throw new AssemblerException("Unknown operator ('%s')!", parts.toString());
+			throw new AssemblerException("Unknown operator ('%s')!", parts.getOpcode());
 		} else if (match.getOperationAddressing() == null) {
 			throw new AssemblerException("Unknown address mode for %s ('%s')!",
 					match.getOperation().getMnemonic(), parts.toString());

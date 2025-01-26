@@ -129,7 +129,12 @@ public class Main {
 					outputName, length/1000, code.length);
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
-			AssemblerState.get().getLog().forEach(System.out::println);
+			AssemblerState.get().getLog().forEach(log -> {
+				switch (log.type()) {
+					case ERROR -> System.out.printf("      | %s: %s\n", log.type(), log.message());
+					case SOURCE -> System.out.printf("%05d | %s\n", log.lineNumber(), log.message());
+				}
+			});
 			System.exit(1);
 		} finally {
 			if (options.assemblyListingName != null) {

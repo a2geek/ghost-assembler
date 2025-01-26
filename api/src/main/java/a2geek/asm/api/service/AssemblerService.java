@@ -2,7 +2,7 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.util.AssemblerException;
 import a2geek.asm.api.util.LineParts;
-import a2geek.asm.api.util.LogEntry.LogLevel;
+import a2geek.asm.api.util.LogEntry.LogType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -52,8 +52,9 @@ public class AssemblerService {
 		state.setIdentifyLabels(true);	// gives some leniency when a label hasn't been defined
 		int lineNumber=0;
 		while (true) {
+			String line = null;
 			try {
-				String line = state.getReader().readLine();
+				line = state.getReader().readLine();
 				if (line == null) break;
 				lineNumber++;
 				LineParts parts = LineParserService.parseLine(line);
@@ -80,7 +81,10 @@ public class AssemblerService {
 					state.incrementPC(LineAssemblerService.size(parts));
 				}
 			} catch (Throwable t) {
-				state.addLog(lineNumber, LogLevel.ERROR, t.getMessage());
+				if (line != null) {
+					state.addLog(lineNumber, LogType.SOURCE, line);
+				}
+				state.addLog(lineNumber, LogType.ERROR, t.getMessage());
 			}
 		}
 		state.reset();
@@ -88,14 +92,15 @@ public class AssemblerService {
 
 	/**
 	 * Perform the second pass of the assembler.  This pass actually generates
-	 * the byte-level code that is the ultimate output.
+	 * the byte-type code that is the ultimate output.
 	 */
 	protected static void assembleFile(PrintWriter pw) throws IOException {
 		AssemblerState state = AssemblerState.get();
 		int lineNumber=0;
 		while (true) {
+			String line = null;
 			try {
-				String line = state.getReader().readLine();
+				line = state.getReader().readLine();
 				if (line == null) break;
 				lineNumber++;
 				LineParts parts = LineParserService.parseLine(line);
@@ -110,7 +115,10 @@ public class AssemblerService {
 				}
 				display(pw, startPosition, line, state);
 			} catch (Throwable t) {
-				state.addLog(lineNumber, LogLevel.ERROR, t.getMessage());
+				if (line != null) {
+					state.addLog(lineNumber, LogType.SOURCE, line);
+				}
+				state.addLog(lineNumber, LogType.ERROR, t.getMessage());
 			}
 		}
 		state.getReader().close();

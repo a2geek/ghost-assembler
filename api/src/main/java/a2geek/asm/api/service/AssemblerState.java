@@ -2,7 +2,7 @@ package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.util.LogEntry;
-import a2geek.asm.api.util.LogEntry.LogLevel;
+import a2geek.asm.api.util.LogEntry.LogType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -96,10 +96,10 @@ public class AssemblerState {
 	}
 
 	public boolean hasErrors() {
-		return log.stream().anyMatch(l -> l.level() == LogLevel.ERROR);
+		return log.stream().anyMatch(l -> l.type() == LogType.ERROR);
 	}
-	public void addLog(int lineNumber, LogLevel level, String fmt, Object... args) {
-		log.add(new LogEntry(lineNumber, level, fmt, args));
+	public void addLog(int lineNumber, LogType type, String fmt, Object... args) {
+		log.add(new LogEntry(lineNumber, type, fmt, args));
 	}
 	public List<LogEntry> getLog() {
 		return this.log;
