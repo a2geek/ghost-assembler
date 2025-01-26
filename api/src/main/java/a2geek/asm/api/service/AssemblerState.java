@@ -1,6 +1,8 @@
 package a2geek.asm.api.service;
 
 import a2geek.asm.api.definition.CpuDefinition;
+import a2geek.asm.api.util.LogEntry;
+import a2geek.asm.api.util.LogEntry.LogLevel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,7 +52,7 @@ public class AssemblerState {
 		cpu = null;
 		if (reader != null) reader.close();
 		if (output != null) output.reset();
-		// Leave variables alone!
+		// Leave variables & log alone!
 		pc = 0;
 		localScope = 0;
 		// Setup reader
@@ -74,6 +76,7 @@ public class AssemblerState {
 	private long pc = 0;
 	private boolean active = true;
 	private boolean identifyLabels = false;
+	private List<LogEntry> log = new ArrayList<>();
 
 	public String fixVarName(String name) {
 		if (name.length() > 1 && name.endsWith(":")) {
@@ -90,6 +93,16 @@ public class AssemblerState {
 	}
 	public void addGlobalVariable(String name, Long value) {
 		globalVars.put(fixVarName(name), value);
+	}
+
+	public boolean hasErrors() {
+		return log.stream().anyMatch(l -> l.level() == LogLevel.ERROR);
+	}
+	public void addLog(int lineNumber, LogLevel level, String fmt, Object... args) {
+		log.add(new LogEntry(lineNumber, level, fmt, args));
+	}
+	public List<LogEntry> getLog() {
+		return this.log;
 	}
 	
 	public boolean containsLocalVariable(String name) {

@@ -1,6 +1,7 @@
 package a2geek.asm.cli;
 
 import a2geek.asm.api.service.AssemblerService;
+import a2geek.asm.api.service.AssemblerState;
 import a2geek.asm.api.service.DefinitionService;
 import a2geek.asm.api.service.Directive;
 import a2geek.asm.api.util.AssemblerException;
@@ -127,7 +128,9 @@ public class Main {
 			System.out.printf("Assembled %s in %s seconds.  Binary file written was %d bytes.\n",
 					outputName, length/1000, code.length);
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			System.err.println(ex.getMessage());
+			AssemblerState.get().getLog().forEach(System.out::println);
+			System.exit(1);
 		} finally {
 			if (options.assemblyListingName != null) {
 				String assembledCode = sw.toString();
