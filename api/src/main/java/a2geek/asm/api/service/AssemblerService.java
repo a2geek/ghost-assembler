@@ -7,6 +7,7 @@ import a2geek.asm.api.util.LogEntry.LogType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -29,18 +30,18 @@ public class AssemblerService {
 		return directives.values();
 	}
 
-	public static byte[] assemble(PrintWriter pw, Supplier<Reader> sourceReader) throws IOException, AssemblerException {
+	public static AssemblerState assemble(Supplier<Reader> sourceReader) throws IOException, AssemblerException {
 		AssemblerState.init(sourceReader);
 		determineLabelLocations();	// Pass #1
 		if (AssemblerState.get().hasErrors()) {
 			throw new AssemblerException("Errors encountered in pass #1");
 		}
 		AssemblerState.get().reset();
-		assembleFile(pw);            // Pass #2
+		assembleFile();            // Pass #2
 		if (AssemblerState.get().hasErrors()) {
 			throw new AssemblerException("Errors encountered in pass #2");
 		}
-		return AssemblerState.get().getOutput().toByteArray();
+		return AssemblerState.get();
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class AssemblerService {
 	 * Perform the second pass of the assembler.  This pass actually generates
 	 * the byte-type code that is the ultimate output.
 	 */
-	protected static void assembleFile(PrintWriter pw) throws IOException {
+	protected static void assembleFile() throws IOException {
 		AssemblerState state = AssemblerState.get();
 		int lineNumber=0;
 		while (true) {
@@ -113,7 +114,9 @@ public class AssemblerService {
 				} else if (state.isActive() && parts.getOpcode() != null) {
 					state.incrementPC(LineAssemblerService.assemble(parts));
 				}
-				display(pw, startPosition, line, state);
+				for (String output : formatOutput(startPosition, line, state)) {
+					state.addLog(lineNumber, LogType.SOURCE, output);
+				}
 			} catch (Throwable t) {
 				if (line != null) {
 					state.addLog(lineNumber, LogType.SOURCE, line);
@@ -187,7 +190,9 @@ public class AssemblerService {
 	/**
 	 * Display the output.
 	 */
-	protected static void display(PrintWriter pw, long startPosition, String originalLine, AssemblerState state) {
+	protected static String[] formatOutput(long startPosition, String originalLine, AssemblerState state) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
 		byte[] code = state.getOutput().toByteArray();
 		long bytesWritten = code.length - startPosition;
 		long startingAddress = state.getPC() - bytesWritten;
@@ -213,5 +218,6 @@ public class AssemblerService {
 			}
 			pw.printf("\n");
 		}
+		return sw.toString().split("\n");
 	}
 }
