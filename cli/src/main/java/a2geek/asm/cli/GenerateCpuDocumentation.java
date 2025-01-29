@@ -3,6 +3,7 @@ package a2geek.asm.cli;
 import a2geek.asm.api.definition.CpuDefinition;
 import a2geek.asm.api.definition.Operation;
 import a2geek.asm.api.definition.OperationAddressing;
+import a2geek.asm.api.definition.Register;
 import a2geek.asm.api.service.AssemblerService;
 import a2geek.asm.api.service.DefinitionService;
 import a2geek.asm.api.service.DefinitionService.ValidationType;
@@ -26,6 +27,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,21 +82,64 @@ public class GenerateCpuDocumentation {
 
 	private record GridDetail(Operation op, OperationAddressing opAddr) {}
 	private static GridDetail[] buildGrid(CpuDefinition cpu) {
+		Map<String,List<Register>> rGroups = new HashMap<>();
+		cpu.getRegisters().forEach(reg -> {
+			if (reg.getGroups() != null) {
+				rGroups.compute(reg.getGroups(), (k,v) -> {
+					if (v == null) {
+						v = new ArrayList<>();
+					}
+					v.add(reg);
+					return v;
+				});
+			}
+		});
+		if (rGroups.size() > 1) {
+			System.err.printf("ERROR: Unable to build grid with more than 1 register mapping. Found: %s\n", rGroups.keySet());
+		}
+
 		GridDetail[] ops = new GridDetail[256];
 		for (var op : cpu.getOperations()) {
-			// NOTE: Doesn't do justice to CPUs like SWEET16 which embed a register in the opcode itself
 			for (var opAddr : op.getAddressingModes()) {
                 try {
+					// Assume that the operand is the first byte
+					var code = opAddr.getAddressMode().getByteCode().getFirst();
                     var value = ExpressionService.evaluate(opAddr.getOpcode());
 					if (value instanceof Number number) {
-						int i = number.intValue();
-						if (i < 0 || i > 255) {
-							System.err.printf("CPU: %s - opcode out of range (%02x)\n", cpu.getName(), i);
-						} else if (ops[i] != null) {
-							System.err.printf("CPU: %s - opcode value already used (%02x)\n", cpu.getName(), i);
-						} else {
-							ops[i] = new GridDetail(op, opAddr);
+						int baseOpcode = number.intValue();
+						List<Integer> opcodes = new ArrayList<>();
+						if (!"opcode".equalsIgnoreCase(code.getExpression())) {
+							Map<String,Long> vars = new HashMap<>();
+							vars.put("opcode", (long) baseOpcode);
+							rGroups.values().forEach(group -> {
+								group.forEach(reg -> {
+                                    try {
+                                        var val = ExpressionService.evaluate(reg.getValue());
+										if (val instanceof Number n) {
+											vars.put(reg.getGroups(), n.longValue());
+											var expr = ExpressionService.evaluate(code.getExpression(), vars);
+											if (expr instanceof Number x) {
+												opcodes.add(x.intValue());
+											}
+										}
+                                    } catch (AssemblerException e) {
+                                        throw new RuntimeException(e);
+                                    }
+								});
+							});
 						}
+						else {
+							opcodes.add(baseOpcode);
+						}
+						opcodes.forEach(opcode -> {
+							if (opcode < 0 || opcode > 255) {
+								System.err.printf("CPU: %s - opcode out of range (%02x)\n", cpu.getName(), opcode);
+							} else if (ops[opcode] != null) {
+								System.err.printf("CPU: %s - opcode value already used (%02x)\n", cpu.getName(), opcode);
+							} else {
+								ops[opcode] = new GridDetail(op, opAddr);
+							}
+						});
 					}
                 } catch (AssemblerException e) {
                     System.err.printf("CPU: %s - unable to evaluate opcode value ('%s') - %s\n",
